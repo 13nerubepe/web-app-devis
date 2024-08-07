@@ -1,52 +1,43 @@
 <form [formGroup]="formClient">
-  <div class="modal-body">
-    <div class="row mb-1">
-      <div class="col-md-6">
-        <label class="control-label">
-          Nom Complet
-          <span class="col-md-6"><input formControlName="nom" /></span>
-        </label>
+  <p-card header="Formulaire Client">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="nom">Nom Complet:</label>
+        <input class="p-border" id="nom" formControlName="nom" pInputText />
       </div>
-    </div>
-    <div class="row mb-1">
-      <div class="col-md-12">
-        <label class="control-label">
-          Email
-          <span class="col-md-12"><input formControlName="email" /></span>
-        </label>
-      </div>
-      <div class="col-md-12">
-        <label class="control-label">
-          Téléphone
-          <span class="col-md-12"><input formControlName="phone" /></span>
-        </label>
-      </div>
-      <div class="col-md-12">
-        <label class="control-label">
-          Adresse
-          <span class="col-md-12"><input formControlName="address" /></span>
-        </label>
-      </div>
-      <div class="col-md-12">
-        <label class="control-label">
-          Ville
-          <span class="col-md-12"><input formControlName="ville" /></span>
-        </label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="">
-          <label class="control-label">
-            Grade
-            <span ><input formControlName="grade" /></span>
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
 
+      <div class="p-field">
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" type="email" pInputText />
+      </div>
+
+      <div class="p-field">
+        <label for="phone">Téléphone</label>
+        <input id="phone" formControlName="phone" type="tel" pInputText />
+      </div>
+
+      <div class="p-field">
+        <label for="address">Adresse</label>
+        <input id="address" formControlName="address" pInputText />
+      </div>
+
+      <div class="p-field">
+        <label for="ville">Ville</label>
+        <input id="ville" formControlName="ville" pInputText />
+      </div>
+
+      <div class="p-field">
+        <label for="grade">Grade</label>
+        <input id="grade" formControlName="grade" pInputText />
+      </div>
+
+      <div class="p-field">
+        <button type="submit" pButton label="Soumettre" icon="pi pi-check" [disabled]="formClient.invalid"></button>
+      </div>
+    </div>
+  </p-card>
 </form>
+
 <!-- Affichage des produits sélectionnés -->
 <div *ngIf="selectedProducts.length > 0">
   <h6>Produits sélectionnés</h6>
@@ -76,8 +67,8 @@
         <td>{{ devis.productName }}</td>
         <td>{{ devis.categories }}</td>
         <td>{{devis.qte}}</td>
-        <td>{{ devis.prixUnitaire | currency }}</td>
-        <td>{{ devis.totalHT }}</td>
+        <td>{{ devis.prixUnitaire | currency:'XOF' }}</td>
+        <td>{{ devis.totalHT | currency:'XOF' }}</td>
 <!--        <td>-->
 <!--          <button pButton type="button" icon="pi pi-times" (click)="removeProduct(product.productId)"></button>-->
 <!--        </td>-->

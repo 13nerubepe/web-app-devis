@@ -10,6 +10,7 @@ import { Button } from "primeng/button";
 import { PrimeTemplate } from "primeng/api";
 import { ScrollPanelModule } from "primeng/scrollpanel";
 import { TableModule } from "primeng/table";
+import { CardModule } from "primeng/card";
 
 @Component({
   selector: 'app-header-devis',
@@ -26,7 +27,8 @@ import { TableModule } from "primeng/table";
     FormsModule,
     AsyncPipe,
     CurrencyPipe,
-    KeyValuePipe
+    KeyValuePipe,
+    CardModule
   ],
   templateUrl: './header-devis.component.html',
   styleUrl: './header-devis.component.scss',

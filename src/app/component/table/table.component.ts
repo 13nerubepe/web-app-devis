@@ -114,34 +114,15 @@ export class TableComponent implements OnInit{
     this.proformasService.setQuantite(quantite);
   }
 
-  // onQuantityChange(devis: Devis, event: any): void {
-  //   if(devis.topSelling){
-  //     devis.topSelling.qte = event;
-  //     // this.proformasService.updatequantite().subscribe(devis.topSelling.qte);
-  //     // devis.topSelling.totalHT = event * this.getUnitPrice(devis);
-  //     console.log("devis.topSelling.qte: ", devis.topSelling.qte);
-  //   }
-  //   // Additional logic to update total HT and total TTC if needed
-  // }
-  onQuantityChange(devis: any, newQuantite:number): void {
-    // const newQuantite = event.target.value; // Récupère la nouvelle quantité saisie
-    if(devis.topSelling){
-      devis.topSelling.qte = newQuantite;
-      // this.proformasService.updatequantite().subscribe(devis.topSelling.qte);
+  onQuantityChange(devis: Devis, event: any): void {
+    const topSellingli = this.topSelling.find(ts => ts.productId === devis.productId);
+    if(topSellingli){
+      topSellingli.qte = event;
       // devis.topSelling.totalHT = event * this.getUnitPrice(devis);
-      // console.log("devis.topSelling.qte: ", quantite);
+      console.log("devis.topSelling.qte: ", topSellingli.qte);
     }
-    this.proformasService.updatequantite(devis.topSelling).subscribe(
-    //   updatedProduct => {
-    //     console.log('Product updated:', updatedProduct)
-    // },
-    //   error => {
-    //     console.error('Error updating product:', error);
-    //   }
-    );
+     // this.proformasService.updatequantite(topSellingli.qte, devis).subscribe();
   }
-
-
   getUnitPrice(devis: Devis): number {
     return devis.topSelling?.prixUnitaire || 0;
   }

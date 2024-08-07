@@ -44,13 +44,11 @@ export class ProformasService{
       this.quantiteSource.next(currentDevis);
     }
   }
-  updatequantite(quant:Product): Observable<Product>{
-    return this._http.put<Product>(`${this.baseUrlProduct}/topSelling/${quant.productId}`, quant).pipe(catchError(this.handleError))
-
+  updatequantite(productId:number, top:Product): Observable<Product>{
+    return this._http.put<Product>(`${this.baseUrlDevis}/devis/${productId}`, top).pipe(catchError(this.handleError))
   }
   private handleError(error: HttpErrorResponse): Observable<never> {
-    // Vous pouvez améliorer cette gestion des erreurs en fonction de vos besoins
-    console.error('An error occurred:', error.error);
+
     return throwError('Something bad happened; please try again later.');
   }
 
