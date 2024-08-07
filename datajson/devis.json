@@ -1,0 +1,33 @@
+{"devis":
+  [
+    {
+      "devisId": "1", "clientId": "1", "productId": "1",
+       "totalHt": 500, "reduction": "none", "tva": 20, "date": "2024-07-30T00:00:00Z", "cassier": "jude"
+    },
+    {
+      "devisId": "2", "clientId": "2", "productId": "2",
+      "totalHt": 150, "reduction": "none", "tva": 20, "date": "2024-07-30T00:00:00Z", "cassier": "honor"
+    },
+    {
+      "devisId": "3", "clientId": "3", "productId": "3",
+       "totalHt": 500, "reduction": "none", "tva": 20,"date": "2024-07-30T00:00:00Z", "cassier": "jude"
+    },
+    {
+      "devisId": "2", "clientId": "4", "productId": "4",
+      "totalHt": 150, "reduction": "none", "tva": 20, "date": "2024-07-30T00:00:00Z", "cassier": "honor"
+    },
+    {
+      "devisId": "1", "clientId": "5", "productId": "5",
+       "totalHt": 500, "reduction": "none", "tva": 20,  "date": "2024-07-30T00:00:00Z", "cassier": "jude"
+    },
+    {
+      "devisId": "2", "clientId": "6", "productId": "6",
+       "totalHt": 150, "reduction": "none", "tva": 20,  "date": "2024-07-30T00:00:00Z", "cassier": "honor"
+    },
+    {
+      "devisId": "1", "clientId": "7", "productId": "7",
+      "totalHt": 500, "reduction": "none", "tva": 20,  "date": "2024-07-30T00:00:00Z", "cassier": "jude"
+    }
+
+  ]
+}

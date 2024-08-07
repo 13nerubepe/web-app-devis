@@ -1,0 +1,160 @@
+import { RouteInfo } from './sidebar.metadata';
+
+export const ROUTES: RouteInfo[] = [
+  {
+    path: '/admin/dashboard',
+    title: 'Dashboard',
+    icon: 'bi bi-speedometer2',
+    class: '',
+    extralink: false,
+    submenu: [],
+  },
+  {
+    path: '',
+    title: 'Provisions',
+    icon: 'bi bi-house',
+    class: '',
+    extralink: true,
+    submenu: [
+      {
+        path: '/admin/categories',
+        title: 'Categorie',
+        icon: 'bi bi-people',
+        class: '',
+        extralink: false,
+        submenu: [],
+      },
+      {
+        path: '/admin/produits',
+        title: 'Produit',
+        icon: 'bi bi-house',
+        class: '',
+        extralink: false,
+        submenu: [],
+      },
+      {
+        path: '/admin/approvisionnements',
+        title: 'Approvisionnement',
+        icon: 'bi bi-table',
+        class: '',
+        extralink: false,
+        submenu: [],
+      },
+      {
+        path: '/admin/destockages',
+        title: 'Destockages',
+        icon: 'bi bi-bookmark-check',
+        class: '',
+        extralink: false,
+        submenu: [],
+      }
+    ],
+  },
+  {
+    path: '',
+    title: 'Controle',
+    icon: 'bi bi-house',
+    class: '',
+    extralink: true,
+    submenu: [
+      {
+        path: '/admin/audits',
+        title: 'Audit',
+        icon: 'bi bi-bookmark-check',
+        class: '',
+        extralink: false,
+        submenu: [],
+      },
+      {
+        path: '/admin/inventaire',
+        title: 'Inventaire',
+        icon: 'bi bi-journal-text',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+    ],
+  },
+  {
+    path: '/admin/commandes',
+    title: 'Commandes',
+    icon: 'bi bi-building',
+    class: '',
+    extralink: false,
+    submenu: [],
+  },
+  {
+    path: '/admin/proformas',
+    title: 'Dévis',
+    icon: 'bi bi-person-badge',
+    class: '',
+    extralink: false,
+    submenu: [],
+  },
+  {
+    path: '',
+    title: 'Utilisateurs',
+    icon: 'bi bi-person-lock',
+    class: '',
+    extralink: true,
+    submenu: [
+      {
+        path: '/admin/clients',
+        title: 'Clients',
+        icon: 'bi bi-person-plus',
+        class: '',
+        extralink: false,
+        submenu: [],
+      },
+      {
+        path: '/admin/personnels',
+        title: 'Personnels',
+        icon: 'bi bi-person-lock',
+        class: '',
+        extralink: false,
+        submenu: []
+      },
+      // {
+      //   path: '/admin/presences',
+      //   title: 'Presences',
+      //   icon: 'bi bi-easel2',
+      //   class: '',
+      //   extralink: false,
+      //   submenu: []
+      // },
+    ],
+  },
+  {
+    path: '',
+    title: 'Finances',
+    icon: 'bi bi-book',
+    class: '',
+    extralink: true,
+    submenu: [
+      {
+        path: '/admin/rubriques',
+        title: 'Rubrique',
+        icon: 'bi bi-calendar',
+        class: '',
+        extralink: false,
+        submenu: [],
+      },
+      {
+        path: '/admin/depenses',
+        title: 'Dépenses',
+        icon: 'bi bi-book',
+        class: '',
+        extralink: false,
+        submenu: [],
+      },
+    ],
+  },
+  {
+    path: '/admin/configuration',
+    title: 'Configuration',
+    icon: 'bi bi-gear-wide-connected',
+    class: '',
+    extralink: false,
+    submenu: [],
+  },
+];

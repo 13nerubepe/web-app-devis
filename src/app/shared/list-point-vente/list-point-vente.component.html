@@ -1,0 +1,18 @@
+<ul class="navbar-nav float-start">
+  <li class="nav-item" ngbDropdown placement="bottom-end">
+    <a ngbDropdownToggle class="nav-link waves-effect waves-dark pro-pic" href="javascript:void(0)"
+      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+      <img [src]="pointVente?.logo || 'assets/images/logos/logo.jpg'" alt="user" class="rounded-circle" width="50" />
+      <span>{{pointVente?.nom}}</span>
+    </a>
+    <div class="dropdown-menu-right left-170" ngbDropdownMenu>
+      <div *ngFor="let pv of pointVentes">
+        <a class="dropdown-item" href="javascript:void(0)" (click)="changePointVente(pv)">
+          <img [src]="pv?.logo || 'assets/images/logos/logo.jpg'" alt="user" class="rounded-circle" width="50" />
+          {{pv?.nom}}
+        </a>
+        <div class="dropdown-divider"></div>
+      </div>
+    </div>
+  </li>
+</ul>

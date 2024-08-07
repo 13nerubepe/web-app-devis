@@ -1,0 +1,68 @@
+{
+  "topSelling":[
+    {"productId": "1","qte": 9, "productName": "Product A", "image": "productX.jpg", "gmail": "productX@gmail.com", "qteenstock": 100, "unite": 1, "description": "Description for Product X", "libelle": "Product X", "categories": "Category 1", "prixUnitaire": 50, "tva": 20, "totalTva": 10, "totalHT": 500
+    },
+    {
+      "productId": "2","qte": 5, "productName": "Product B", "image": "productY.jpg", "gmail": "productY@gmail.com", "qteenstock": 200, "unite": 1, "description": "Description for Product Y", "libelle": "Product Y", "categories": "Category 2", "prixUnitaire": 30, "tva": 20, "totalTva": 6, "totalHT": 150
+    },
+    {
+      "productId": "3","qte": 1, "productName": "Product C", "image": "productZ.jpg", "gmail": "productZ@gmail.com", "qteenstock": 150, "unite": 1, "description": "Description for Product Z", "libelle": "Product Z", "categories": "Category 3", "prixUnitaire": 80, "tva": 20, "totalTva": 32, "totalHT": 160
+    },
+    {"productId": "4","qte": 3, "productName": "Product D", "image": "productX.jpg", "gmail": "productX@gmail.com", "qteenstock": 100, "unite": 1, "description": "Description for Product X", "libelle": "Product X", "categories": "Category 1", "prixUnitaire": 50, "tva": 20, "totalTva": 10, "totalHT": 500
+    },
+    {
+      "productId": "5","qte": 4, "productName": "Product E", "image": "productY.jpg", "gmail": "productY@gmail.com", "qteenstock": 200, "unite": 1, "description": "Description for Product Y", "libelle": "Product Y", "categories": "Category 2", "prixUnitaire": 30, "tva": 20, "totalTva": 6, "totalHT": 150
+    },
+    {
+      "productId": "6","qte": 1, "productName": "Product F", "image": "productZ.jpg", "gmail": "productZ@gmail.com", "qteenstock": 150, "unite": 1, "description": "Description for Product Z", "libelle": "Product Z", "categories": "Category 3", "prixUnitaire": 80, "tva": 20, "totalTva": 32, "totalHT": 160
+    },
+    {"productId": "7","qte": 1, "productName": "Product G", "image": "productX.jpg", "gmail": "productX@gmail.com", "qteenstock": 100, "unite": 1, "description": "Description for Product X", "libelle": "Product X", "categories": "Category 1", "prixUnitaire": 50, "tva": 20, "totalTva": 10, "totalHT": 500
+    },
+    {
+      "productId": "8","qte": 1, "productName": "Product I", "image": "productY.jpg", "gmail": "productY@gmail.com", "qteenstock": 200, "unite": 1, "description": "Description for Product Y", "libelle": "Product Y", "categories": "Category 2", "prixUnitaire": 30, "tva": 20, "totalTva": 6, "totalHT": 150
+    },
+    {
+      "productId": "9","qte": 1, "productName": "Product J", "image": "productZ.jpg", "gmail": "productZ@gmail.com", "qteenstock": 150, "unite": 1, "description": "Description for Product Z", "libelle": "Product Z", "categories": "Category 3", "prixUnitaire": 80, "tva": 20, "totalTva": 32, "totalHT": 160
+    },
+{"productId": "10","qte": 1, "productName": "Product K", "image": "productX.jpg", "gmail": "productX@gmail.com", "qteenstock": 100, "unite": 1, "description": "Description for Product X", "libelle": "Product X", "categories": "Category 1", "prixUnitaire": 50, "tva": 20, "totalTva": 10, "totalHT": 500
+},
+{
+"productId": "11","qte": 1, "productName": "Product L", "image": "productY.jpg", "gmail": "productY@gmail.com", "qteenstock": 200, "unite": 1, "description": "Description for Product Y", "libelle": "Product Y", "categories": "Category 2", "prixUnitaire": 30, "tva": 20, "totalTva": 6, "totalHT": 150
+},
+{
+"productId": "12","qte": 1, "productName": "Product M", "image": "productZ.jpg", "gmail": "productZ@gmail.com", "qteenstock": 150, "unite": 1, "description": "Description for Product Z", "libelle": "Product Z", "categories": "Category 3", "prixUnitaire": 80, "tva": 20, "totalTva": 32, "totalHT": 160
+},
+{"productId": "13","qte": 1, "productName": "Product N", "image": "productX.jpg", "gmail": "productX@gmail.com", "qteenstock": 100, "unite": 1, "description": "Description for Product X", "libelle": "Product X", "categories": "Category 1", "prixUnitaire": 50, "tva": 20, "totalTva": 10, "totalHT": 500
+},
+{
+"productId": "14", "qte": 1,  "productName": "Product O", "image": "productY.jpg", "gmail": "productY@gmail.com", "qteenstock": 200, "unite": 1, "description": "Description for Product Y", "libelle": "Product Y", "categories": "Category 2", "prixUnitaire": 30, "tva": 20, "totalTva": 6, "totalHT": 150
+},
+{
+"productId": "15", "qte": 1,  "productName": "Product P", "image": "productZ.jpg", "gmail": "productZ@gmail.com", "qteenstock": 150, "unite": 1, "description": "Description for Product Z", "libelle": "Product Z", "categories": "Category 3", "prixUnitaire": 80, "tva": 20, "totalTva": 32, "totalHT": 160
+},
+{"productId": "16", "qte": 1,  "productName": "Product Q", "image": "productX.jpg", "gmail": "productX@gmail.com", "qteenstock": 100, "unite": 1, "description": "Description for Product X", "libelle": "Product X", "categories": "Category 1", "prixUnitaire": 50, "tva": 20, "totalTva": 10, "totalHT": 500
+},
+{
+"productId": "17","qte": 1,  "productName": "Product R", "image": "productY.jpg", "gmail": "productY@gmail.com", "qteenstock": 200, "unite": 1, "description": "Description for Product Y", "libelle": "Product Y", "categories": "Category 2", "prixUnitaire": 30, "tva": 20, "totalTva": 6, "totalHT": 150
+},
+{
+"productId": "18","qte": 1,  "productName": "Product S", "image": "productZ.jpg", "gmail": "productZ@gmail.com", "qteenstock": 150, "unite": 1, "description": "Description for Product Z", "libelle": "Product Z", "categories": "Category 3", "prixUnitaire": 80, "tva": 20, "totalTva": 32, "totalHT": 160
+},
+{"productId": "19", "qte": 1, "productName": "Product T", "image": "productX.jpg", "gmail": "productX@gmail.com", "qteenstock": 100, "unite": 1, "description": "Description for Product X", "libelle": "Product X", "categories": "Category 1", "prixUnitaire": 50, "tva": 20, "totalTva": 10, "totalHT": 500
+},
+{
+"productId": "20", "qte": 1,  "productName": "Product V", "image": "productY.jpg", "gmail": "productY@gmail.com", "qteenstock": 200, "unite": 1, "description": "Description for Product Y", "libelle": "Product Y", "categories": "Category 2", "prixUnitaire": 30, "tva": 20, "totalTva": 6, "totalHT": 150
+},
+{
+"productId": "21", "qte": 1,  "productName": "Product W", "image": "productZ.jpg", "gmail": "productZ@gmail.com", "qteenstock": 150, "unite": 1, "description": "Description for Product Z", "libelle": "Product Z", "categories": "Category 3", "prixUnitaire": 80, "tva": 20, "totalTva": 32, "totalHT": 160
+},
+{"productId": "22","qte": 1,  "productName": "Product X", "image": "productX.jpg", "gmail": "productX@gmail.com", "qteenstock": 100, "unite": 1, "description": "Description for Product X", "libelle": "Product X", "categories": "Category 1", "prixUnitaire": 50,  "tva": 20, "totalTva": 10, "totalHT": 500
+},
+{
+"productId": "23","qte": 1,  "productName": "Product Y", "image": "productY.jpg", "gmail": "productY@gmail.com", "qteenstock": 200, "unite": 1, "description": "Description for Product Y", "libelle": "Product Y", "categories": "Category 2", "prixUnitaire": 30, "tva": 20, "totalTva": 6, "totalHT": 150
+},
+{
+"productId": "24","qte": 1,  "productName": "Product Z", "image": "productZ.jpg", "gmail": "productZ@gmail.com", "qteenstock": 150, "unite": 1, "description": "Description for Product Z", "libelle": "Product Z", "categories": "Category 3", "prixUnitaire": 80, "tva": 20, "totalTva": 32, "totalHT": 160
+}
+]
+}

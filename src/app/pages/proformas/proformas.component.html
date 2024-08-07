@@ -1,0 +1,70 @@
+<main class="card p-5">
+    <div class="row mb-3">
+        <div class="col-7 col-md-8">
+            <h1><i class="bi bi-table"></i>Proforma</h1>
+        </div>
+      <form>
+        <app-header-devis ></app-header-devis>
+<!--        <app-commande [isProforma]="true" [title]="'Liste des proformas'"-->
+<!--                      [modalTitle]="'Détails du proforma'"></app-commande>-->
+        <app-table></app-table>
+        <app-footer-devis></app-footer-devis>
+      </form>
+    </div>
+
+
+<!--  <p-table-->
+<!--    [value]="userNodes"-->
+<!--    selectionMode="multiple"-->
+<!--    [(selection)]="userNodesSelected"-->
+<!--    dataKey="nodeId"-->
+<!--    styleClass="p-datatable-sm p-datatable-striped"-->
+<!--    [tableStyle]="{ 'min-width': '50rem' }">-->
+<!--    <ng-template pTemplate="header">-->
+<!--      <tr>-->
+<!--        <th><i class="pi pi-file"></i></th>-->
+<!--        <th style="font-size: 12px">Name</th>-->
+<!--        <th style="font-size: 12px">Last modified</th>-->
+<!--        <th style="font-size: 12px">Owner</th>-->
+<!--      </tr>-->
+<!--    </ng-template>-->
+<!--    <ng-template pTemplate="body" let-node>-->
+<!--      <tr (mouseover)="onShowNodeQuickAction(node)" (mouseleave)="onMouseLeave()"-->
+<!--          (dblclick)="onDblClickInNode(node)"-->
+<!--          [pSelectableRow]="node" (contextmenu)="menu.toggle($event)">-->
+<!--        <td style="width: 5%">-->
+<!--          <div class="flex flex-row flex-wrap">-->
+<!--            <img [src]="'assets/images/'+getImg(node)" width="30" [alt]="node.name">-->
+<!--          </div>-->
+<!--        </td>-->
+<!--        <td style="width: 15%" class="single-line-cell">{{ node.name }}</td>-->
+<!--        <td style="width: 15%" *ngIf="node.modifiedAt">{{ node.modifiedAt | date }}</td>-->
+<!--        <td style="width: 15%" *ngIf="!node.modifiedAt">{{ node.createdAt | date }}</td>-->
+<!--        <td style="width: 15%" class="single-line-cell"> You</td>-->
+<!--        <td style="width: 25%">-->
+<!--          <div *ngIf="showNodeQuickAction && selectedNode.nodeId == node.nodeId">-->
+<!--            <p-button [pTooltip]="'View'" (onClick)="openViewDocumentDialog(selectedNode)" size="small"-->
+<!--                      icon="pi pi-eye" [rounded]="true"-->
+<!--                      [text]="true"-->
+<!--                      [plain]="true"></p-button>-->
+<!--            <p-button [pTooltip]="'Download'"-->
+<!--                      (onClick)="downloadSingleFile(selectedNode.nodeId, selectedNode.name)"-->
+<!--                      size="small" icon="pi pi-arrow-down" [rounded]="true"-->
+<!--                      [text]="true" [plain]="true"></p-button>-->
+<!--            <p-button [pTooltip]="'Rename'" (onClick)="openRenameFolderDialog()" size="small"-->
+<!--                      icon="pi pi-pencil" [rounded]="true"-->
+<!--                      [text]="true"-->
+<!--                      [plain]="true">-->
+<!--            </p-button>-->
+
+<!--          </div>-->
+<!--        </td>-->
+<!--        <td style="width: 5%">-->
+<!--          <p-button (click)="menu.toggle($event)" size="small" icon="pi pi-ellipsis-v" [rounded]="true"-->
+<!--                    [text]="true" [plain]="true"></p-button>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--    </ng-template>-->
+<!--  </p-table>-->
+
+</main>

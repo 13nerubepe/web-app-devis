@@ -1,0 +1,296 @@
+<header class="topbar bg-gradient container-fluid " style="background-color: #4A575D; height: 80px;">
+    <nav class="top-navbar navbar-expand-lg navbar-dark">
+        <div class="navbar-header d-flex justify-content-between align-items-center" [ngClass]="'expand-logo'"
+            data-logobg="skin6">
+            <app-list-point-vente class="w-25"></app-list-point-vente>
+
+            <ul class="navbar-nav float-right  d-flex justify-content-between align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="'/admin/categories'">ADMIN</a>
+                </li>
+                <li class="nav-item" (click)="showModal(false)" style="cursor: pointer;">
+                    <a class="nav-link">COMMANDES</a>
+                </li>
+                <li class="nav-item" (click)="showModal(true)" style="cursor: pointer;">
+                    <a class="nav-link">PROFORMAS</a>
+                </li>
+            </ul>
+
+            <div class="input search-container my-3 col-4">
+                <form (submit)="searchProd($event, target)" class="form-inline ml-3 bloc-search w-100">
+                    <div class="input-group input-group-sm" style="flex-wrap: nowrap">
+                        <input #target class="form-control form-control-navbar" type="search"
+                            placeholder="Filtrer les produits..." aria-label="Search" [value]="searchString"
+                            (input)="searchProd($event, target)" style="border-top-left-radius: 7px;
+                            border-bottom-left-radius: 7px; padding: 20px;">
+                        <div class="input-group-append" style="display: flex;">
+                            <button class="btn btn-navbar filter-btn bg-primary-gest text-white" type="submit" style="border-top-right-radius: 7px !important;
+                            border-bottom-right-radius: 7px !important;
+                            font-weight: 700;
+                            padding: 8px;
+                            border-radius: 0;">
+                                <span><i class="bi bi-search" aria-hidden="true"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <app-navigation></app-navigation>
+        </div>
+    </nav>
+</header>
+
+<main *ngIf="!loading" class="container-fluid pv-caisse">
+    <div class="row border-3 border">
+        <div class="col-md-3 border-3 border-end p-0">
+            <div class="border-3 border-bottom" style="height: 599px; overflow-y: auto;">
+                <div *ngIf="!(cartItemKeys.length === 0)">
+                    <div *ngFor="let itemKey of cartItemKeys;" class="panier-elt-ctn">
+                        <div class="panier-elt">
+                            <div class="panier-img img">
+                                <img [src]="cart[itemKey]?.product?.image || 'assets/images/logos/logo.jpg'"
+                                    style="width: 100%;" />
+                            </div>
+                            <div class="panier-info">
+                                <h4 class="title-product border-0"> {{cart[itemKey]?.product?.libelle}} </h4>
+                                <div class="pu">
+                                    <span>{{ cart[itemKey]?.product?.prixVente }}
+                                        {{currencySymbol}}</span>
+                                </div>
+                                <div class="price-product">
+                                    <span>{{getPrice(cart[itemKey]?.product?.prixVente, cart[itemKey].quantity)}}
+                                        {{currencySymbol}}</span>
+                                </div>
+                            </div>
+                            <div class="increment">
+                                <div class="increment-plus" (click)="addToCart(cart[itemKey]['product'])">
+                                    +
+                                </div>
+                                <div class="increment-nbre" (click)="directQtyUpdate($event, cart[itemKey]['product'])">
+                                    {{cart[itemKey].quantity}}
+                                </div>
+                                <div class="increment-moins" (click)="removeFromCart(cart[itemKey]['product'])">
+                                    -
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bloc-total" style="position: relative">
+                <div class="total-left">
+                    <div class="s-total d-flex">
+                        <div class="total d-flex">
+                            Total:
+                        </div>
+                        <div class="nbre d-flex">
+                            <div class="qte">({{ cartSummary.quantity }})</div>
+                            <!-- <span class="icon img">
+                                <img src="assets/pos/bouteille.png" />
+                            </span> -->
+                        </div>
+                    </div>
+                    <div class="s-total d-flex">
+                        <div class="price-total">
+                            {{ formattedAmount(cartSummary.totalPrice) }}<span
+                                class="devise">{{currencySymbol.toUpperCase()}}</span>
+                        </div>
+                        <div class="flex">
+                            <label class="icon img trash-icon" (click)="clearCart()">
+                                <i class="fa fa-trash"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="total-left d-flex">
+                    <a class="payer btn" (click)="payNow()">J'ENCAISSE</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 categorie-1">
+            <div class="categorie d-b d-flex">
+                <span class="btn-control control-left" (click)="scrollCategories('left')"><i class="bi bi-chevron-left"
+                        aria-hidden="true"></i></span>
+                <div *ngIf="(categories && categories[0])" #categoryContainerTop class="categorie-produit">
+                    <div *ngFor="let category of categories" class="cat d-flex float-left categorie-produit__card"
+                        [ngClass]="{'selected': selectedCategory === category.id}"
+                        (click)="setSelectedCategory(category.id)">
+                        <div class="cat-img img">
+                            <div class="cat-img-abp img">
+                                <img [src]="category?.produits[0]?.image || 'assets/images/logos/logo.jpg'"
+                                    style="width: 100%;" />
+                            </div>
+                        </div>
+                        <div class="info-info">
+                            <h4 class="title-cat">
+                                <span [innerHTML]="category.nom"></span>
+                            </h4>
+                            <div class="desc-cat" style="text-align: left;">{{ category?.produits.length }}
+                                Variétés
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="btn-control control-right" (click)="scrollCategories('right')"><i
+                        class="bi bi-chevron-right" aria-hidden="true"></i></span>
+            </div>
+            <div *ngIf="(selectedProducts && selectedProducts[0])" class="mt-2 produit-container container">
+                <div *ngFor="let produit of selectedProducts" class="produit produit-1">
+                    <!-- <div *ngIf="currencySymbol" class="environ out" (click)="addToCart(produit, true, $event)">
+                        <div class="environ-icon">
+                            <span><i class="bi bi-cart-plus"></i></span>
+                        </div>
+                    </div> -->
+                    <div (click)="addToCart(produit, true, $event)" class="produit-content">
+                        <div class="img-produit img">
+                            <div class="img-produit-abp img img-format">
+                                <img [src]="produit.image || 'assets/images/logos/logo.jpg'" class=" w-100" />
+                            </div>
+                        </div>
+                        <h4 class="title-produit">
+                            {{ produit.libelle }}
+                        </h4>
+                        <div class="price-produit">
+                            <span *ngIf="currencySymbol">
+                                {{ produit?.prixVente}} {{currencySymbol}}
+                                <span>({{ produit?.qteStock }})</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">
+        <div *ngIf="type === 'caisse'" class="modal-content text-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Valider la commande</h5>
+                <button type="button" class="close align-items-center text-white font-weight-bold bg-danger"
+                    aria-label="Close" (click)="closeModal()">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="total-amount">
+                            <div class="price-total" style="font-size: 3.1rem; text-align: center;">
+                                {{ cartSummary.totalPrice }}
+                                <span class="devise">{{currencySymbol.toUpperCase()}}</span>
+                            </div>
+                        </div>
+                        <div class="select-user my-3">
+                            <div class="justify-content-between d-flex">
+                                <div class="col-md-11">
+                                    <ng-select id="produit" [(ngModel)]="client">
+                                        <ng-option>--Sélectionner un client--</ng-option>
+                                        <ng-option *ngFor="let c of clients" [value]="c.id">
+                                            {{c.fullName}}
+                                        </ng-option>
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-primary" (click)="type = 'user'"
+                                        style="width: 100%; padding: 10px;">
+                                        <i class="bi bi-plus-circle" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="calculator col-md-6">
+                                <input type="text" class="calculator-screen" [value]="currentNumber" disabled />
+                                <div class="calculator-keys">
+                                    <button type="button" (click)="keypadClick('7', 'NUMERIC_KEY')" value="7">7</button>
+                                    <button type="button" (click)="keypadClick('8', 'NUMERIC_KEY')" value="8">8</button>
+                                    <button type="button" (click)="keypadClick('9', 'NUMERIC_KEY')" value="9">9</button>
+
+                                    <button type="button" (click)="keypadClick('4', 'NUMERIC_KEY')" value="4">4</button>
+                                    <button type="button" (click)="keypadClick('5', 'NUMERIC_KEY')" value="5">5</button>
+                                    <button type="button" (click)="keypadClick('6', 'NUMERIC_KEY')" value="6">6</button>
+
+                                    <button type="button" (click)="keypadClick('1', 'NUMERIC_KEY')" value="1">1</button>
+                                    <button type="button" (click)="keypadClick('2', 'NUMERIC_KEY')" value="2">2</button>
+                                    <button type="button" (click)="keypadClick('3', 'NUMERIC_KEY')" value="3">3</button>
+
+                                    <button type="button" (click)="keypadClick('0', 'NUMERIC_KEY')" value="0">0</button>
+                                    <button type="button" (click)="clear()" class="all-clear"
+                                        value="all-clear">x</button>
+                                    <button type="button" (click)="keypadClick('.', 'DECIMAL_KEY')" class="decimal"
+                                        value=".">.</button> 
+                                </div>
+                            </div>
+                            <div *ngIf="currentNumber > 0" class="calculator col-md-6" style="font-size: 40px;">
+                                <div class="card">
+                                    <span class="text-center d-block">{{ cartSummary.totalPrice }}</span>
+                                    <span class=" d-block"
+                                        style="z-index: 0; position: absolute; font-size: 75px;">-</span>
+                                    <span class="text-center d-block">{{ currentNumber}}</span>
+                                    <span style="border: 1px solid black; display: block;"></span>
+                                    <span class="text-center d-block">{{ difference }}</span>
+                                </div>
+
+                                <div>
+                                    <h6 class="text-center card-header">Mode de Paiement</h6>
+                                    <div *ngIf="(modePayments && modePayments[0])"
+                                        class="mode-payment justify-content-center">
+                                        <div *ngFor="let modePayment of modePayments" class="cat d-flex float-left"
+                                            [ngClass]="{'selected': selectedModePayment === modePayment.value}"
+                                            (click)="selectedModePayment = modePayment.value">
+                                            <div class="info-info">
+                                                <h4 class="title-cat">
+                                                    <span [innerHTML]="modePayment.titre"></span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-2" (click)="closeModal()">
+                    Fermer
+                </button>
+                <button *ngIf="saving" type="button" class="btn btn-success" disabled type="submit">
+                    <i class="bi bi-save"></i>
+                    Enregistrement
+                </button>
+                <button *ngIf="!saving" type="button" class="btn btn-success" (click)="save()">
+                    <i class="bi bi-save"></i>
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="type === 'commande'" class="modal-content text-dark">
+            <div class="modal-header">
+                <h5 *ngIf="!isProforma" class="modal-title">Liste des commandes</h5>
+                <h5 *ngIf="isProforma" class="modal-title">Liste des proformas</h5>
+                <button type="button" class="close align-items-center text-white font-weight-bold bg-danger"
+                    aria-label="Close" (click)="closeModal()">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <app-commande [isProforma]="isProforma"></app-commande>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mr-2" (click)="closeModal()">
+                    Fermer
+                </button>
+            </div>
+        </div>
+
+        <app-add-user *ngIf="type === 'user'" [isClient]="true" (continueAction)="loadData()"></app-add-user>
+
+    </ng-template>
+</main>
+
+<app-spinner *ngIf="loading" [loading]="loading"></app-spinner>

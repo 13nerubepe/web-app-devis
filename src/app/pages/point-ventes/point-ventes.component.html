@@ -1,0 +1,97 @@
+<main *ngIf="!loading" class="container card p-5">
+    <div class="row">
+        <div *ngIf="pointVente && pointVente.id" class="col-md-12">
+            <form class="modal-content" [formGroup]="mpForm" (ngSubmit)="onFormSubmit()">
+                <div class="modal-header mx-auto text-center">
+                    <h3 class="modal-title my-2">Paramètres du Point de vente</h3>
+                </div>
+                <div class="modal-body text-left">
+                    <div class="row mx-0">
+                        <div class="col-md-4">
+                            <div class="form-group col-4 w-100">
+                                <app-upload-image [image]="pointVente?.logo" [prefix]="'point-vente'"
+                                    (continueAction)="loadImage($event)"></app-upload-image>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group col-md-12 mx-0">
+                                <label for="nom">Nom</label>
+                                <input type="text" class="form-control" formControlName="nom" id="nom" required>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 mx-0">
+                                    <label for="ville">Ville</label>
+                                    <input type="text" class="form-control" formControlName="ville" id="ville"
+                                        placeholder="Ville">
+                                </div>
+                                <div class="form-group col-md-6 mx-0">
+                                    <label for="adresse">Adresse</label>
+                                    <input type="text" class="form-control" formControlName="adresse" id="adresse"
+                                        placeholder="Adresse">
+                                </div>
+                                <div class="form-group col-md-6 mx-0">
+                                    <label for="telephone">Téléphone</label>
+                                    <input type="text" class="form-control" formControlName="telephone" id="telephone"
+                                        placeholder="Téléphone">
+                                </div>
+                                <div class="form-group col-md-6 mx-0">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control" formControlName="email" id="email"
+                                        placeholder="Email">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPays">Pays</label>
+                                    <input type="text" formControlName="pays" class="form-control" id="inputPays"
+                                        placeholder="Téléphone">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputDevise">Devise</label>
+                                    <input type="text" formControlName="devise" class="form-control" id="inputDevise"
+                                        placeholder="Devise">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="taxe">Taxe</label>
+                                    <input type="text" formControlName="taxe" class="form-control" id="taxe"
+                                        placeholder="Taxe">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 mx-0">
+                                <label for="stockAlert">Stock d'alert</label>
+                                <input type="number" class="form-control" name="stockAlert" id="stockAlert"
+                                    placeholder="Entrez le stock d'alert" value="5" required="">
+                            </div>
+                            <div class="form-group col-md-12 mx-0">
+                                <label for="stockAlert">Seuil pour affiche de condition dans la proforma</label>
+                                <input type="number" class="form-control" name="proformaAlert" id="proformaAlert"
+                                    placeholder="Entrez le montant seuil" value="200000">
+                            </div>
+                            <div class="form-group col-md-6 mx-0">
+                                <label for="stockAlert">Pourcentage avance</label>
+                                <input type="number" class="form-control" name="proformaPourcentage"
+                                    id="proformaPourcentage" placeholder="(Sans le simbole %)" value="70">
+                            </div>
+                            <div class="form-group col-md-6 mx-0">
+                                <label for="stockAlert">Delais de livraison</label>
+                                <input type="number" class="form-control" name="proformaDelais"
+                                    id="proformaDelais" placeholder="(En jours)" value="30">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer col-md-6 mx-auto">
+                    <button *ngIf="saving" type="button" class="btn btn-success w-100" disabled type="submit">
+                        <i class="bi bi-save"></i>
+                        Enregistrement
+                    </button>
+                    <button *ngIf="!saving" type="button" class="btn btn-success w-100" type="submit">
+                        <i class="bi bi-save"></i>
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="!(pointVente && pointVente.id)" class="col-md-12">
+            <h4>Vous n'etes pas administrateur </h4>
+        </div>
+    </div>
+</main>

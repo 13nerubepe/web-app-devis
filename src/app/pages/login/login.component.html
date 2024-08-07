@@ -1,0 +1,180 @@
+<!--<div class="d-flex flex-column justify-content-between h-100-vh-plus">-->
+<!--  <header class="topbar bg-gradient" style="background-color: #000;">-->
+<!--    <nav class="top-navbar navbar-expand-lg navbar-dark">-->
+<!--      <div class="navbar-header d-flex justify-content-between" [ngClass]="'expand-logo'" data-logobg="skin6">-->
+<!--        <a class="navbar-brand" href="/">-->
+<!--          <img src="assets/images/logos/logo.jpg" alt="Logo GESTPLUS" class="logo">-->
+<!--        </a>-->
+
+<!--        <ul class="nav navbar-nav">-->
+<!--          <li class="nav-item" (click)="type = 'connexion'" style="cursor: pointer;">-->
+<!--            <a class="nav-link" [ngClass]="{'active': type === 'connexion'}">ME CONNECTER</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item" class="cursor-pointer">-->
+<!--            <a class="nav-link" [ngClass]="{'active': type === 'inscription'}" href="https://gestplus.cm">SORTIR</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </nav>-->
+<!--  </header>-->
+
+  <div class="d-flex flex-column justify-content-between h-100-vh-plus">
+    <header class="topbar bg-gradient" style="background-color: #000;">
+      <nav class="top-navbar navbar-expand-lg navbar-dark">
+        <div class="navbar-header d-flex justify-content-between" [ngClass]="'expand-logo'" data-logobg="skin6">
+          <a class="navbar-brand" href="/">
+            <img src="assets/images/logos/logo.jpg" alt="Logo GESTPLUS" class="logo">
+          </a>
+
+          <ul class="nav navbar-nav">
+            <li class="nav-item cursor-pointer" (click)="type = 'connexion'">
+              <a class="nav-link" [ngClass]="{'active': type === 'connexion'}">ME CONNECTER</a>
+            </li>
+            <li class="nav-item cursor-pointer" (click)="type = 'inscription'">
+              <!-- <a class="nav-link" [ngClass]="{'active': type === 'inscription'}" href="https://gestplus.cm">SORTIR</a> -->
+              <a class="nav-link" [ngClass]="{'active': type === 'inscription'}">M'INSCRIRE</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+
+    <div>
+    <section *ngIf="type === 'connexion'" class="container my-5">
+      <div class="row">
+        <div class="col-5 col-md-5 mx-auto">
+          <div class="card">
+            <h3 class="text-center mt-2">Connexion</h3>
+            <div class="card-body">
+              <form>
+                <p class="text-center p-3" style="background: #54667a;
+                color: aliceblue; border-radius: 5px;">
+                  Accédez à vos points de ventes et gérez-les à partir de ce compte
+                </p>
+                <div class="mb-3">
+                  <label class="form-label">Numéro de Téléphone</label>
+                  <input type="text" required="" [(ngModel)]="username" [ngModelOptions]="{standalone: true}"
+                    class="form-control py-2" placeholder="Numéro Téléphone" />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Mot de passe</label>
+                  <div class="d-flex">
+                    <input [type]="passwordType" required="" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
+                      class="form-control py-2" style="width: 90%; border-radius: .375rem 0 0 .375rem;" />
+                    <button type="button" class="bg-info text-white"
+                      style="width: 10%; border-radius: 0 .375rem .375rem 0; border: 0;" (click)="changeViewPassword()">
+                      <i *ngIf="this.passwordType === 'password'" class="bi bi-eye" aria-hidden="true"></i>
+                      <i *ngIf="this.passwordType === 'text'" class="bi bi-eye-slash" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <button (click)="signUp()" [disabled]="saving" class="btn btn-primary w-100 py-2">
+                    Se Connecter
+                    <span *ngIf="saving" class="">...</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section *ngIf="type === 'inscription'" class="container my-5">
+      <h3 class="mb-3 text-center">Configuration du système</h3>
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <form [formGroup]="mpForm" (ngSubmit)="onSubmit()" class="card shadow p-5">
+            <!-- Creation d'un utilisateur -->
+            <div class="row">
+              <h5>Informations sur l'administrateur</h5>
+              <div class="form-group col-md-6">
+                <label for="inputNomU">Nom</label>
+                <input type="text" required formControlName="nomU" class="form-control" id="inputNomU" placeholder="Nom">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPrenom">Prénom</label>
+                <input type="text" formControlName="prenom" class="form-control" id="inputPrenom" placeholder="Prénom">
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="inputAddressU">Adresse</label>
+                <input type="text" required formControlName="adresseU" class="form-control" id="inputAddressU"
+                  placeholder="Adresse">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputCni">N° CNI</label>
+                <input type="number" formControlName="cni" class="form-control" id="inputCni"
+                  placeholder="Numéro de la CNI">
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="inputTelephoneU">Numéro Téléphone</label>
+                <input type="number" formControlName="telephoneU" class="form-control" id="inputTelephoneU"
+                  placeholder="Téléphone">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPass">Mot de passe</label>
+                <input type="text" required formControlName="password" class="form-control" id="inputPass"
+                  placeholder="Mot de passe">
+              </div>
+            </div>
+
+            <!-- Recuperation des information du point de vente -->
+            <div class="row">
+              <h5>Informations du point de vente</h5>
+              <div class="form-group col-md-6">
+                <label for="inputNom">Point de vente</label>
+                <input type="text" required formControlName="nom" class="form-control" id="inputNom"
+                  placeholder="Nom du point de vente">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputVille">Ville</label>
+                <input type="text" required formControlName="ville" class="form-control" id="inputVille"
+                  placeholder="Ville">
+              </div>
+              <div class="form-group col-md-12">
+                <label for="inputAddress">Adresse</label>
+                <input type="text" formControlName="adresse" class="form-control" id="inputAddress" placeholder="Adresse">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputTelephone">Téléphone</label>
+                <input type="number" formControlName="telephone" class="form-control" id="inputTelephone"
+                  placeholder="Téléphone">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputEmail">Email</label>
+                <input type="email" formControlName="email" class="form-control" id="inputEmail" placeholder="Email">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPays">Pays</label>
+                <input type="text" formControlName="pays" class="form-control" id="inputPays" placeholder="Téléphone">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputDevise">Devise</label>
+                <input type="text" formControlName="devise" class="form-control" id="inputDevise" placeholder="Devise">
+              </div>
+              <div class="form-group col-md-12">
+                <label for="taxe">Taxe</label>
+                <input type="text" formControlName="taxe" class="form-control" id="taxe" placeholder="Taxe">
+              </div>
+            </div>
+
+            <!--Enrégsitrement-->
+            <div class="row">
+              <div class="form-group">
+                <button type="submit" class="btn btn-dark w-100 py-2">Enregistrer</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footer text-center text-white" style="background-color: #009efb;">
+    GESTPLUS 2024
+  </footer>
+</div>

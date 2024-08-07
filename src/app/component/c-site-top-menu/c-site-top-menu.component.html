@@ -1,0 +1,52 @@
+
+<nav [class]="'navbar navbar-expand-lg navbar-dark text-light'">
+    <!--
+    {'navbar': true, 'navbar-expand-lg': true, 'navbar-dark': mobileMenuOpen && backgroundTransparent, 'text-light': mobileMenuOpen && backgroundTransparent, 'bg-transparent': mobileMenuOpen && backgroundTransparent, 'navbar-light': !(mobileMenuOpen && backgroundTransparent), 'bg-light': !(mobileMenuOpen && backgroundTransparent), 'position-fixed': !(mobileMenuOpen && backgroundTransparent), 'w-100': !(mobileMenuOpen && backgroundTransparent)}
+    -->
+    <div class="container-fluid">
+        <a class="navbar-brand" to="/">
+            <img src="/favicon.ico" alt="Logo de Gest Plus" height="32" />
+            <span>Gest Plus</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu-content" aria-controls="navbar-menu-content" aria-expanded="false" aria-label="Toggle navigation" (click)="switchMobileMenu()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-menu-content">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" to="/">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" to="/tarif">Tarif</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" to="/apropos">A propos de nous</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" to="/contact">Contactez-nous</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown-functionalities" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Fonctionnalités
+                    </a>
+                    <ul class="dropdown-menu rounded-0" aria-labelledby="dropdown-functionalities">
+                        <li><a class="dropdown-item" href="#">Gestion de caisse et facturation</a></li>
+                        <li><a class="dropdown-item" href="#">Caisses décentralisées</a></li>
+                        <li><a class="dropdown-item" href="#">Proformas</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#">Gestion du personnel</a></li>
+                        <li><a class="dropdown-item" href="#">Gestion de la paie et états fiscaux</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#">États imprimables</a></li>
+                        <li><a class="dropdown-item" href="#">Fiches statistiques</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#">En ligne et hors ligne</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="d-md-flex justify-content-end mb-3 mb-md-0">
+                <a class="btn btn-outline-primary text-shadow rounded-pill" href="/connexion">Connexion</a>
+            </div>
+        </div>
+    </div>
+</nav>

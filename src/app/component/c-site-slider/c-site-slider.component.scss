@@ -1,0 +1,13 @@
+.carousel .carousel-caption {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.display-5 small {
+    font-weight: bolder;
+}

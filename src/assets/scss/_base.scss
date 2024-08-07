@@ -1,0 +1,29 @@
+.logo {
+  width: 53px !important;
+  border-radius: 10px;
+}
+
+#sidebarnav {
+  background:  $themecolor !important;
+}
+
+.left-sidebar{
+  background:  $themecolor !important;
+  color: white;
+}
+
+.sidebar-link{
+  color: white !important;
+}
+.active{
+  background: white !important;
+    color: $theme-dark !important;
+    i{
+      color: $theme-dark !important;
+    }
+}
+.sidebar-nav{
+  i{
+    color: white;
+  }
+}

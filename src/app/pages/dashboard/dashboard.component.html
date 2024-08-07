@@ -1,0 +1,50 @@
+<!-- <main *ngIf="!loading" class="card p-5">
+  <div class="row mb-3">
+    <div class="col-7 col-md-8">
+      <h1><i class="bi bi-speedometer2"></i> Dashboard</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-md-flex align-items-center">
+            <div>
+              <h4 class="card-title">Statistiques</h4>
+              <h5 class="card-subtitle text-muted">Annee de formation: {{ anneeFormation?.dateDebut | date : "Y" }} / {{
+                anneeFormation?.dateFin | date : "Y" }}</h5>
+            </div>
+          </div>
+          <apx-chart [series]="salesChartOptions.series" [chart]="salesChartOptions.chart"
+            [plotOptions]="salesChartOptions.plotOptions" [xaxis]="salesChartOptions.xaxis"
+            [yaxis]="salesChartOptions.yaxis" [grid]="salesChartOptions.grid" [stroke]="salesChartOptions.stroke"
+            [tooltip]="salesChartOptions.tooltip" [dataLabels]="salesChartOptions.dataLabels"
+            [legend]="salesChartOptions.legend" [colors]="salesChartOptions.colors"
+            [markers]="salesChartOptions.markers">
+          </apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12"><app-top-cards [data]="topcards"></app-top-cards></div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-7">
+      <app-sales-ratio></app-sales-ratio>
+    </div>
+    <div class="col-lg-5">
+      <app-feeds></app-feeds>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <app-top-selling [title]="'Liste des apprenants de pour cette année de formation'"
+        [subTitle]="'Classement par Spécialite'"></app-top-selling>
+    </div>
+  </div>
+</main>
+
+<app-spinner *ngIf="loading" [loading]="loading"></app-spinner> -->

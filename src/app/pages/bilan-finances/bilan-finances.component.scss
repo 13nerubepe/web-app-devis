@@ -1,0 +1,24 @@
+.modal-dialog {
+  --bs-modal-width: 800px;
+
+  display: flex;
+  align-items: center;
+  // min-height: calc(100% - var(--#{$prefix}modal-margin) * 2);
+  max-width: var(--bs-modal-width);
+}
+
+.control-label {
+  display: block;
+  margin-bottom: 5px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.form-group ng-select {
+  padding: 0;
+}
+
+.control-group,
+.form-group {
+  margin: 0;
+}

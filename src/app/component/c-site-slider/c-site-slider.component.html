@@ -1,0 +1,30 @@
+
+<div [id]="'slider-'+id" class="carousel slide" data-bs-ride="carousel">
+    <!--
+    <div *ngIf="withIndicator" class="carousel-indicators">
+        <button *ngFor="let element of elements; index as i" type="button" data-bs-target="#slider-{{id}}" data-bs-slide-to="{{i}}" class="active" aria-current="true" aria-label="Slide {{i}}"></button>
+    </div>
+    -->
+    <div *ngFor="let element of elements; index as elementIndex" class="carousel-inner">
+        <div class="carousel-item active">
+            <img [src]="element.imageSource" class="d-block w-100" [alt]="element.imageAlt" />
+            <div class="carousel-caption d-none d-md-block px-3 text-start">
+                <h2 *ngIf="element.title!=''">{{element.title}}</h2>
+                <p *ngIf="element.description!=''">{{element.description}}</p>
+                <div class="mt-2" *ngIf="element.buttons.length>0">
+                    <a *ngFor="let button of element.buttons" [class]="button.className" [href]="button.link">{{button.text}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+    <button *ngIf="withNav" class="carousel-control-prev" type="button" data-bs-target="#slider-{{id}}" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Précédent</span>
+    </button>
+    <button *ngIf="withNav" class="carousel-control-next" type="button" data-bs-target="#slider-{{id}}" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Suivant</span>
+    </button>
+    -->
+</div>

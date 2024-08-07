@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+.red {
+  color: red;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.modal-dialog {
+  --bs-modal-width: 800px;
+
+  display: flex;
+  align-items: center;
+  // min-height: calc(100% - var(--#{$prefix}modal-margin) * 2);
+  max-width: var(--bs-modal-width);
+}
+
+.control-group,
+.form-group {
+  margin: 0.7em 0;
+
+  input,
+  select {
+    padding: 0.7em 0.5em;
+  }
+}
+
+.ng-select.ng-select-single .ng-select-container {
+  height: 46px !important;
+}
+
+.form-group {
+  ng-select {
+    padding: 0.7em 0;
+  }
+}
+
+.font-weight-bold {
+  font-weight: 700 !important;
+}
+
+
+.h-100-vh-plus {
+  min-height: 100vh;
+}

@@ -1,0 +1,137 @@
+<main  class="card p-5">
+  <div class="row mb-5">
+    <div class="col-md-4">
+      <h3>Liste des produits</h3>
+    </div>
+    <div class="col-md-8 float-end text-end justify-content-between">
+      <a href="/produits?alert" class="btn btn-secondary me-1">Alert stock</a>
+      <a href="/catalogue" class="btn btn-secondary me-1"><i class="bi bi-file-alt"></i> Catalogue</a>
+      <a href="/produits-vers-excel" class="btn btn-secondary me-1"><i class="bi bi-file-excel"></i> Exporter</a>
+      <a onclick="document.querySelector('#file').click()" class="btn btn-secondary me-1">
+        <i class="bi bi-file-excel"></i>
+        Importer d'un fichier Excel
+        <input type="file" id="file" class="input-file d-none" accept=".xlsx" (change)="getFile($event)" />
+      </a>
+<!--      boite souvrer-->
+      <button class="btn btn-success" (click)="showModal(true)">Ajouter un produit</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h5>Filtrer par catégorie</h5>
+      <div class="form-group mb-1 mb-md-0">
+        <ng-select id="participation-specialite" class="" (change)="handleFiltreCategorie($event)">
+          <ng-option value="">Toutes les categories</ng-option>
+          <ng-option [value]="c.id" *ngFor="let c of categories">{{ c?.nom }}</ng-option>
+        </ng-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex">
+    <div class="card">
+        <p-scrollPanel [style]="{ width: '100%', height: 'calc(100vh - 100px)' }">
+          <p-table
+            [value]="produits"
+            selectionMode="multiple"
+            [(selection)]="userProductSelected"
+            dataKey="productId"
+            styleClass="p-datatable-sm p-datatable-striped"
+            [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+              <tr>
+                <th><i class="pi pi-file"></i></th>
+                <th style="font-size: 12px">Nom</th>
+                <th style="font-size: 12px">Libele</th>
+                <th style="font-size: 12px">Description</th>
+                <th style="font-size: 12px">Prix Unitaire</th>
+                <th style="font-size: 12px">Quantite en stock</th>
+                <th style="font-size: 12px">Categorie</th>
+                <th style="font-size: 12px">Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-produit>
+              <tr [pSelectableRow]="produit">
+                <td style="width: 5%">
+                  <div class="flex flex-row flex-wrap">
+                    <img [src]="produit.image" width="30" >
+                  </div>
+                </td>
+<!--                AFFICHER LA LISTS DES PRODUITS-->
+                <td style="width: 15%" class="single-line-cell">{{ produit.libelle }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ produit.description }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ produit.prixUnitaire }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ produit.qteenstock }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ produit.categories }}</td>
+
+                <td style="width: 15%" class="single-line-cell"> You</td>
+                <td>
+                                <button class="btn btn-sm btn-secondary me-1" (click)="validationProduct(userProductSelected)">
+                                  <i class="bi bi-pen"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(produit)">
+                                  <i class="bi bi-trash"></i>
+                                </button>
+                              </td>
+                <td style="width: 25%">
+
+                </td>
+                <td style="width: 5%">
+                  <p-button size="small" icon="pi pi-ellipsis-v" [rounded]="true"
+                            [text]="true" [plain]="true"></p-button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-scrollPanel>
+            </div>
+            <button class="btn btn-sm btn-secondary me-1" (click)="validationProduct(userProductSelected)">
+              <span>Save</span>
+            </button>
+            </div>
+
+      <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">
+          <form class="modal-content text-dark" [formGroup]="mpForm" (ngSubmit)="onFormSubmit()">
+              <div class="modal-header">
+                  <h5 *ngIf="!produit?.id" class="modal-title">Ajouter un produit</h5>
+                  <h5 *ngIf="produit?.id" class="modal-title">Modifier le produit </h5>
+                  <button type="button" class="close align-items-center text-white font-weight-bold bg-danger"
+                      aria-label="Close" (click)="closeModal()">
+                      <i class="bi bi-x"></i>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="form-group col-4 mb-3 mx-auto text-center">
+                          <app-upload-image [image]="produit.image" [prefix]="'produit'"
+                              (continueAction)="loadImage($event)">
+                              <i class="bi bi-edit" aria-hidden="true"></i>
+                          </app-upload-image>
+                      </div>
+
+                      <div class="form-group col-12 mb-3">
+                          <label for="produit-libelle">Libellé</label>
+                          <input type="text" id="produit-libelle" class="form-control" formControlName="libelle"
+                              placeholder="Libellé du produit" />
+                      </div>
+                      <div class="form-group col-12 mb-3">
+                          <label for="produit-description">Description</label>
+                          <textarea id="produit-description" class="form-control" formControlName="description" cols="20"
+                              rows="5" placeholder="Description..."></textarea>
+                      </div>
+                      <div class="form-group col-12 mb-3">
+                          <label for="produit-qte">Quantité </label>
+                          <input type="number" id="produit-qte" class="form-control" formControlName="quantite"
+                              placeholder="Quantité" />
+                      </div>
+
+
+                  </div>
+              </div>
+
+          </form>
+      </ng-template>
+</main>
+<!--chargement de la page-->
+
+<app-spinner *ngIf="loading" [loading]="loading"></app-spinner>

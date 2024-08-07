@@ -1,0 +1,94 @@
+{
+  "client":[
+    {
+      "clientId": "1", "image": "assets/images/users/silhoutte-homme.png", "nom": "Jerome", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "2", "image": "assets/images/users/silhoutte-homme.png", "nom": "Marina", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "3", "image": "assets/images/users/silhoutte-homme.png", "nom": "Lisa", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "4", "image": "assets/images/users/silhoutte-homme.png", "nom": "Junior", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "5", "image": "assets/images/users/silhoutte-homme.png", "nom": "Ben", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "6", "image": "assets/images/users/silhoutte-homme.png", "nom": "Matt", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "7", "image": "assets/images/users/silhoutte-homme.png", "nom": "Rapha", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "8", "image": "assets/images/users/silhoutte-homme.png", "nom": "Saint-Paul", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "9", "image": "assets/images/users/silhoutte-homme.png", "nom": "Sadou", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "10", "image": "assets/images/users/silhoutte-homme.png", "nom": "Yann", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "11", "image": "assets/images/users/silhoutte-homme.png", "nom": "Boris", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "12", "image": "assets/images/users/silhoutte-homme.png", "nom": "Durand", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "13", "image": "assets/images/users/silhoutte-homme.png", "nom": "Karl", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "14", "image": "assets/images/users/silhoutte-homme.png", "nom": "Samira", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "15", "image": "assets/images/users/silhoutte-homme.png", "nom": "Vanessa", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "16", "image": "assets/images/users/silhoutte-homme.png", "nom": "Solange", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "17", "image": "assets/images/users/silhoutte-homme.png", "nom": "Cedric", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "18", "image": "assets/images/users/silhoutte-homme.png", "nom": "Frede", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "19", "image": "assets/images/users/silhoutte-homme.png", "nom": "Loic", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "20", "image": "assets/images/users/silhoutte-homme.png", "nom": "Laurene", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "21", "image": "assets/images/users/silhoutte-homme.png", "nom": "Jacky", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "22", "image": "assets/images/users/silhoutte-homme.png", "nom": "Dorothe", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "23", "image": "assets/images/users/silhoutte-homme.png", "nom": "Keranne", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "24", "image": "assets/images/users/silhoutte-homme.png", "nom": "Leric", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "25", "image": "assets/images/users/silhoutte-homme.png", "nom": "Blanco", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "26", "image": "assets/images/users/silhoutte-homme.png", "nom": "Manou", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "27", "image": "assets/images/users/silhoutte-homme.png", "nom": "Yuna", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    },
+    {
+      "clientId": "28", "image": "assets/images/users/silhoutte-homme.png", "nom": "Vero", "email": "clientA@example.com", "phone": 1234567890, "address": "123 Main St", "ville": "City A", "grade": "Gold"
+    },
+    {
+      "clientId": "29", "image": "assets/images/users/silhoutte-homme.png", "nom": "Florence", "email": "clientB@example.com", "phone": 2345678901, "address": "456 Elm St", "ville": "City B", "grade": "Silver"
+    },
+    {
+      "clientId": "30", "image": "assets/images/users/silhoutte-homme.png", "nom": "Neru", "email": "clientC@example.com", "phone": 3456789012, "address": "789 Pine St", "ville": "City C", "grade": "Bronze"
+    }
+  ]
+}

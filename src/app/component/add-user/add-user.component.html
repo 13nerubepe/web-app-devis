@@ -1,0 +1,96 @@
+<form class="modal-content text-dark" [formGroup]="mpForm" (ngSubmit)="onFormSubmit()">
+  <div class="modal-header">
+    <h5 class="modal-title">Enregistrement d'un Utilisateur</h5>
+    <button type="button" class="close align-items-center text-white font-weight-bold bg-danger" aria-label="Close"
+      (click)="closeModal()">
+      <i class="bi bi-x"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-1">
+      <div class="col-md-12">
+        <label class="control-label" for="fullName">
+          Nom Complet
+          <span class="red">*</span>
+        </label>
+        <div class="form-group">
+          <input required formControlName="fullName" type="text" maxlength="255" id="fullName" class="form-control"
+            placeholder="Nom Complet" />
+        </div>
+      </div>
+    </div>
+    <div class="row mb-1">
+      <div class="col-md-6">
+        <label class="control-label" for="email">
+          Email
+        </label>
+        <div class="form-group">
+          <input formControlName="email" type="email" maxlength="255" id="email" class="form-control"
+            placeholder="Email" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="telephone">
+          Téléphone
+          <span class="red">*</span>
+        </label>
+        <div class="form-group">
+          <input formControlName="telephone" type="number" id="telephone" class="form-control"
+            placeholder="Téléphone" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="adresse">
+          Adresse
+        </label>
+        <div class="form-group">
+          <input formControlName="adresse" type="text" maxlength="255" id="adresse" class="form-control"
+            placeholder="Adresse" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="ville">
+          Ville
+        </label>
+        <div class="form-group">
+          <input formControlName="ville" type="text" maxlength="255" id="ville" class="form-control"
+            placeholder="Ville" />
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isClient" class="row">
+      <div class="col-md-12">
+        <div class="">
+          <label class="control-label" for="grade">
+            Grade
+            <span class="red">*</span>
+          </label>
+          <div class="form-group">
+            <ng-select id="grade" formControlName="grade">
+              <ng-option value="" selected>--Select grade--</ng-option>
+              <ng-option *ngFor="let grade of grades" [value]="grade.value">{{ grade.titre }}</ng-option>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="inputPass">Mot de passe</label>
+        <input type="text" required formControlName="password" class="form-control" id="inputPass"
+          placeholder="Mot de passe">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary mr-2" (click)="closeModal()">
+        Fermer
+      </button>
+      <button *ngIf="saving" type="button" class="btn btn-success" disabled type="submit">
+        <i class="bi bi-save"></i>
+        Enregistrement
+      </button>
+      <button *ngIf="!saving" type="button" class="btn btn-success" type="submit">
+        <i class="bi bi-save"></i>
+        Enregistrer
+      </button>
+    </div>
+  </div>
+</form>
