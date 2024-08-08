@@ -1,5 +1,5 @@
 export interface Product {
-    productId?: string,
+    productId?: number,
     productName?: string,
     image?: string,
     gmail?: string,
@@ -15,7 +15,7 @@ export interface Product {
     totalHT?: number
 }
 export interface Client {
-  clientId:string;
+  clientId:number;
   image:string;
   nom:string;
   email: string;
@@ -27,9 +27,9 @@ export interface Client {
 }
 
 export interface Devis {
-  devisId:string;
-  clientId:string;
-  productId:string;
+  devisId:number;
+  clientId:number;
+  productId:number;
   totalHt: number;
   reduction:string;
   tva: number;

@@ -28,13 +28,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 
 export class TableComponent implements OnInit{
   @Output() devisFormValues = new EventEmitter<any>();
-  // producttopSelling: Product[];
-  // client:Client[]=[]//objet client
 
-  // protected readonly client = client;
-  // protected readonly TopSelling = TopSelling;
-  selectedProducts:Product| null= null;//stocker les elements selectionnees
-  selectedClient: Client | null = null;
   // faut initialiser pour que la liste de client ne soit pas vide
   client: Client[]=[];
   topSelling: Product[]=[];
@@ -114,14 +108,25 @@ export class TableComponent implements OnInit{
     this.proformasService.setQuantite(quantite);
   }
 
+  // onQuantityChange(devis: Devis, event: any): void {
+  //   const topSellingli = this.topSelling.find(ts => ts.productId === devis.productId);
+  //   if(topSellingli){
+  //     topSellingli.qte = event !== undefined ? event : 0; // Valeur par défaut 0 ou gérez comme nécessaire;
+  //     // devis.topSelling.totalHT = event * this.getUnitPrice(devis);
+  //     console.log("devis.topSelling.qte: ", topSellingli.qte);
+  //   }
+  //     this.proformasService.updatequantite(topSellingli.qte, devis).subscribe();
+  // }
   onQuantityChange(devis: Devis, event: any): void {
-    const topSellingli = this.topSelling.find(ts => ts.productId === devis.productId);
-    if(topSellingli){
-      topSellingli.qte = event;
+    if(devis.topSelling){
+      devis.topSelling.qte = event !== undefined ? event : 0; // Valeur par défaut 0 ou gérez comme nécessaire;
       // devis.topSelling.totalHT = event * this.getUnitPrice(devis);
-      console.log("devis.topSelling.qte: ", topSellingli.qte);
+      console.log("devis.topSelling.qte: ", devis.topSelling.qte);
+      if (typeof devis.topSelling.qte === 'number') {
+        // Envoi de la quantité pour un objet spécifique
+        this.proformasService.updatequantite(devis.productId, devis.topSelling.qte).subscribe();
+      }
     }
-     // this.proformasService.updatequantite(topSellingli.qte, devis).subscribe();
   }
   getUnitPrice(devis: Devis): number {
     return devis.topSelling?.prixUnitaire || 0;
