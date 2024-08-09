@@ -23,7 +23,6 @@ export interface Client {
   address: string;
   ville: string;
   grade: string;
-  qte?: number;
 }
 
 export interface Devis {
