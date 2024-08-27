@@ -19,11 +19,21 @@ export interface Client {
   image:string;
   nom:string;
   email: string;
-  phone: number;
+  phone: string;
   address: string;
   ville: string;
   grade: string;
 }
+export interface CreateClient {
+  image:string;
+  nom:string;
+  email: string;
+  phone: string;
+  address: string;
+  ville: string;
+  grade: string;
+}
+
 
 export interface Devis {
   devisId:number;
@@ -35,8 +45,8 @@ export interface Devis {
   totalTtc: number;
   date:string;
   cassier: string;
-  client?: Client; // Ajouter pour l'objet client associé
-  topSelling?: Product; // Ajouter pour l'objet produit associé
+  client: Client; // Ajouter pour l'objet client associé
+  product: Product; // Ajouter pour l'objet produit associé
 }
 export interface ValeursRequest {
   first: number,
