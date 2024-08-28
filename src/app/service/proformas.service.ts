@@ -2,13 +2,15 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Client, CreateClient, Devis, Product, ValeursRequest } from "../classes/table-data";
 import { BehaviorSubject, catchError, combineLatest, forkJoin, map, Observable, throwError } from "rxjs";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProformasService{
   private baseUrlDevis = 'http://localhost:3000';
-  private baseUrl ='http://localhost:8080/api/client';
+  private baseUrl = environment.production
+    // http://localhost:8080/api/client';
   // private baseUrlClient = 'http://localhost:3001';
   private baseUrlProduct = 'http://localhost:3002';
 
