@@ -67,6 +67,7 @@ import { HeaderDevisComponent } from "./component/header-devis/header-devis.comp
 import { TableModule } from "primeng/table";
 import { ScrollPanelModule } from "primeng/scrollpanel";
 import { Button } from "primeng/button";
+import { DialogModule } from "primeng/dialog";
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -137,7 +138,8 @@ registerLocaleData(localeFr, 'fr');
     HeaderDevisComponent,
     TableModule,
     ScrollPanelModule,
-    Button
+    Button,
+    DialogModule
   ],
   providers: [
     {

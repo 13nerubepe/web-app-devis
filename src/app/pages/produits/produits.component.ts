@@ -17,7 +17,8 @@ import { ProformasService } from "../../service/proformas.service";
 export class ProduitsComponent {
   // [x: string]: any;
   products: Product[] = [];
-   userProductSelected = new Array<Product>()
+  userProductSelected = new Array<Product>()
+  DevisDialog: boolean = false;
   //
   // _produits: any[] = [];
   // categories: any[] = [];
@@ -82,6 +83,15 @@ export class ProduitsComponent {
         this.products = value
       }
     })
+  }
+  handleFiltreCategorie(value: Product) {
+    //   this.categorie_id = parseInt(value);
+    //   const produits = this._produits;
+    //   this.products = this._produits;
+    //   if (this.categorie_id) {
+    //     this.products =
+    //       produits.filter((e) => e?.categorie.id === this.categorie_id) || null;
+    //   }
   }
   // // selectionner les products
   // validationProduct(devis: Product[]) {
@@ -243,15 +253,7 @@ export class ProduitsComponent {
   //   const modalRef = this.modalService.dismissAll();
   // }
   //
-  // handleFiltreCategorie(value: any) {
-  //   this.categorie_id = parseInt(value);
-  //   const produits = this._produits;
-  //   this.products = this._produits;
-  //   if (this.categorie_id) {
-  //     this.products =
-  //       produits.filter((e) => e?.categorie.id === this.categorie_id) || null;
-  //   }
-  // }
+
   //
   // loadImage(event: any) {
   //   this.image = event;
