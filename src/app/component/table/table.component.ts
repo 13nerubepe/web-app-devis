@@ -59,17 +59,18 @@ export class TableComponent implements OnInit{
 
    ngOnInit() {
   //  appel la fonction qui recupere les clients
-    this.proformasService.getValuesClient(this.request).subscribe({
-      next: (value) => {
-        // linitialisation de client
-        this.client = value
-      }
-    });
-    this.proformasService.getValuesProduct(this.request).subscribe({
-      next:(value)=>{
-        this.topSelling =value
-      }
-    })
+  //   this.proformasService.getValuesClient(this.request).subscribe({
+  //     next: (value) => {
+  //       // linitialisation de client
+  //       this.client = value
+  //     }
+  //   });
+  //   this.proformasService.getValuesProduct(this.request).subscribe({
+  //     next:(value)=>{
+  //       this.topSelling =value
+  //     }
+  //   })
+  //
     this.getLoadDevis()
 
    }
@@ -79,20 +80,25 @@ export class TableComponent implements OnInit{
 
   getLoadDevis(): void{
     console.log(this.request);
-    // this.proformasService.getCombinedData(this.request).subscribe(
-    //   (data:Devis[] )=>{
-    //     this.devis = data;
-    //   });
+     this.proformasService.getValuesDevis().subscribe({
+       next:(value)=>{
+         this.devis= value;
+         console.log('recuperation reussi',value)
+       },
+       error: (err) => {
+         console.error('Erreur lors de la récupération des devis', err);
+       }
+     })
   }
 
   // ----------------------------------FONCTION---------------------------------------------
 
   load($event: TableLazyLoadEvent) {
-    console.log("$event: ", $event);
-    this.request.first = $event.first || 0;
-    this.request.sortField =$event.sortField || '';
-    this.request.sortOrder = $event.sortOrder || 1
-    this.getLoadDevis()
+    // console.log("$event: ", $event);
+    // this.request.first = $event.first || 0;
+    // this.request.sortField =$event.sortField || '';
+    // this.request.sortOrder = $event.sortOrder || 1
+    // this.getLoadDevis()
 
   }
    selectionClient(devis: Devis):void {

@@ -1,7 +1,7 @@
-<form [formGroup]="formClient" >
+<form class="m" [formGroup]="formClient" >
   <p-card header="Formulaire Client">
     <div class="p-fluid">
-      <div class="p-field">
+      <div class="fi">
         <label for="nom">Nom Complet:</label>
         <input class="p-border" id="nom" formControlName="nom" pInputText />
         <div class="error-container" color="error">
@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <div class="p-field">
+      <div class="fi">
         <label for="email">Email</label>
         <input id="email" formControlName="email" type="email" pInputText />
         <div class="error-container" color="error">
@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div class="p-field">
+      <div class="fi">
         <label for="phone">Téléphone</label>
         <input id="phone" formControlName="phone" type="tel" pInputText />
         <div class="error-container" color="error">
@@ -25,7 +25,7 @@
         </div>
       </div>
 
-      <div class="p-field">
+      <div class="fi">
         <label for="address">Address</label>
         <input id="address" formControlName="address" pInputText />
         <div class="error-container" color="error">
@@ -33,7 +33,7 @@
         </div>
       </div>
 
-      <div class="p-field">
+      <div class="fi">
         <label for="ville">Ville</label>
         <input id="ville" formControlName="ville" pInputText />
         <div class="error-container" color="error">
@@ -41,7 +41,7 @@
         </div>
       </div>
 
-      <div class="p-field">
+      <div class="fi">
         <label for="grade">Grade</label>
         <input id="grade" formControlName="grade" pInputText />
         <div class="error-container" color="error">
@@ -49,9 +49,10 @@
         </div>
       </div>
 
-      <div class="p-field">
+      <div class="field">
 <!--        <p-button  label="add" icon="pi pi-check" [disabled]="formClient.invalid"></p-button>-->
-        <p-button (click)="addClient()"  label="add" icon="pi pi-check"></p-button>
+        <p-button class="boutton1" (click)="addClient()"  label="addClient" icon="pi pi-check"></p-button>
+        <p-button  (click)="addClient()"  label="Create Devis" icon="pi pi-check"></p-button>
       </div>
     </div>
   </p-card>

@@ -10,19 +10,21 @@
       <a onclick="document.querySelector('#file').click()" class="btn btn-secondary me-1">
         <i class="bi bi-file-excel"></i>
         Importer d'un fichier Excel
-        <input type="file" id="file" class="input-file d-none" accept=".xlsx" (change)="getFile($event)" />
+<!--        <input type="file" id="file" class="input-file d-none" accept=".xlsx" (change)="getFile($event)" />-->
+        <input type="file" id="file" class="input-file d-none" accept=".xlsx" />
       </a>
 <!--      boite souvrer-->
-      <button class="btn btn-success" (click)="showModal(true)">Ajouter un produit</button>
+<!--      <button class="btn btn-success" (click)="showModal(true)">Ajouter un produit</button>-->
     </div>
   </div>
   <div class="row">
     <div class="col-md-4">
       <h5>Filtrer par catégorie</h5>
       <div class="form-group mb-1 mb-md-0">
-        <ng-select id="participation-specialite" class="" (change)="handleFiltreCategorie($event)">
+<!--        <ng-select id="participation-specialite" class="" (change)="handleFiltreCategorie($event)">-->
+        <ng-select id="participation-specialite" class="" >
           <ng-option value="">Toutes les categories</ng-option>
-          <ng-option [value]="c.id" *ngFor="let c of categories">{{ c?.nom }}</ng-option>
+<!--          <ng-option [value]="c.id" *ngFor="let c of categories">{{ c?.nom }}</ng-option>-->
         </ng-select>
       </div>
     </div>
@@ -32,7 +34,7 @@
     <div class="card">
         <p-scrollPanel [style]="{ width: '100%', height: 'calc(100vh - 100px)' }">
           <p-table
-            [value]="produits"
+            [value]="products"
             selectionMode="multiple"
             [(selection)]="userProductSelected"
             dataKey="productId"
@@ -65,14 +67,14 @@
                 <td style="width: 15%" class="single-line-cell">{{ produit.categories }}</td>
 
                 <td style="width: 15%" class="single-line-cell"> You</td>
-                <td>
-                                <button class="btn btn-sm btn-secondary me-1" (click)="validationProduct(userProductSelected)">
-                                  <i class="bi bi-pen"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(produit)">
-                                  <i class="bi bi-trash"></i>
-                                </button>
-                              </td>
+<!--                <td>-->
+<!--                                <button class="btn btn-sm btn-secondary me-1" (click)="validationProduct(userProductSelected)">-->
+<!--                                  <i class="bi bi-pen"></i>-->
+<!--                                </button>-->
+<!--                                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(produit)">-->
+<!--                                  <i class="bi bi-trash"></i>-->
+<!--                                </button>-->
+<!--                              </td>-->
                 <td style="width: 25%">
 
                 </td>
@@ -85,28 +87,29 @@
           </p-table>
         </p-scrollPanel>
             </div>
-            <button class="btn btn-sm btn-secondary me-1" (click)="validationProduct(userProductSelected)">
-              <span>Save</span>
-            </button>
+<!--            <button class="btn btn-sm btn-secondary me-1" (click)="validationProduct(userProductSelected)">-->
+<!--              <span>Save</span>-->
+<!--            </button>-->
             </div>
 
       <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">
-          <form class="modal-content text-dark" [formGroup]="mpForm" (ngSubmit)="onFormSubmit()">
-              <div class="modal-header">
-                  <h5 *ngIf="!produit?.id" class="modal-title">Ajouter un produit</h5>
-                  <h5 *ngIf="produit?.id" class="modal-title">Modifier le produit </h5>
-                  <button type="button" class="close align-items-center text-white font-weight-bold bg-danger"
-                      aria-label="Close" (click)="closeModal()">
-                      <i class="bi bi-x"></i>
-                  </button>
-              </div>
+<!--          <form class="modal-content text-dark" [formGroup]="mpForm" (ngSubmit)="onFormSubmit()">-->
+        <form class="modal-content text-dark" >
+<!--              <div class="modal-header">-->
+<!--                  <h5 *ngIf="!produit?.id" class="modal-title">Ajouter un produit</h5>-->
+<!--                  <h5 *ngIf="produit?.id" class="modal-title">Modifier le produit </h5>-->
+<!--                  <button type="button" class="close align-items-center text-white font-weight-bold bg-danger"-->
+<!--                      aria-label="Close" (click)="closeModal()">-->
+<!--                      <i class="bi bi-x"></i>-->
+<!--                  </button>-->
+<!--              </div>-->
               <div class="modal-body">
                   <div class="row">
                       <div class="form-group col-4 mb-3 mx-auto text-center">
-                          <app-upload-image [image]="produit.image" [prefix]="'produit'"
-                              (continueAction)="loadImage($event)">
-                              <i class="bi bi-edit" aria-hidden="true"></i>
-                          </app-upload-image>
+<!--                          <app-upload-image [image]="produit.image" [prefix]="'produit'"-->
+<!--                              (continueAction)="loadImage($event)">-->
+<!--                              <i class="bi bi-edit" aria-hidden="true"></i>-->
+<!--                          </app-upload-image>-->
                       </div>
 
                       <div class="form-group col-12 mb-3">
@@ -134,4 +137,4 @@
 </main>
 <!--chargement de la page-->
 
-<app-spinner *ngIf="loading" [loading]="loading"></app-spinner>
+<!--<app-spinner *ngIf="loading" [loading]="loading"></app-spinner>-->

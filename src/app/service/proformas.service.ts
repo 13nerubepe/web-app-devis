@@ -8,11 +8,8 @@ import { environment } from "../../environments/environment";
   providedIn: 'root',
 })
 export class ProformasService{
-  private baseUrlDevis = 'http://localhost:3000';
-  private baseUrl = environment.production
-    // http://localhost:8080/api/client';
-  // private baseUrlClient = 'http://localhost:3001';
-  private baseUrlProduct = 'http://localhost:3002';
+  private baseUrl = environment.apiUrl;
+
 
 
   formValues: BehaviorSubject<Devis | null> = new BehaviorSubject<Devis | null>(null);
@@ -44,7 +41,7 @@ export class ProformasService{
     }
   }
   updatequantite(productId:any, qte:number): Observable<Product>{
-    return this._http.put<Product>(`${this.baseUrlDevis}'devis/${productId}`,{qte}).pipe(catchError(this.handleError))
+    return this._http.put<Product>(`${this.baseUrl}'devis/${productId}`,{qte}).pipe(catchError(this.handleError))
   }
   private handleError(error: HttpErrorResponse): Observable<never> {
     return throwError('Something bad happened; please try again later.');
@@ -72,24 +69,15 @@ export class ProformasService{
     this.produitSource.next(currentProducts);
   }
 
-  getValuesDevis(request: ValeursRequest):Observable<Devis[]> {
-     // const pageDetails = `_page=1$_limit=5`;
-    const { first, rows, sortField, sortOrder } = request;
-    const page = (first / rows) + 1;
-    let pageDetails = `_page=${page}&_limit=${rows}`;
-    if (sortField) {
-      pageDetails += `&_sort=${sortField}&_order=${sortOrder === 1 ? 'asc' : 'desc'}`;
-    }
-    return this._http.get<Devis[]>(this.baseUrlDevis + `devis/getdevis`);
-    // const {sortField, sortOrder} =request;
-    // const page = (first/rows) +1;
+  getValuesDevis():Observable<Devis[]> {
+    return this._http.get<Devis[]>(this.baseUrl + `devis/listeDevis`);
   }
   // recupere LES CLIENTS
   getValuesClient(request: ValeursRequest):Observable<Client[]> {
     return this._http.get<Client[]>(this.baseUrl + `request`);
   }
-  getValuesProduct(request: ValeursRequest):Observable<Product[]> {
-    return this._http.get<Product[]>(this.baseUrlProduct + `request`);
+  getValuesProduct():Observable<Product[]> {
+    return this._http.get<Product[]>(this.baseUrl + `product/listeProduct`);
   }
   // getCombinedData(request: ValeursRequest, devidId: string, clientId: string, productId:string ):Observable<Devis[]> {
     // const {first, rows, sortField, sortOrder} = requete;
