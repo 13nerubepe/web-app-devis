@@ -1,11 +1,12 @@
 .field {
-  margin-top: 2rem;
+  display: flex;
+  float: right;
+}
+
+.justified{
   display: flex;
   justify-content: center;
-  gap: 5rem;
-}
-.field1 {
-  gap: 5rem;
+  gap: 3rem;
 }
 .m{
   margin-bottom: 3rem;

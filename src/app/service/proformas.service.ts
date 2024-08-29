@@ -47,7 +47,7 @@ export class ProformasService{
     return throwError('Something bad happened; please try again later.');
   }
   addClient(addClient: CreateClient): Observable<Client>{
-    return this._http.post<Client>(this.baseUrl + 'create', addClient);
+    return this._http.post<Client>(this.baseUrl + 'client/createClient', addClient);
   }
 
   setProduct(varProduct: Product|Product[]) {

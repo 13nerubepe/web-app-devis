@@ -18,7 +18,7 @@ export class ProduitsComponent {
   // [x: string]: any;
   products: Product[] = [];
   userProductSelected = new Array<Product>()
-  DevisDialog: boolean = false;
+
   //
   // _produits: any[] = [];
   // categories: any[] = [];
