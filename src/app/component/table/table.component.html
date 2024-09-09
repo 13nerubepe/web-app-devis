@@ -56,7 +56,7 @@
 <!--        <td #client style="width: 15%" class="single-line-cell" (click)="setDevisFormValues($event, devis,client)" (click)="selectionClient(devis)" >-->
         <td #client style="width: 15%" class="single-line-cell" (click)="selectionClient(devis)" >
           {{ devis.client.nom }}</td>
-        <td style="width: 10%" class="single-line-cell" (click)="selectionProduct(devis)">{{ devis.topSelling.productName }}</td>
+        <td style="width: 10%" class="single-line-cell" (click)="selectionProduct(devis)">{{ devis.products.productName }}</td>
 <!--        <td style="width: 15%" class="single-line-cell"><input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(product, $event)" min="1"/></td>-->
         <td style="width: 15%" class="single-line-cell">
 <!--          <input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(devis, $event)" min="1"/>-->

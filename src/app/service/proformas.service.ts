@@ -73,35 +73,29 @@ export class ProformasService{
     return this._http.get<Devis[]>(this.baseUrl + `devis/listeDevis`);
   }
   // recupere LES CLIENTS
-  getValuesClient(request: ValeursRequest):Observable<Client[]> {
-    return this._http.get<Client[]>(this.baseUrl + `request`);
+  getValuesClient():Observable<Client[]> {
+    return this._http.get<Client[]>(this.baseUrl + `client/listeClient`);
   }
   getValuesProduct():Observable<Product[]> {
     return this._http.get<Product[]>(this.baseUrl + `product/listeProduct`);
   }
-  // getCombinedData(request: ValeursRequest, devidId: string, clientId: string, productId:string ):Observable<Devis[]> {
-    // const {first, rows, sortField, sortOrder} = requete;
-    // const page=(first/rows) +1;
-    // let pageDetails = `_page=${page}&_limit=${rows}`;
-    //  if(sortField){
-    //    pageDetails += `$_sort-${sortField}$_order-${sortOrder === 1? 'asc' : 'desc'}`
-    //  }
 
-  //   return forkJoin([
-  //     this.getValuesDevis(request),
-  //     this.getValuesClient(clientId),
-  //     this.getValuesProduct(productId),
-  //   ]).pipe(
-  //     map(([devis, clients, products]) => {
-  //       return devis.map(d => ({
-  //         ...d,
-  //         // clients: clients,  // Ajoute la liste complète des clients à chaque devis
-  //         // topSellings: products,  // Ajoute la liste complète des clients à chaque devis
-  //         client: clients.find(client => client.clientId === d.clientId),
-  //         topSelling: products.find(product => product.productId === d.productId)
-  //        }));
-  //     })
-  //   );
-  // }
+  getCombinedData():Observable<Devis[]> {
+    return forkJoin([
+      this.getValuesDevis(),
+      this.getValuesClient(),
+      this.getValuesProduct(),
+    ]).pipe(
+      map(([devis, clients, products]) => {
+        return devis.map(d => ({
+          ...d,
+          // clients: clients,  // Ajoute la liste complète des clients à chaque devis
+          // topSellings: products,  // Ajoute la liste complète des clients à chaque devis
+          clients: clients.find(client => client.clientId === d.clientId),
+          products: products.find(product => product.productId === d.productId)
+         }));
+      })
+    );
+  }
 
 }

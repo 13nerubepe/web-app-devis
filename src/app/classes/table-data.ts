@@ -45,8 +45,8 @@ export interface Devis {
   totalTtc: number;
   date:string;
   cassier: string;
-  client: Client; // Ajouter pour l'objet client associé
-  product: Product; // Ajouter pour l'objet produit associé
+  client?: Client; // Ajouter pour l'objet client associé
+  product?: Product; // Ajouter pour l'objet produit associé
 }
 export interface ValeursRequest {
   first: number,

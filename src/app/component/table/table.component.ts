@@ -17,7 +17,6 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SelectButtonModule } from "primeng/selectbutton";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
-import { combineLatest } from "rxjs/internal/operators/combineLatest";
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -33,7 +32,7 @@ export class TableComponent implements OnInit{
 
   // faut initialiser pour que la liste de client ne soit pas vide
   client: Client[]=[];
-  topSelling: Product[]=[];
+  products: Product[]=[];
    devis: Devis[] = [];
   // devis = combineLatest([ this.proformasService.getCombinedData(this.request), this.search.controls.nom.valueChanges])
   trow: TableRows[];
@@ -58,19 +57,6 @@ export class TableComponent implements OnInit{
   }
 
    ngOnInit() {
-  //  appel la fonction qui recupere les clients
-  //   this.proformasService.getValuesClient(this.request).subscribe({
-  //     next: (value) => {
-  //       // linitialisation de client
-  //       this.client = value
-  //     }
-  //   });
-  //   this.proformasService.getValuesProduct(this.request).subscribe({
-  //     next:(value)=>{
-  //       this.topSelling =value
-  //     }
-  //   })
-  //
     this.getLoadDevis()
 
    }
@@ -80,7 +66,7 @@ export class TableComponent implements OnInit{
 
   getLoadDevis(): void{
     console.log(this.request);
-     this.proformasService.getValuesDevis().subscribe({
+     this.proformasService.getCombinedData().subscribe({
        next:(value)=>{
          this.devis= value;
          console.log('recuperation reussi',value)
@@ -116,7 +102,7 @@ export class TableComponent implements OnInit{
     }
    }
   selectionProduct(devis: Devis):void {
-     const selectedProduct = this.topSelling.find(product =>product.productId ===devis.productId)
+     const selectedProduct = this.products.find(product =>product.productId ===devis.productId)
     if(selectedProduct){
       // COMME CA PASSE UN TABLEAU DE PRODUIT
       this.proformasService.setProduct([selectedProduct])
@@ -140,9 +126,9 @@ export class TableComponent implements OnInit{
       }
     }
   }
-  getUnitPrice(devis: Devis): number {
-    return devis.product.prixUnitaire || 0;
-  }
+  // getUnitPrice(devis: Devis): number {
+  //   return devis.product.prixUnitaire || 0;
+  // }
 
 
 
