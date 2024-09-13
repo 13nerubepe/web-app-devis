@@ -89,7 +89,7 @@ export class TableComponent implements OnInit{
   }
    selectionClient(devis: Devis):void {
     // const selectedClient = devis.clientId; // Récupérer le client du devis
-    const selectedClient = this.client.find(client => client.clientId === devis.clientId);
+    const selectedClient = devis.client ? this.client.find(client => client.clientId === devis.client!.clientId): null ;
     if (selectedClient) {
       // const p= parseInt(selectedClient.phone.replace(/\D/g, ''), 10)
       this.proformasService.setClient(selectedClient); // Met à jour le client dans le service
@@ -102,10 +102,10 @@ export class TableComponent implements OnInit{
     }
    }
   selectionProduct(devis: Devis):void {
-     const selectedProduct = this.products.find(product =>product.productId ===devis.productId)
-    if(selectedProduct){
+     const selectedProduct = this.products.filter(product =>devis.productId.includes(product.productId!))
+    if(selectedProduct.length>0){
       // COMME CA PASSE UN TABLEAU DE PRODUIT
-      this.proformasService.setProduct([selectedProduct])
+      this.proformasService.setProduct(selectedProduct)
        // this.selectedProducts.push(selectedProduct);
        console.log('Produit sélectionné:', selectedProduct);
     }
@@ -116,15 +116,15 @@ export class TableComponent implements OnInit{
   }
 
   onQuantityChange(devis: Devis, event: any): void {
-    if(devis.product){
-      devis.product.qte = event !== undefined ? event : 0; // Valeur par défaut 0 ou gérez comme nécessaire;
-      // devis.topSelling.totalHT = event * this.getUnitPrice(devis);
-      console.log("devis.topSelling.qte: ", devis.product.qte);
-      if (typeof devis.product.qte === 'number') {
-        // Envoi de la quantité pour un objet spécifique
-        this.proformasService.updatequantite(devis.productId, devis.product.qte).subscribe();
-      }
-    }
+    // if(devis.product){
+    //   devis.product.qte = event !== undefined ? event : 0; // Valeur par défaut 0 ou gérez comme nécessaire;
+    //   // devis.topSelling.totalHT = event * this.getUnitPrice(devis);
+    //   console.log("devis.topSelling.qte: ", devis.product.qte);
+    //   if (typeof devis.product.qte === 'number') {
+    //     // Envoi de la quantité pour un objet spécifique
+    //     this.proformasService.updatequantite(devis.productId, devis.product.qte).subscribe();
+    //   }
+    // }
   }
   // getUnitPrice(devis: Devis): number {
   //   return devis.product.prixUnitaire || 0;

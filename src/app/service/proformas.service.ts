@@ -92,7 +92,9 @@ export class ProformasService{
           // clients: clients,  // Ajoute la liste complète des clients à chaque devis
           // topSellings: products,  // Ajoute la liste complète des clients à chaque devis
           clients: clients.find(client => client.clientId === d.clientId),
-          products: products.find(product => product.productId === d.productId)
+          // Trouver tous les produits associés au devis
+          products: products.filter(product => d.productId.includes(product.productId!))
+          // products: products.find(product => product.productId === d.productId)
          }));
       })
     );

@@ -1,5 +1,5 @@
 export interface Product {
-    productId?: number,
+    productId?: string,
     productName?: string,
     image?: string,
     gmail?: string,
@@ -15,7 +15,7 @@ export interface Product {
     totalHT?: number
 }
 export interface Client {
-  clientId:number;
+  clientId:string;
   image:string;
   nom:string;
   email: string;
@@ -36,9 +36,9 @@ export interface CreateClient {
 
 
 export interface Devis {
-  devisId:number;
-  clientId:number;
-  productId:number;
+  devisId:string;
+  clientId:string;
+  productId:string[];
   totalHt: number;
   reduction:string;
   tva: number;
@@ -46,7 +46,7 @@ export interface Devis {
   date:string;
   cassier: string;
   client?: Client; // Ajouter pour l'objet client associé
-  product?: Product; // Ajouter pour l'objet produit associé
+  products?: Product[]; // Ajouter pour l'objet produit associé
 }
 export interface ValeursRequest {
   first: number,

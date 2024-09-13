@@ -12,11 +12,10 @@ import {
 import { ProformasService } from "../../service/proformas.service";
 import { Client, Devis, Product } from "../../classes/table-data";
 import { Button } from "primeng/button";
-import { MenuItem, PrimeTemplate } from "primeng/api";
+import { PrimeTemplate } from "primeng/api";
 import { ScrollPanelModule } from "primeng/scrollpanel";
 import { TableModule } from "primeng/table";
 import { CardModule } from "primeng/card";
-import { v4 as uuidv4 } from 'uuid';
 import { Observable, of } from "rxjs";
 import { MenuModule } from "primeng/menu";
 import { DialogModule } from "primeng/dialog";
