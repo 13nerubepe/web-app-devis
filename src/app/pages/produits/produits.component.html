@@ -27,7 +27,37 @@
 <!--          <ng-option [value]="c.id" *ngFor="let c of categories">{{ c?.nom }}</ng-option>-->
         </ng-select>
       </div>
-    </div>
+      <div>
+<!--        <input type="text" placeholder="Nom du produit" [(ngModel)]="productName" class="field" />-->
+<!--        <input type="text" placeholder="Image du produit" [(ngModel)]="image" class="field" />-->
+<!--        <input type="text" placeholder="Description du produit" [(ngModel)]="description" class="field" />-->
+
+      </div>
+      <p-dialog [header]="'createFolderFormHeader'" [modal]="true" [(visible)]="devisDialog"
+                [style]="{ width: '30rem' }">
+        <span class="p-text-secondary block mb-5">Veuillez entrer les détails du produit.</span>
+
+        <div class="flex align-items-center mb-3">
+          <label for="productName" class="font-semibold w-8rem">Nom du produit</label>
+          <input pInputText id="productName" [(ngModel)]="productName" class="flex-auto" autocomplete="off"/>
+        </div>
+
+        <div class="flex align-items-center mb-3">
+          <label for="image" class="font-semibold w-8rem">Image</label>
+          <input pInputText id="image" [(ngModel)]="image" class="flex-auto" autocomplete="off"/>
+        </div>
+
+        <div class="flex align-items-center mb-3">
+          <label for="description" class="font-semibold w-8rem">Description</label>
+          <input pInputText id="description" [(ngModel)]="description" class="flex-auto" autocomplete="off"/>
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+          <p-button [label]="'cancelButton'" severity="secondary" (click)="devisDialog = false"/>
+          <p-button [label]="'saveButton'" (click)="createProduct(productName, image, description)"/>
+        </div>
+      </p-dialog>
+    </div><span><p-button  class="field" (click)="openDialog()">Create</p-button></span>
   </div>
 
   <div class="flex">
@@ -135,6 +165,8 @@
           </form>
       </ng-template>
 </main>
+
+
 <!--chargement de la page-->
 
 <!--<app-spinner *ngIf="loading" [loading]="loading"></app-spinner>-->

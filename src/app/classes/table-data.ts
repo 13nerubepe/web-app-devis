@@ -1,18 +1,33 @@
 export interface Product {
-    productId?: string,
-    productName?: string,
-    image?: string,
-    gmail?: string,
-    qteenstock?: number,
-    unite?: number,
-    description?: string,
-    libelle: string,
-    categories?: string,
-    prixUnitaire?: number,
-    qte?: number,
-    tva?: number,
-    totalTva?: number,
-    totalHT?: number
+  productId?: string,
+  productName?: string,
+  image?: string,
+  gmail?: string,
+  qteenstock?: number,
+  unite?: number,
+  description?: string,
+  libelle: string,
+  categories?: string,
+  prixUnitaire?: number,
+  qte?: number,
+  tva?: number,
+  totalTva?: number,
+  totalHT?: number
+}
+export interface CreateProductDto {
+  productName?: string,
+  image?: string,
+  gmail?: string,
+  qteenstock?: number,
+  unite?: number,
+  description?: string,
+  libelle: string,
+  categories?: string,
+  prixUnitaire?: number,
+  qte?: number,
+  tva?: number,
+  totalTva?: number,
+  totalHT?: number
 }
 export interface Client {
   clientId:string;

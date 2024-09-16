@@ -79,6 +79,9 @@ export class ProformasService{
   getValuesProduct():Observable<Product[]> {
     return this._http.get<Product[]>(this.baseUrl + `product/listeProduct`);
   }
+  createProduct(product: Product):Observable<Product>{
+    return this._http.post<Product>(this.baseUrl + `product/createProduct`, product )
+  }
 
   getCombinedData():Observable<Devis[]> {
     return forkJoin([

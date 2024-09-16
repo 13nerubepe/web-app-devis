@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, map } from 'rxjs';
@@ -16,6 +16,11 @@ import { ProformasService } from "../../service/proformas.service";
 })
 export class ProduitsComponent {
   // [x: string]: any;
+  productName: string = '';  // Pour stocker le nom du produit
+  image: string = '';  // Pour stocker l'image du produit
+  description: string | null = null;  // Pour stocker la description (peut être null si vide)
+
+  devisDialog: boolean =false;
   products: Product[] = [];
   userProductSelected = new Array<Product>()
 
@@ -84,6 +89,29 @@ export class ProduitsComponent {
       }
     })
   }
+  openDialog(){
+    this.devisDialog = true;
+  }
+  createProduct (productName :string, image: string, description: string | null): void{
+    if(!productName){}
+    this.proformasService.createProduct({
+      productName:productName,
+      image: image,
+      description: description || undefined,
+      prixUnitaire: 0,
+      // Initialisez les autres propriétés si nécessaire
+      qteenstock: 0, // Valeur par défaut si non spécifiée
+      unite: 0, // Valeur par défaut si non spécifiée
+      libelle: '', // Valeur par défaut si non spécifiée
+      categories: '', // Valeur par défaut si non spécifiée
+      qte: 0, // Valeur par défaut si non spécifiée
+      tva: 0, // Valeur par défaut si non spécifiée
+      totalTva: 0, // Valeur par défaut si non spécifiée
+      totalHT: 0 // Valeur par défaut si non spécifiée
+    }).subscribe ({
+
+    })
+};
   handleFiltreCategorie(value: Product) {
     //   this.categorie_id = parseInt(value);
     //   const produits = this._produits;
@@ -326,4 +354,6 @@ export class ProduitsComponent {
   //     },
   //   }).then();
   // }
+
+
 }
