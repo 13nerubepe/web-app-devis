@@ -68,6 +68,7 @@ import { TableModule } from "primeng/table";
 import { ScrollPanelModule } from "primeng/scrollpanel";
 import { Button } from "primeng/button";
 import { DialogModule } from "primeng/dialog";
+import { DropdownModule } from "primeng/dropdown";
 
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
@@ -139,7 +140,8 @@ registerLocaleData(localeFr, 'fr');
     TableModule,
     ScrollPanelModule,
     Button,
-    DialogModule
+    DialogModule,
+    DropdownModule
   ],
   providers: [
     {

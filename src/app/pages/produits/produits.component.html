@@ -37,24 +37,47 @@
                 [style]="{ width: '30rem' }">
         <span class="p-text-secondary block mb-5">Veuillez entrer les détails du produit.</span>
 
-        <div class="flex align-items-center mb-3">
-          <label for="productName" class="font-semibold w-8rem">Nom du produit</label>
-          <input pInputText id="productName" [(ngModel)]="productName" class="flex-auto" autocomplete="off"/>
-        </div>
+        <form  [formGroup]="productForm" (ngSubmit)="createProduct()">
+          <div class="flex align-items-center mb-3">
+            <label for="productName" class="font-semibold w-8rem">Nom du produit</label>
+            <input pInputText id="productName" formControlName="productName" class="flex-auto" autocomplete="off"/>
+          </div>
 
-        <div class="flex align-items-center mb-3">
-          <label for="image" class="font-semibold w-8rem">Image</label>
-          <input pInputText id="image" [(ngModel)]="image" class="flex-auto" autocomplete="off"/>
-        </div>
+          <div class="flex align-items-center mb-3">
+            <label for="categories" class="font-semibold w-8rem">Categories</label>
+            <p-dropdown id="categories" formControlName="categories" [options]="categories"  ></p-dropdown>
+          </div>
 
-        <div class="flex align-items-center mb-3">
-          <label for="description" class="font-semibold w-8rem">Description</label>
-          <input pInputText id="description" [(ngModel)]="description" class="flex-auto" autocomplete="off"/>
-        </div>
+          <div class="flex align-items-center mb-3">
+            <label for="image" class="font-semibold w-8rem">Image</label>
+            <input pInputText id="image" formControlName="image" class="flex-auto" autocomplete="off"/>
+          </div>
+          <div class="flex align-items-center mb-3">
+            <label for="description" class="font-semibold w-8rem">Description</label>
+            <input pInputText id="description" formControlName="description" class="flex-auto" autocomplete="off"/>
+          </div>
+
+          <div class="flex align-items-center mb-3">
+            <label for="prixunitaire" class="font-semibold w-8rem">Prix Unitaire</label>
+            <input pInputText id="prixunitaire" formControlName="prixunitaire" class="flex-auto" autocomplete="off"/>
+          </div>
+
+          <div class="flex align-items-center mb-3">
+            <label for="Unite" class="font-semibold w-8rem">Unite</label>
+            <input pInputText id="Unite" formControlName="Unite" class="flex-auto" autocomplete="off"/>
+          </div>
+
+          <div class="flex align-items-center mb-3">
+            <label for="qteenstock" class="font-semibold w-8rem">Quantite en stock</label>
+            <input id="qteenstock" formControlName="qteenstock" class="flex-auto" />
+          </div>
+
+          <p-button [label]="'saveButton'" type="submit" [disabled]="!productForm.valid" (click)="createProduct()"/>
+        </form>
 
         <div class="flex justify-content-end gap-2">
           <p-button [label]="'cancelButton'" severity="secondary" (click)="devisDialog = false"/>
-          <p-button [label]="'saveButton'" (click)="createProduct(productName, image, description)"/>
+
         </div>
       </p-dialog>
     </div><span><p-button  class="field" (click)="openDialog()">Create</p-button></span>
@@ -90,7 +113,7 @@
                   </div>
                 </td>
 <!--                AFFICHER LA LISTS DES PRODUITS-->
-                <td style="width: 15%" class="single-line-cell">{{ produit.libelle }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ produit.productName }}</td>
                 <td style="width: 15%" class="single-line-cell">{{ produit.description }}</td>
                 <td style="width: 15%" class="single-line-cell">{{ produit.prixUnitaire }}</td>
                 <td style="width: 15%" class="single-line-cell">{{ produit.qteenstock }}</td>

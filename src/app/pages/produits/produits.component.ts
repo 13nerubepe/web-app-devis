@@ -1,13 +1,8 @@
-import { Component, ElementRef, signal, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { combineLatest, map } from 'rxjs';
-import { AppDataStoreService } from 'src/app/service/app-data-store.service';
-import { DataRestService } from 'src/app/service/data-rest.service';
-import Swal from 'sweetalert2';
-import * as xlsx from 'xlsx';
-import { Client, Product } from "../../classes/table-data";
+import { Component } from "@angular/core";
+import { CreateProductDto, Product } from "../../classes/table-data";
 import { ProformasService } from "../../service/proformas.service";
+import {  MessagService } from "../../service/messag.service";
+import { FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-produits',
@@ -16,13 +11,44 @@ import { ProformasService } from "../../service/proformas.service";
 })
 export class ProduitsComponent {
   // [x: string]: any;
-  productName: string = '';  // Pour stocker le nom du produit
-  image: string = '';  // Pour stocker l'image du produit
-  description: string | null = null;  // Pour stocker la description (peut être null si vide)
+  // productName: string = '';  // Pour stocker le nom du produit
+  // image: string = '';  // Pour stocker l'image du produit
+  // description: string= '';
+  // qteenstock: number = 0;
+  // unite: string = '';
+  // categories:string[] ='';
+  // prixunitaire: number = 0;
+
+
+
 
   devisDialog: boolean =false;
   products: Product[] = [];
   userProductSelected = new Array<Product>()
+  categories=[
+    { label: 'Électronique', value: 'electronique' },
+    { label: 'Mode', value: 'mode' },
+    { label: 'Maison', value: 'maison' },
+    { label: 'Voiture', value: 'voiture' }
+  ]
+  productForm = this.fb.group({
+    productName: ['', Validators.required],
+    image: ['', Validators.required],
+    description: [''],
+    categories: ['', Validators.required],
+    prixUnitaire: [0, [Validators.required, Validators.min(0)]],
+    qteenstock: [0, [Validators.required, Validators.min(0)]],
+    unite: ['', Validators.required],
+  });
+
+  constructor(
+    // private dataRestService: DataRestService,
+    private proformasService: ProformasService,
+    private messagService: MessagService,
+    private fb: FormBuilder,
+    // private modalService: NgbModal,
+    // private appDataStoreService: AppDataStoreService,
+  ) { }
 
   //
   // _produits: any[] = [];
@@ -52,12 +78,7 @@ export class ProduitsComponent {
   // selectedProduct: Product | undefined;
   // actionSelectedProduct: Product | undefined
 
-  constructor(
-    // private dataRestService: DataRestService,
-    private proformasService: ProformasService,
-    // private modalService: NgbModal,
-    // private appDataStoreService: AppDataStoreService,
-  ) { }
+
 
   ngOnInit(): void {
     // this.appDataStoreService.selectedPointVente.subscribe((pointVente: any) => {
@@ -92,26 +113,77 @@ export class ProduitsComponent {
   openDialog(){
     this.devisDialog = true;
   }
-  createProduct (productName :string, image: string, description: string | null): void{
-    if(!productName){}
-    this.proformasService.createProduct({
-      productName:productName,
-      image: image,
-      description: description || undefined,
-      prixUnitaire: 0,
-      // Initialisez les autres propriétés si nécessaire
-      qteenstock: 0, // Valeur par défaut si non spécifiée
-      unite: 0, // Valeur par défaut si non spécifiée
-      libelle: '', // Valeur par défaut si non spécifiée
-      categories: '', // Valeur par défaut si non spécifiée
-      qte: 0, // Valeur par défaut si non spécifiée
-      tva: 0, // Valeur par défaut si non spécifiée
-      totalTva: 0, // Valeur par défaut si non spécifiée
-      totalHT: 0 // Valeur par défaut si non spécifiée
-    }).subscribe ({
+  private hideDialog() {
+    this. devisDialog =false
+  }
 
-    })
-};
+  createProduct(): void {
+    if (this.productForm.invalid) {
+      // Afficher un message d'erreur si le formulaire est invalide
+      this.messagService.add({ severity: 'error', detail: 'Erreur lors de la création du produit. Veuillez vérifier les champs du formulaire.' });
+      return; // Sortir de la fonction si le formulaire est invalide
+    }
+
+    // Récupérer les données du formulaire
+    // const createProductDto: CreateProductDto = this.productForm.value;
+    const formValues = this.productForm.value;
+
+    // Assurez-vous que les valeurs ne sont pas null ou undefined
+    const createProductDto: CreateProductDto = {
+      productName: formValues.productName || '',
+      image: formValues.image || '',
+      description: formValues.description || '',
+      categories: formValues.categories || '',
+      prixUnitaire: formValues.prixUnitaire ?? 0, // Utiliser 0 comme valeur par défaut
+      qteenstock: formValues.qteenstock ?? 0, // Utiliser 0 comme valeur par défaut
+      unite: formValues.unite || '', // Utiliser 0 comme valeur par défaut
+    };
+
+    // Appeler le service pour créer le produit
+    this.proformasService.createProduct(createProductDto).subscribe({
+      next: (value) => {
+        console.log('Le produit a été créé avec succès', value);
+        this.productForm.reset(); // Réinitialiser le formulaire après la création
+      },
+      error: (err) => {
+        console.error('Erreur lors de la création du produit', err);
+        this.messagService.add({ severity: 'error', detail: 'Erreur lors de la création du produit' });
+      },
+      complete: () => {
+        // Afficher un message de succès et effectuer d'autres actions si nécessaire
+        this.messagService.add({ severity: 'success', detail: 'Produit créé avec succès' });
+        this.hideDialog(); // Masquer le dialogue ou effectuer d'autres actions après la création
+      }
+    });
+  }
+
+//   createProduct (): void{
+//
+//     if(this.productForm.invalid){
+//       const createProductDto = this.productForm.value
+//       this.messagService.add({severity: 'error', detail: 'Erreur lors de la creation du Devis'})
+//     }
+//
+//     this.proformasService.createProduct(createProductDto).subscribe ({
+//       next: value => {
+//         console.log('Le bouton a été cliqué');
+//         this.productForm.reset()
+//       },
+//       error: err => {
+//            this.messagService.add({severity: 'error', detail: 'Erreur lors de la creation du Devis'})
+//       },
+//       complete: () => {
+//         // charger
+//         // this.folderIsSaving = false;
+//          this.hideDialog();
+//         // this.onNodeNavigate()
+//         // this.getUserRootNodes();
+//         //this.getCurrentDirectoryNodes(this.currentDirectoryId.getValue());
+//          this.messagService.add({severity: 'success', detail: 'Produit créer avec success'});
+//
+//       }
+//     })
+// };
   handleFiltreCategorie(value: Product) {
     //   this.categorie_id = parseInt(value);
     //   const produits = this._produits;
@@ -272,15 +344,7 @@ export class ProduitsComponent {
   //   }).then();
   // }
   //
-  // openModal() {
-  //   const modalRef = this.modalService.open(this.ngModal);
-  // }
-  //
-  // closeModal() {
-  //   this.mpForm.reset();
-  //   const modalRef = this.modalService.dismissAll();
-  // }
-  //
+
 
   //
   // loadImage(event: any) {
@@ -354,6 +418,7 @@ export class ProduitsComponent {
   //     },
   //   }).then();
   // }
+
 
 
 }

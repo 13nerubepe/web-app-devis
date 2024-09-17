@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Client, CreateClient, Devis, Product, ValeursRequest } from "../classes/table-data";
+import { Client, CreateClient, CreateProductDto, Devis, Product, ValeursRequest } from "../classes/table-data";
 import { BehaviorSubject, catchError, combineLatest, forkJoin, map, Observable, throwError } from "rxjs";
 import { environment } from "../../environments/environment";
 
@@ -79,8 +79,8 @@ export class ProformasService{
   getValuesProduct():Observable<Product[]> {
     return this._http.get<Product[]>(this.baseUrl + `product/listeProduct`);
   }
-  createProduct(product: Product):Observable<Product>{
-    return this._http.post<Product>(this.baseUrl + `product/createProduct`, product )
+  createProduct(createProductDto: CreateProductDto):Observable<Product>{
+    return this._http.post<Product>(this.baseUrl + `product/createProduct`, createProductDto )
   }
 
   getCombinedData():Observable<Devis[]> {

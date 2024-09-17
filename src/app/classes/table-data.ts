@@ -6,7 +6,6 @@ export interface Product {
   qteenstock?: number,
   unite?: number,
   description?: string,
-  libelle: string,
   categories?: string,
   prixUnitaire?: number,
   qte?: number,
@@ -14,21 +13,18 @@ export interface Product {
   totalTva?: number,
   totalHT?: number
 }
+
 export interface CreateProductDto {
-  productName?: string,
-  image?: string,
-  gmail?: string,
-  qteenstock?: number,
-  unite?: number,
-  description?: string,
-  libelle: string,
-  categories?: string,
-  prixUnitaire?: number,
-  qte?: number,
-  tva?: number,
-  totalTva?: number,
-  totalHT?: number
+  productName: string;
+  image: string;
+  description: string;
+  categories: string;
+  prixUnitaire: number;
+  qteenstock: number;
+  unite: string;
+
 }
+
 export interface Client {
   clientId:string;
   image:string;
