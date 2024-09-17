@@ -142,6 +142,7 @@ export class ProduitsComponent {
     // Appeler le service pour créer le produit
     this.proformasService.createProduct(createProductDto).subscribe({
       next: (value) => {
+        console.log(createProductDto);
         console.log('Le produit a été créé avec succès', value);
         this.productForm.reset(); // Réinitialiser le formulaire après la création
       },
