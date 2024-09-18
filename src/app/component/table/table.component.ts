@@ -7,7 +7,7 @@ import {
   Client,
   ValeursRequest
 } from "../../classes/table-data";
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from "@angular/common";
 import { ProformasService } from "../../service/proformas.service";
 import { Button } from "primeng/button";
 import { PrimeTemplate } from "primeng/api";
@@ -20,7 +20,7 @@ import { MultiSelectModule } from "primeng/multiselect";
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [NgFor, Button, PrimeTemplate, TableModule, InputNumberModule, SelectButtonModule, DropdownModule, FormsModule, MultiSelectModule, ReactiveFormsModule],
+  imports: [NgFor, Button, PrimeTemplate, TableModule, InputNumberModule, SelectButtonModule, DropdownModule, FormsModule, MultiSelectModule, ReactiveFormsModule, NgIf],
   templateUrl: 'table.component.html'
 })
 
@@ -34,6 +34,7 @@ export class TableComponent implements OnInit{
   client: Client[]=[];
   products: Product[]=[];
    devis: Devis[] = [];
+  combinedData: any[]=[];
   // devis = combineLatest([ this.proformasService.getCombinedData(this.request), this.search.controls.nom.valueChanges])
   trow: TableRows[];
   request: ValeursRequest ={
@@ -68,7 +69,7 @@ export class TableComponent implements OnInit{
     console.log(this.request);
      this.proformasService.getCombinedData().subscribe({
        next:(value)=>{
-         this.devis= value;
+         this.combinedData= value;
          console.log('recuperation reussi',value)
        },
        error: (err) => {
@@ -87,9 +88,9 @@ export class TableComponent implements OnInit{
     // this.getLoadDevis()
 
   }
-   selectionClient(devis: Devis):void {
+   selectionClient(client: any):void {
     // const selectedClient = devis.clientId; // Récupérer le client du devis
-    const selectedClient = devis.client ? this.client.find(client => client.clientId === devis.client!.clientId): null ;
+    const selectedClient = client ? this.client.find(c => c.clientId === client!.clientId): null ;
     if (selectedClient) {
       // const p= parseInt(selectedClient.phone.replace(/\D/g, ''), 10)
       this.proformasService.setClient(selectedClient); // Met à jour le client dans le service
@@ -98,7 +99,7 @@ export class TableComponent implements OnInit{
         next: (value) => console.log('Client sélectionné: ', value)
       })
     } else {
-      console.error('Client non trouvé pour le devis:', devis);
+      console.error('Client non trouvé pour le devis:', client);
     }
    }
   selectionProduct(devis: Devis):void {

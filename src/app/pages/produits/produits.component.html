@@ -28,9 +28,7 @@
         </ng-select>
       </div>
       <div>
-<!--        <input type="text" placeholder="Nom du produit" [(ngModel)]="productName" class="field" />-->
-<!--        <input type="text" placeholder="Image du produit" [(ngModel)]="image" class="field" />-->
-<!--        <input type="text" placeholder="Description du produit" [(ngModel)]="description" class="field" />-->
+
 
       </div>
       <p-dialog [header]="'createFolderFormHeader'" [modal]="true" [(visible)]="devisDialog"
@@ -44,17 +42,30 @@
           </div>
 
           <div class="flex align-items-center mb-3">
-            <label for="categories" class="font-semibold w-8rem">Categories</label>
-            <p-dropdown id="categories" formControlName="categories" [options]="categories"  ></p-dropdown>
-          </div>
-
-          <div class="flex align-items-center mb-3">
             <label for="image" class="font-semibold w-8rem">Image</label>
             <input pInputText id="image" formControlName="image" class="flex-auto" autocomplete="off"/>
           </div>
+
+          <div class="flex align-items-center mb-3">
+            <label for="libele" class="font-semibold w-8rem">Libele</label>
+            <input pInputText id="libele" formControlName="libele" class="flex-auto" autocomplete="off"/>
+          </div>
+
           <div class="flex align-items-center mb-3">
             <label for="description" class="font-semibold w-8rem">Description</label>
             <input pInputText id="description" formControlName="description" class="flex-auto" autocomplete="off"/>
+          </div>
+
+          <div class="flex align-items-center mb-3">
+            <label for="categories" class="font-semibold w-8rem">Categories</label>
+<!--            <select id="categories" formControlName="categories">-->
+<!--              <option *ngFor="let category of categories" [value]="category.value">-->
+<!--                {{ category.label }}-->
+<!--              </option>-->
+<!--            </select>-->
+
+            <p-dropdown id="categories" formControlName="categories" [options]="categories"  ></p-dropdown>
+
           </div>
 
           <div class="flex align-items-center mb-3">
@@ -63,14 +74,16 @@
           </div>
 
           <div class="flex align-items-center mb-3">
+            <label for="qteenstock" class="font-semibold w-8rem">Quantite en stock</label>
+            <input id="qteenstock" formControlName="qteenstock" class="flex-auto" />
+          </div>
+
+          <div class="flex align-items-center mb-3">
             <label for="Unite" class="font-semibold w-8rem">Unite</label>
             <input pInputText id="Unite" formControlName="Unite" class="flex-auto" autocomplete="off"/>
           </div>
 
-          <div class="flex align-items-center mb-3">
-            <label for="qteenstock" class="font-semibold w-8rem">Quantite en stock</label>
-            <input id="qteenstock" formControlName="qteenstock" class="flex-auto" />
-          </div>
+
 
           <p-button [label]="'saveButton'" type="submit" [disabled]="!productForm.valid" (click)="createProduct()"/>
         </form>
@@ -97,36 +110,30 @@
                 <th><i class="pi pi-file"></i></th>
                 <th style="font-size: 12px">Nom</th>
                 <th style="font-size: 12px">Libele</th>
+                <th style="font-size: 12px">Unite</th>
                 <th style="font-size: 12px">Description</th>
                 <th style="font-size: 12px">Prix Unitaire</th>
                 <th style="font-size: 12px">Quantite en stock</th>
                 <th style="font-size: 12px">Categorie</th>
-                <th style="font-size: 12px">Action</th>
+                <th style="font-size: 12px">Compte</th>
               </tr>
             </ng-template>
-            <ng-template pTemplate="body" let-produit>
-              <tr [pSelectableRow]="produit">
+            <ng-template pTemplate="body" let-products>
+              <tr [pSelectableRow]="products">
                 <td style="width: 5%">
                   <div class="flex flex-row flex-wrap">
-                    <img [src]="produit.image" width="30" >
+                    <img [src]="products.image" width="30" >
                   </div>
                 </td>
 <!--                AFFICHER LA LISTS DES PRODUITS-->
-                <td style="width: 15%" class="single-line-cell">{{ produit.productName }}</td>
-                <td style="width: 15%" class="single-line-cell">{{ produit.description }}</td>
-                <td style="width: 15%" class="single-line-cell">{{ produit.prixUnitaire }}</td>
-                <td style="width: 15%" class="single-line-cell">{{ produit.qteenstock }}</td>
-                <td style="width: 15%" class="single-line-cell">{{ produit.categories }}</td>
-
+                <td style="width: 15%" class="single-line-cell">{{ products.productName }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ products.libele }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ products.unite }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ products.description }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ products.prixUnitaire }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ products.qteenstock }}</td>
+                <td style="width: 15%" class="single-line-cell">{{ products.categories }}</td>
                 <td style="width: 15%" class="single-line-cell"> You</td>
-<!--                <td>-->
-<!--                                <button class="btn btn-sm btn-secondary me-1" (click)="validationProduct(userProductSelected)">-->
-<!--                                  <i class="bi bi-pen"></i>-->
-<!--                                </button>-->
-<!--                                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(produit)">-->
-<!--                                  <i class="bi bi-trash"></i>-->
-<!--                                </button>-->
-<!--                              </td>-->
                 <td style="width: 25%">
 
                 </td>
@@ -147,21 +154,11 @@
       <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">
 <!--          <form class="modal-content text-dark" [formGroup]="mpForm" (ngSubmit)="onFormSubmit()">-->
         <form class="modal-content text-dark" >
-<!--              <div class="modal-header">-->
-<!--                  <h5 *ngIf="!produit?.id" class="modal-title">Ajouter un produit</h5>-->
-<!--                  <h5 *ngIf="produit?.id" class="modal-title">Modifier le produit </h5>-->
-<!--                  <button type="button" class="close align-items-center text-white font-weight-bold bg-danger"-->
-<!--                      aria-label="Close" (click)="closeModal()">-->
-<!--                      <i class="bi bi-x"></i>-->
-<!--                  </button>-->
-<!--              </div>-->
+
               <div class="modal-body">
                   <div class="row">
                       <div class="form-group col-4 mb-3 mx-auto text-center">
-<!--                          <app-upload-image [image]="produit.image" [prefix]="'produit'"-->
-<!--                              (continueAction)="loadImage($event)">-->
-<!--                              <i class="bi bi-edit" aria-hidden="true"></i>-->
-<!--                          </app-upload-image>-->
+
                       </div>
 
                       <div class="form-group col-12 mb-3">

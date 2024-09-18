@@ -7,7 +7,7 @@
 <div class="table-responsive">
 <!--  [value]="getProduct()"-->
   <p-table
-  [value]="devis"
+  [value]="combinedData"
     dataKey="devisId"
   [customSort]="true"
   (onSort)="load($event)"
@@ -44,7 +44,9 @@
 <!--            <img [src]="producttopSelling.image" width="30" [alt]="producttopSelling.libelle">-->
 <!--          </div>-->
 <!--        </td>-->
+<!--    <ng-template pTemplate="body" let-devis>-->
     <ng-template pTemplate="body" let-devis>
+
       <tr [pSelectableRow]="devis"
       >
         <td style="width: 5%">
@@ -57,13 +59,23 @@
 <!--        <td #client style="width: 15%" class="single-line-cell" (click)="setDevisFormValues($event, devis,client)" (click)="selectionClient(devis)" >-->
         <td #client style="width: 15%" class="single-line-cell" (click)="selectionClient(devis)" >
           {{ devis.client.nom }}</td>
-        <td style="width: 10%" class="single-line-cell" (click)="selectionProduct(devis)">{{ devis.products.productName }}</td>
+<!--        <td style="width: 10%" class="single-line-cell" (click)="selectionProduct(devis)">{{ devis.products.productName }}</td>-->
+        <td style="width: 10%" class="single-line-cell">
+          <ng-container *ngIf="devis.products && devis.products.length > 0">
+            <ng-container *ngFor="let product of devis.products">
+              {{ product.productName }}
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="!(devis.products && devis.products.length > 0)">
+            Aucun produit
+          </ng-container>
+        </td>
 <!--        <td style="width: 15%" class="single-line-cell"><input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(product, $event)" min="1"/></td>-->
         <td style="width: 15%" class="single-line-cell">
 <!--          <input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(devis, $event)" min="1"/>-->
-          <input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(devis, $event)" min="1"/>
+          <input type="number" [(ngModel)]="devis.products.qte" (ngModelChange)="onQuantityChange(devis, $event)" min="1"/>
         </td>
-        <td style="width: 15%" class="single-line-cell">{{ devis.topSelling.totalHt }}</td>
+        <td style="width: 15%" class="single-line-cell">{{ devis.products.totalHt }}</td>
         <td style="width: 15%" class="single-line-cell"><input type="string"/></td>
         <td style="width: 15%" class="single-line-cell">{{ devis.tva }}</td>
         <td style="width: 15%" class="single-line-cell">{{ devis.totalTtc }}</td>

@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, map } from 'rxjs';
 import { DataRestService } from 'src/app/service/data-rest.service';
 import Swal from 'sweetalert2';
+import { Client } from "../../classes/table-data";
 
 @Component({
   selector: 'app-client',
@@ -13,8 +14,8 @@ import Swal from 'sweetalert2';
 })
 export class ClientComponent {
   [x: string]: any;
-  clients: any[] = [];
-  allClients: any[] = [];
+  clients: Client[] = [];
+  allClients: Client[] = [];
   pves: any[] = [];
   isModalOpen: boolean = false;
   loading: boolean = true;

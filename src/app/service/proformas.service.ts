@@ -21,6 +21,7 @@ export class ProformasService{
   client$ = this.clientSource.asObservable();
   devis: Product[]=[];
   clients: Client[]=[];
+
   constructor(private _http: HttpClient,) {
 
   }
@@ -80,27 +81,49 @@ export class ProformasService{
     return this._http.get<Product[]>(this.baseUrl + `product/listeProduct`);
   }
   createProduct(createProductDto: CreateProductDto):Observable<Product>{
-    return this._http.post<Product>(this.baseUrl + `product/createProduct`, createProductDto )
+    return this._http.post<Product>(this.baseUrl + `product/createProduct`, createProductDto );
   }
 
-  getCombinedData():Observable<Devis[]> {
-    return forkJoin([
-      this.getValuesDevis(),
-      this.getValuesClient(),
-      this.getValuesProduct(),
-    ]).pipe(
-      map(([devis, clients, products]) => {
-        return devis.map(d => ({
-          ...d,
-          // clients: clients,  // Ajoute la liste complète des clients à chaque devis
-          // topSellings: products,  // Ajoute la liste complète des clients à chaque devis
-          clients: clients.find(client => client.clientId === d.clientId),
-          // Trouver tous les produits associés au devis
-          products: products.filter(product => d.productId.includes(product.productId!))
-          // products: products.find(product => product.productId === d.productId)
-         }));
-      })
+  // Récupérer les données combinées
+  getCombinedData(): Observable<any[]> {
+    return forkJoin({
+      products: this._http.get<Product[]>(this.baseUrl + `product/listeProduct`),
+      clients: this._http.get<Client[]>(this.baseUrl + `client/listeClient`),
+      devis: this._http.get<Devis[]>(this.baseUrl + `devis/listeDevis`)
+    }).pipe(
+      map(({ products, clients, devis }) =>
+        devis.map((devis) => {
+          const client = clients.find(c => c.clientId === devis.clientId);
+          const product = products.find(p => p.productId === devis.productId);
+          console.log('Données reçues venant du serveur:', devis);
+          return {
+            ...devis,
+            clientName: client ? client.nom : 'Inconnu',
+            productName: product ? product.productName : 'Inconnu'
+          };
+        })
+      )
     );
   }
+
+  // getCombinedData():Observable<Devis[]> {
+  //   return forkJoin([
+  //     this.getValuesDevis(),
+  //     this.getValuesClient(),
+  //     this.getValuesProduct(),
+  //   ]).pipe(
+  //     map(([devis, clients, products]) => {
+  //       return devis.map(d => ({
+  //         ...d,
+  //         // clients: clients,  // Ajoute la liste complète des clients à chaque devis
+  //         // topSellings: products,  // Ajoute la liste complète des clients à chaque devis
+  //         clients: clients.find(client => client.clientId === d.clientId),
+  //         // Trouver tous les produits associés au devis
+  //         products: products.filter(product => d.productId.includes(product.productId!))
+  //         // products: products.find(product => product.productId === d.productId)
+  //        }));
+  //     })
+  //   );
+  // }
 
 }

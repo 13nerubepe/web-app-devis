@@ -1,27 +1,15 @@
-import { Component } from "@angular/core";
 import { CreateProductDto, Product } from "../../classes/table-data";
 import { ProformasService } from "../../service/proformas.service";
 import {  MessagService } from "../../service/messag.service";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
   selector: 'app-produits',
   templateUrl: './produits.component.html',
   styleUrls: ['./produits.component.scss'],
 })
-export class ProduitsComponent {
-  // [x: string]: any;
-  // productName: string = '';  // Pour stocker le nom du produit
-  // image: string = '';  // Pour stocker l'image du produit
-  // description: string= '';
-  // qteenstock: number = 0;
-  // unite: string = '';
-  // categories:string[] ='';
-  // prixunitaire: number = 0;
-
-
-
-
+export class ProduitsComponent implements OnInit{
   devisDialog: boolean =false;
   products: Product[] = [];
   userProductSelected = new Array<Product>()
@@ -31,15 +19,8 @@ export class ProduitsComponent {
     { label: 'Maison', value: 'maison' },
     { label: 'Voiture', value: 'voiture' }
   ]
-  productForm = this.fb.group({
-    productName: ['', Validators.required],
-    image: ['', Validators.required],
-    description: [''],
-    categories: ['', Validators.required],
-    prixUnitaire: [0, [Validators.required, Validators.min(0)]],
-    qteenstock: [0, [Validators.required, Validators.min(0)]],
-    unite: ['', Validators.required],
-  });
+
+  productForm! : FormGroup;
 
   constructor(
     // private dataRestService: DataRestService,
@@ -79,8 +60,19 @@ export class ProduitsComponent {
   // actionSelectedProduct: Product | undefined
 
 
+  ngOnInit(){
+    this.productForm = this.fb.group({
+      productName: ['', Validators.required],
+      image: ['', Validators.required],
+      libele: ['', Validators.required],
+      description: [''],
+      categories: ['', Validators.required],
+      prixUnitaire: [0, [Validators.required, Validators.min(0)]],
+      qteenstock: [0, [Validators.required, Validators.min(0)]],
+      unite: ['', Validators.required],
+    });
 
-  ngOnInit(): void {
+
     // this.appDataStoreService.selectedPointVente.subscribe((pointVente: any) => {
     //   if (pointVente) {
     //     this.pv = pointVente;
@@ -122,16 +114,23 @@ export class ProduitsComponent {
       // Afficher un message d'erreur si le formulaire est invalide
       this.messagService.add({ severity: 'error', detail: 'Erreur lors de la création du produit. Veuillez vérifier les champs du formulaire.' });
       return; // Sortir de la fonction si le formulaire est invalide
+      console.log("productFORM:", this.productForm.value);
     }
 
     // Récupérer les données du formulaire
     // const createProductDto: CreateProductDto = this.productForm.value;
     const formValues = this.productForm.value;
 
+    const selectedCategory: string = formValues.categories;  // C'est maintenant un string et non un tableau
+
+    if (selectedCategory === 'electronique') {
+      console.log('Catégorie électronique sélectionnée');}
+
     // Assurez-vous que les valeurs ne sont pas null ou undefined
     const createProductDto: CreateProductDto = {
       productName: formValues.productName || '',
       image: formValues.image || '',
+      libele: formValues.libele || '',
       description: formValues.description || '',
       categories: formValues.categories || '',
       prixUnitaire: formValues.prixUnitaire ?? 0, // Utiliser 0 comme valeur par défaut

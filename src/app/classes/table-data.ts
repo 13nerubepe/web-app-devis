@@ -1,13 +1,14 @@
 export interface Product {
   productId?: string,
-  productName?: string,
   image?: string,
+  productName?: string,
+  libele?: string,
+  unite?: string,
   gmail?: string,
-  qteenstock?: number,
-  unite?: number,
   description?: string,
-  categories?: string,
   prixUnitaire?: number,
+  qteenstock?: number,
+  categories: string,
   qte?: number,
   tva?: number,
   totalTva?: number,
@@ -17,6 +18,7 @@ export interface Product {
 export interface CreateProductDto {
   productName: string;
   image: string;
+  libele:string;
   description: string;
   categories: string;
   prixUnitaire: number;
@@ -49,7 +51,7 @@ export interface CreateClient {
 export interface Devis {
   devisId:string;
   clientId:string;
-  productId:string[];
+  productId:string;
   totalHt: number;
   reduction:string;
   tva: number;

@@ -4,48 +4,50 @@
       <h1><i class="bi bi-person-lock"></i> Utilisateurs</h1>
     </div>
     <div class="col text-end">
-      <button class="btn btn-success" (click)="showModal(true)">
-        <i class="bi bi-save pe-2 me-2 border-end"></i>
-        Ajouter
-      </button>
+<!--      <button class="btn btn-success" (click)="showModal(true)">-->
+<!--        <i class="bi bi-save pe-2 me-2 border-end"></i>-->
+<!--        Ajouter-->
+<!--      </button>-->
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
       <div class="table-pane table-responsive">
-        <table datatable class="table table-striped table-hover">
-          <thead class="bg-dark text-light">
+        <p-table
+          [value]="allUsers"
+          datakey="clientId" class="table table-striped table-hover">
+
+          <ng-template pTemplate="header" class="bg-dark text-light">
             <tr>
               <th>#</th>
               <th>Nom</th>
               <th>Email</th>
+              <th>Numero de telephone</th>
               <th>Adresse</th>
-              <th>Téléphone</th>
               <th>Fonction</th>
-              <th>Username</th>
               <!-- <th>Password</th> -->
               <th class="text-center">Options</th>
             </tr>
-          </thead>
-          <tbody>
+          </ng-template>
+
+          <ng-template pTemplate="body">
             <tr *ngFor="let u of users; let i = index">
               <td>{{ i + 1 }}</td>
-              <td>{{ u?.fullName }}</td>
+              <td>{{ u?.nom }}</td>
               <td>{{ u?.email }}</td>
-              <td>{{ u?.adresse }}</td>
-              <td>{{ u?.telephone }}</td>
-              <td>{{ u?.poste }}</td>
-              <td>{{ u?.username }}</td>
+              <td>{{ u?.address }}</td>
+              <td>{{ u?.phone }}</td>
+              <td>{{ u?.grade }}</td>
               <!-- <td>{{ u?.password }}</td> -->
-              <td class="text-end">
-                <button class="btn btn-sm btn-secondary me-1" (click)="showModal(true, u)">
-                  <i class="bi bi-pen"></i>
-                </button>
-                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(u)">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </td>
+<!--              <td class="text-end">-->
+<!--                <button class="btn btn-sm btn-secondary me-1" (click)="showModal(true, u)">-->
+<!--                  <i class="bi bi-pen"></i>-->
+<!--                </button>-->
+<!--                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(u)">-->
+<!--                  <i class="bi bi-trash"></i>-->
+<!--                </button>-->
+<!--              </td>-->
             </tr>
             <tr *ngIf="!users.length">
               <td></td>
@@ -58,7 +60,7 @@
               <td></td>
               <!-- <td></td> -->
             </tr>
-          </tbody>
+          </ng-template>
           <tfoot class="bg-dark text-light">
             <tr>
               <th>TOTAL</th>
@@ -72,14 +74,14 @@
               <!-- <th></th> -->
             </tr>
           </tfoot>
-        </table>
+        </p-table>
       </div>
     </div>
   </div>
 
-  <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">
-    <app-add-user [isClient]="isClient" (continueAction)="reloadData()"></app-add-user>
-  </ng-template>
+<!--  <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">-->
+<!--    <app-add-user [isClient]="isClient" (continueAction)="reloadData()"></app-add-user>-->
+<!--  </ng-template>-->
 </main>
 
-<app-spinner *ngIf="loading" [loading]="loading"></app-spinner>
+<!--<app-spinner *ngIf="loading" [loading]="loading"></app-spinner>-->
