@@ -1,63 +1,115 @@
-<form [formGroup]="formClient" >
-  <p-card header="Formulaire Client">
-    <div class="p-fluid">
-      <div class="fi">
-        <label for="nom">Nom Complet:</label>
-        <input class="p-border" id="nom" formControlName="nom" pInputText />
-        <div class="error-container" color="error">
-          <span *ngIf="formClient.controls.nom.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
-        </div>
-      </div>
+<div class="alignerdeuxdiv">
 
-      <div class="fi">
-        <label for="email">Email</label>
-        <input id="email" formControlName="email" type="email" pInputText />
-        <div class="error-container" color="error">
-          <span *ngIf="formClient.controls.email.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
-        </div>
-      </div>
+  <div>
+      <p>Liste des client</p>
+    <p-autoComplete
+      [(ngModel)]="userProductSelectedForDevis"
+      [dropdown]="true"
+      [suggestions]="filteredProducts"
+      (completeMethod)="filterProducts($event)"
+      field="nom"
+    [minLength]="1"
+    />
+      <form [formGroup]="formClient" >
+        <p-card header="Formulaire Client">
+          <div class="p-fluid">
+            <div class="fi">
+              <label for="nom">Nom Complet:</label>
+              <input class="p-border" id="nom" formControlName="nom" pInputText />
+              <div class="error-container" color="error">
+                <span *ngIf="formClient.controls.nom.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
+              </div>
+            </div>
 
-      <div class="fi">
-        <label for="phone">Téléphone</label>
-        <input id="phone" formControlName="phone" type="tel" pInputText />
-        <div class="error-container" color="error">
-          <span *ngIf="formClient.controls.phone.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
-        </div>
-      </div>
+            <div class="fi">
+              <label for="email">Email</label>
+              <input id="email" formControlName="email" type="email" pInputText />
+              <div class="error-container" color="error">
+                <span *ngIf="formClient.controls.email.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
+              </div>
+            </div>
 
-      <div class="fi">
-        <label for="address">Address</label>
-        <input id="address" formControlName="address" pInputText />
-        <div class="error-container" color="error">
-          <span *ngIf="formClient.controls.address.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
-        </div>
-      </div>
+            <div class="fi">
+              <label for="phone">Téléphone</label>
+              <input id="phone" formControlName="phone" type="tel" pInputText />
+              <div class="error-container" color="error">
+                <span *ngIf="formClient.controls.phone.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
+              </div>
+            </div>
 
-      <div class="fi">
-        <label for="ville">Ville</label>
-        <input id="ville" formControlName="ville" pInputText />
-        <div class="error-container" color="error">
-          <span *ngIf="formClient.controls.ville.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
-        </div>
-      </div>
+            <div class="fi">
+              <label for="address">Address</label>
+              <input id="address" formControlName="address" pInputText />
+              <div class="error-container" color="error">
+                <span *ngIf="formClient.controls.address.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
+              </div>
+            </div>
 
-      <div class="fi">
-        <label for="grade">Grade</label>
-        <input id="grade" formControlName="grade" pInputText />
-        <div class="error-container" color="error">
-          <span *ngIf="formClient.controls.grade.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
-        </div>
-      </div>
+            <div class="fi">
+              <label for="ville">Ville</label>
+              <input id="ville" formControlName="ville" pInputText />
+              <div class="error-container" color="error">
+                <span *ngIf="formClient.controls.ville.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
+              </div>
+            </div>
 
-      <div class="field">
-<!--        <p-button  label="add" icon="pi pi-check" [disabled]="formClient.invalid"></p-button>-->
+            <div class="fi">
+              <label for="grade">Grade</label>
+              <input id="grade" formControlName="grade" pInputText />
+              <div class="error-container" color="error">
+                <span *ngIf="formClient.controls.grade.touched && formClient.controls.nom.errors?.['required']">Merci de Completer ce champs</span>
+              </div>
+            </div>
 
-        <p-button class="button"  (click)="openDialog()"  label="Create" icon="pi pi-check"></p-button>
-      </div>
-
+          </div>
+        </p-card>
+      </form>
+<!--      <div>-->
+<!--        <p-dropdown [options]="getClient()" optionLabel="nom"></p-dropdown>-->
+<!--      </div>-->
     </div>
-  </p-card>
-</form>
+
+
+  <span><div class="bordureProduct">
+      <p>Liste des Produits</p>
+      <p-table  [value]="products"
+                [tableStyle]="{'min-width': '30rem', 'height': '10rem'}"
+                [(selection)]="userProductSelectedForDevis"
+                dataKey="productId">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 2rem"><p-tableHeaderCheckbox /></th>
+            <th style="font-size: 12px">Nom</th>
+            <th style="font-size: 12px">Quatité</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-products>
+          <tr [pSelectableRow]="products">
+            <!--                AFFICHER LA LISTS DES PRODUITS-->
+            <td>
+              <p-tableCheckbox [value]="products" />
+            </td>
+            <td style="width: 15%" class="single-line-cell">{{ products.productName }}</td>
+            <td style="width: 15%" class="single-line-cell">
+              <input type="number"  min="1"/></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+<!--      <select id="categories" formControlName="categories">-->
+<!--        <option *ngFor="let product of products" [value]="product.productId">-->
+<!--          {{ product.productName }}-->
+<!--        </option>-->
+<!--      </select>-->
+    </div></span>
+
+</div>
+
+<div class="field">
+  <!--        <p-button  label="add" icon="pi pi-check" [disabled]="formClient.invalid"></p-button>-->
+
+  <p-button class="button"  (click)="openDialog()"  label="Create" icon="pi pi-check"></p-button>
+</div>
 
 <!-- Affichage des produits sélectionnés -->
 <div *ngIf="selectedProducts.length > 0">

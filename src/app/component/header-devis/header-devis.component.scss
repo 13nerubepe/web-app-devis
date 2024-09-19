@@ -2,6 +2,17 @@
   display: flex;
   float: right;
 }
+.alignerdeuxdiv{
+  display: flex;
+  //aligner horizontalement
+  justify-content: center;
+  gap: 5rem;
+}
+.bordureProduct{
+  border: #2f3d4a;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Effet d'ombre */
+}
 
 .justified{
   display: flex;

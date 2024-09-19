@@ -19,6 +19,12 @@ import { CardModule } from "primeng/card";
 import { Observable, of } from "rxjs";
 import { MenuModule } from "primeng/menu";
 import { DialogModule } from "primeng/dialog";
+import { DropdownModule } from "primeng/dropdown";
+import { PickListModule } from "primeng/picklist";
+import { OrderListModule } from "primeng/orderlist";
+import { InputNumberModule } from "primeng/inputnumber";
+import { AutoCompleteCompleteEvent, AutoCompleteModule } from "primeng/autocomplete";
+
 
 @Component({
   selector: 'app-header-devis',
@@ -38,17 +44,25 @@ import { DialogModule } from "primeng/dialog";
     KeyValuePipe,
     CardModule,
     MenuModule,
-    DialogModule
+    DialogModule,
+    DropdownModule,
+    PickListModule,
+    OrderListModule,
+    InputNumberModule,
+    AutoCompleteModule
   ],
   templateUrl: './header-devis.component.html',
   styleUrl: './header-devis.component.scss',
 })
 export class HeaderDevisComponent implements OnInit{
   grade: any = {};
-  // formValues =  this.proformasService.getFormValue();
-   selectedProducts: Product[] = [];
+  clients:Client[]=[];
+  products:Product[]=[];
+  selectedProducts: Product[] = [];
+  userProductSelectedForDevis = new Array<Product>()
+  filteredProducts: Product[] =[];
   DevisDialog: boolean = false;
-  // selecteQuantite!:Devis| null;
+
   constructor(private formBuider: FormBuilder, protected proformasService: ProformasService) {
     this.formClient;
   }
@@ -61,6 +75,8 @@ export class HeaderDevisComponent implements OnInit{
     this.proformasService.Products$.subscribe(products => {
       this.selectedProducts = products;
     });
+    this.getProduct();
+    this.getClient()
   }
 
 // //valeur que lutilisateur saisi
@@ -85,6 +101,18 @@ export class HeaderDevisComponent implements OnInit{
       return of(null); // ou retourner un Observable d'erreur si nécessaire
     };
   }
+  filterProducts(event: AutoCompleteCompleteEvent) {
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let client of this.clients) {
+      if (client.nom.toLowerCase().indexOf(query) === 0) { // Utilisez 'nom' pour filtrer
+        filtered.push(client);
+      }
+    }
+
+    this.filteredProducts = filtered;
+  }
   openDialog() {
     this.DevisDialog = true;
   }
@@ -99,6 +127,29 @@ export class HeaderDevisComponent implements OnInit{
       console.log('Formulaire invalide');
     }
   }
+
+  getClient(){
+    this.proformasService.getValuesClient().subscribe({
+      next:(value)=>{
+        this.clients=value;
+        console.log('La liste des clients:', this.clients)
+      }
+    });
+    return this.clients;
+    // this.proformasService.getValuesClient().then((prod)=> {
+    //   this.products = prod;
+    // });
+  }
+  getProduct(){
+    this.proformasService.getValuesProduct().subscribe({
+      next:(value)=>{
+        this.products= value;
+        console.log('La liste des clients:', this.products)
+      }
+    });
+    return this.products;
+  }
+
 
   updateFormClient(client:Client){
     // Mettre à jour le formulaire avec les informations du client sélectionné si nécessaire
