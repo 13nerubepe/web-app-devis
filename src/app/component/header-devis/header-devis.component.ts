@@ -213,21 +213,23 @@ export class HeaderDevisComponent implements OnInit{
     if (selectedProduct.qte && selectedProduct.prixUnitaire) {
       selectedProduct.totalHT = selectedProduct.qte * selectedProduct.prixUnitaire;}
 
-    // Ajoutez ou retirez le produit de la liste des produits sélectionnés
-    const index = this.selectedProducts.findIndex(product => product.productId === selectedProduct.productId);
-    if (index === -1) {
-      // Produit non trouvé, l'ajouter
-      this.selectedProducts.push(selectedProduct);
-    } else {
-      // Produit déjà sélectionné, le retirer
-      this.selectedProducts.splice(index, 1);
-    }
+    // // Ajoutez ou retirez le produit de la liste des produits sélectionnés
+    // const index = this.selectedProducts.findIndex(product => product.productId === selectedProduct.productId);
+    // if (index === -1) {
+    //   // Produit non trouvé, l'ajouter
+    //   this.selectedProducts.push(selectedProduct);
+    // } else {
+    //   // Produit déjà sélectionné, le retirer
+    //   this.selectedProducts.splice(index, 1);
+    // }
+    // console.log('Produits sélectionnés:', this.selectedProducts);
 
-    console.log('Produits sélectionnés:', this.selectedProducts);
 
-    // this.selectedProducts = selectedProduct;
-    //
-    // console.log('Produit sélectionné:', this.selectedProducts);
+    this.selectedProducts = selectedProduct;
+
+    console.log('Produit sélectionné:', this.selectedProducts);
+
+
 
     // this.selectedProduct = event.data;
     // console.log('Produit sélectionné:', this.selectedProduct);
