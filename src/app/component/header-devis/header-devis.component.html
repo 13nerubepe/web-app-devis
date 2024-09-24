@@ -103,14 +103,16 @@
   <span><div class="bordureProduct">
       <p>Liste des Produits</p>
       <p-table  [value]="products"
-                [tableStyle]="{'min-width': '30rem', 'height': '10rem'}"
-                [(selection)]="selectedClient"
+                [tableStyle]="{'min-width': '50rem', 'height': '10rem'}"
+                [(selection)]="selectedProducts"
+                (onRowSelect)="onRowSelect($event)"
                 dataKey="productId">
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 2rem"><p-tableHeaderCheckbox /></th>
             <th style="font-size: 12px">Nom</th>
             <th style="font-size: 12px">Quatité</th>
+            <th style="font-size: 12px">Total</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-products>
@@ -121,8 +123,11 @@
             </td>
             <td style="width: 15%" class="single-line-cell">{{ products.productName }}</td>
             <td style="width: 15%" class="single-line-cell">
-              <input type="number"  min="1"/></td>
+              <input type="number" min="1" [(ngModel)]="products.qte" (ngModelChange)="onQuantityChange(products.qte)" />
+            </td>
+            <td style="width: 15%" class="single-line-cell">{{ products.qte * products.prixUnitaire | currency:'XAF' }}</td>
           </tr>
+
         </ng-template>
       </p-table>
 

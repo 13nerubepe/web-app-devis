@@ -55,6 +55,7 @@ export interface Devis {
   totalHt: number;
   reduction:string;
   tva: number;
+  // totalpar objet productotal
   totalTtc: number;
   date:string;
   cassier: string;

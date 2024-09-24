@@ -74,12 +74,6 @@ export class HeaderDevisComponent implements OnInit{
       address: ['', Validators.required],
       ville:['', Validators.required],
       grade: ['', Validators.required]
-      // nom: this.formValues?.client.nom || '',
-      // email: this.formValues?.client.email || '',
-      // phone: this.formValues?.client.phone || '',
-      // ville: this.formValues?.client.ville || '',
-      // address: this.formValues?.client.address || '',
-      // grade: this.formValues?.client.grade || '',
     })
   }
 
@@ -132,6 +126,19 @@ export class HeaderDevisComponent implements OnInit{
     console.log('CLIENT SÉLECTIONNÉ', this.selectedClient); // Affichage dans la console
     this.afficheClientSelectionnéForm();
   }
+
+  // Fonction qui se déclenche à chaque changement de quantité
+  onQuantityChange(product: Product) {
+    if (product.qte && product.prixUnitaire) {
+      const total = product.qte * product.prixUnitaire;
+      console.log('Total HT pour ce produit:', total);
+      console.log('Quantité modifiée:', product.qte);
+    }
+  }
+
+  // total1ProductEnFonctQte(){
+  //   prixTotalProduct = prixUnitaire*
+  // }
 
   // onClientSelect(selecte: AutoCompleteSelectEvent) {
   //   this.selectedClient = selecte;
@@ -197,6 +204,33 @@ export class HeaderDevisComponent implements OnInit{
          grade: client.grade
        });
      }
+  }
+
+  // Optionnel: Gestion de la sélection de ligne entière (si vous voulez)
+  onRowSelect(event: any) {
+    // Vérification que la quantité est bien saisie et calcul du total
+    const selectedProduct = event.data;
+    if (selectedProduct.qte && selectedProduct.prixUnitaire) {
+      selectedProduct.totalHT = selectedProduct.qte * selectedProduct.prixUnitaire;}
+
+    // Ajoutez ou retirez le produit de la liste des produits sélectionnés
+    const index = this.selectedProducts.findIndex(product => product.productId === selectedProduct.productId);
+    if (index === -1) {
+      // Produit non trouvé, l'ajouter
+      this.selectedProducts.push(selectedProduct);
+    } else {
+      // Produit déjà sélectionné, le retirer
+      this.selectedProducts.splice(index, 1);
+    }
+
+    console.log('Produits sélectionnés:', this.selectedProducts);
+
+    // this.selectedProducts = selectedProduct;
+    //
+    // console.log('Produit sélectionné:', this.selectedProducts);
+
+    // this.selectedProduct = event.data;
+    // console.log('Produit sélectionné:', this.selectedProduct);
   }
 
   grades = [
