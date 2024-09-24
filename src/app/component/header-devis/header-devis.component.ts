@@ -4,7 +4,7 @@ import { NgSelectModule } from "@ng-select/ng-select";
 import {
   AbstractControl,
   AsyncValidatorFn,
-  FormBuilder,
+  FormBuilder, FormGroup,
   FormsModule,
   ReactiveFormsModule, ValidationErrors,
   Validators
@@ -23,7 +23,7 @@ import { DropdownModule } from "primeng/dropdown";
 import { PickListModule } from "primeng/picklist";
 import { OrderListModule } from "primeng/orderlist";
 import { InputNumberModule } from "primeng/inputnumber";
-import { AutoCompleteCompleteEvent, AutoCompleteModule } from "primeng/autocomplete";
+import { AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteSelectEvent } from "primeng/autocomplete";
 
 
 @Component({
@@ -59,13 +59,32 @@ export class HeaderDevisComponent implements OnInit{
   clients:Client[]=[];
   products:Product[]=[];
   selectedProducts: Product[] = [];
-  userProductSelectedForDevis = new Array<Product>()
-  filteredProducts: Product[] =[];
+  filteredClients: Client[] =[];
+  selectedClient!:Client; // VARIABLE QUI PERMET DE STOCKER LA VALEUR client SELECTIONée par lutilisateur
   DevisDialog: boolean = false;
+  formClient:FormGroup;
 
   constructor(private formBuider: FormBuilder, protected proformasService: ProformasService) {
-    this.formClient;
+    this.formClient =  this.formBuider.group({
+      // image: this.formBuider.control ('', [Validators.required]),
+      image: ['', Validators.required],
+      nom: ['', Validators.required ],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)], [this.dummyAsyncValidator()]],
+      address: ['', Validators.required],
+      ville:['', Validators.required],
+      grade: ['', Validators.required]
+      // nom: this.formValues?.client.nom || '',
+      // email: this.formValues?.client.email || '',
+      // phone: this.formValues?.client.phone || '',
+      // ville: this.formValues?.client.ville || '',
+      // address: this.formValues?.client.address || '',
+      // grade: this.formValues?.client.grade || '',
+    })
   }
+
+  // //valeur que lutilisateur saisi
+
   ngOnInit(): void {
     this.proformasService.client$.subscribe(client => {
       if (client) {
@@ -79,40 +98,54 @@ export class HeaderDevisComponent implements OnInit{
     this.getClient()
   }
 
-// //valeur que lutilisateur saisi
-  formClient =  this.formBuider.group({
-    // image: this.formBuider.control ('', [Validators.required]),
-    image: ['', Validators.required],
-    nom: ['', Validators.required ],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required, Validators.pattern(/^[0-9]{9}$/)], [this.dummyAsyncValidator()]],
-    address: ['', Validators.required],
-    ville:['', Validators.required],
-    grade: ['', Validators.required]
-    // nom: this.formValues?.client.nom || '',
-    // email: this.formValues?.client.email || '',
-    // phone: this.formValues?.client.phone || '',
-    // ville: this.formValues?.client.ville || '',
-    // address: this.formValues?.client.address || '',
-    // grade: this.formValues?.client.grade || '',
-  })
+  afficheClientSelectionnéForm(): void {
+    if (this.selectedClient) {
+      this.formClient.patchValue({
+        image: this.selectedClient.image,
+        nom: this.selectedClient.nom,
+        email: this.selectedClient.email,
+        phone: this.selectedClient.phone,
+        address: this.selectedClient.address,
+        ville: this.selectedClient.ville,
+        grade: this.selectedClient.grade,
+      });
+    }
+  }
+
+
   dummyAsyncValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return of(null); // ou retourner un Observable d'erreur si nécessaire
     };
   }
-  filterProducts(event: AutoCompleteCompleteEvent) {
-    let filtered: any[] = [];
-    let query = event.query;
 
-    for (let client of this.clients) {
-      if (client.nom.toLowerCase().indexOf(query) === 0) { // Utilisez 'nom' pour filtrer
-        filtered.push(client);
-      }
-    }
-
-    this.filteredProducts = filtered;
+  filterClient(event: AutoCompleteCompleteEvent) {
+    const query = event.query.toLowerCase(); // Convertir la saisie en minuscules pour un filtrage insensible à la casse
+    this.filteredClients = this.clients.filter(client =>
+      client.nom.toLowerCase().startsWith(query) // Filtrer par correspondance sur le début du nom du client
+    );
   }
+
+  // Fonction pour gérer la sélection du client
+  onClientSelect(event: AutoCompleteSelectEvent) {
+    this.selectedClient = event.value as Client; // Assurez-vous que c'est un Client
+    console.log('CLIENT SÉLECTIONNÉ', this.selectedClient); // Affichage dans la console
+    this.afficheClientSelectionnéForm();
+  }
+
+  // onClientSelect(selecte: AutoCompleteSelectEvent) {
+  //   this.selectedClient = selecte;
+  //   console.log('CLIENT SELECTIONNé', this.selectedClient);
+  //   // this.selectedClient = event; // Assignez le client sélectionné
+  //   // this.formClient.patchValue({
+  //   //   nom: this.selectedClient.nom,
+  //   //   email: this.selectedClient.email,
+  //   //   phone: this.selectedClient.phone,
+  //   //   address: this.selectedClient.address,
+  //   //   ville: this.selectedClient.ville,
+  //   //   grade: this.selectedClient.grade
+  //   // });
+  // }
   openDialog() {
     this.DevisDialog = true;
   }
