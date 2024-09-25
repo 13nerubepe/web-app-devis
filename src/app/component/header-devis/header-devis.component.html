@@ -154,7 +154,7 @@
         <td>{{ devis.categories }}</td>
         <td>{{devis.qte}}</td>
         <td>{{ devis.prixUnitaire | currency:'XOF' }}</td>
-        <td>{{ calculTotalHtEachProduct(products) | currency: 'XAF' }}</td>
+        <td>{{ calculTotalHtEachProduct(devis) | currency: 'XAF' }}</td>
 <!--        <td>-->
 <!--          <button pButton type="button" icon="pi pi-times" (click)="removeProduct(product.productId)"></button>-->
 <!--        </td>-->
