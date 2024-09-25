@@ -103,6 +103,7 @@
   <span><div class="bordureProduct">
       <p>Liste des Produits</p>
       <p-table  [value]="products"
+                selectionMode="multiple"
                 [tableStyle]="{'min-width': '50rem', 'height': '10rem'}"
                 [(selection)]="selectedProducts"
                 (onRowSelect)="onRowSelect($event)"

@@ -80,16 +80,11 @@ export class HeaderDevisComponent implements OnInit{
   // //valeur que lutilisateur saisi
 
   ngOnInit(): void {
-    this.proformasService.client$.subscribe(client => {
-      if (client) {
-        this.updateFormClient(client)
-      }
-    });
     this.proformasService.Products$.subscribe(products => {
       this.selectedProducts = products;
     });
     this.getProduct();
-    this.getClient()
+    this.getClient();
   }
 
   afficheClientSelectionnéForm(): void {
@@ -136,23 +131,6 @@ export class HeaderDevisComponent implements OnInit{
     }
   }
 
-  // total1ProductEnFonctQte(){
-  //   prixTotalProduct = prixUnitaire*
-  // }
-
-  // onClientSelect(selecte: AutoCompleteSelectEvent) {
-  //   this.selectedClient = selecte;
-  //   console.log('CLIENT SELECTIONNé', this.selectedClient);
-  //   // this.selectedClient = event; // Assignez le client sélectionné
-  //   // this.formClient.patchValue({
-  //   //   nom: this.selectedClient.nom,
-  //   //   email: this.selectedClient.email,
-  //   //   phone: this.selectedClient.phone,
-  //   //   address: this.selectedClient.address,
-  //   //   ville: this.selectedClient.ville,
-  //   //   grade: this.selectedClient.grade
-  //   // });
-  // }
   openDialog() {
     this.DevisDialog = true;
   }
@@ -176,9 +154,6 @@ export class HeaderDevisComponent implements OnInit{
       }
     });
     return this.clients;
-    // this.proformasService.getValuesClient().then((prod)=> {
-    //   this.products = prod;
-    // });
   }
   getProduct(){
     this.proformasService.getValuesProduct().subscribe({
@@ -190,50 +165,80 @@ export class HeaderDevisComponent implements OnInit{
     return this.products;
   }
 
-
-  updateFormClient(client:Client){
-    // Mettre à jour le formulaire avec les informations du client sélectionné si nécessaire
-     if (client) {
-       this.formClient.patchValue({
-         image: client.image,
-         nom: client.nom,
-         email: client.email,
-         phone: client.phone.toString(),
-         address: client.address,
-         ville: client.ville,
-         grade: client.grade
-       });
-     }
-  }
-
   // Optionnel: Gestion de la sélection de ligne entière (si vous voulez)
   onRowSelect(event: any) {
     // Vérification que la quantité est bien saisie et calcul du total
-    const selectedProduct = event.data;
-    if (selectedProduct.qte && selectedProduct.prixUnitaire) {
-      selectedProduct.totalHT = selectedProduct.qte * selectedProduct.prixUnitaire;}
+    // Récupérer le produit sélectionné
+    const selectedP = event.data;
+    // Vérification que la quantité et le prix unitaire sont bien saisis, puis calcul du total
+    this.onQuantityChange(selectedP); // Calculer le total dès la sélection
 
-    // // Ajoutez ou retirez le produit de la liste des produits sélectionnés
-    // const index = this.selectedProducts.findIndex(product => product.productId === selectedProduct.productId);
-    // if (index === -1) {
-    //   // Produit non trouvé, l'ajouter
-    //   this.selectedProducts.push(selectedProduct);
-    // } else {
-    //   // Produit déjà sélectionné, le retirer
-    //   this.selectedProducts.splice(index, 1);
-    // }
-    // console.log('Produits sélectionnés:', this.selectedProducts);
+    // Vérifier si le produit est déjà dans la liste des produits sélectionnés
+    const existingProduct = this.selectedProducts.find(p => p.productId === selectedP.productId);
+    // Si le produit n'est pas déjà sélectionné, on l'ajoute à la liste
+    if (!existingProduct) {
+      this.selectedProducts.push(selectedP);
+    }
+
+    console.log('Produits sélectionnés:', this.selectedProducts);
 
 
-    this.selectedProducts = selectedProduct;
-
-    console.log('Produit sélectionné:', this.selectedProducts);
-
+    // if (selectedP.qte && selectedP.prixUnitaire) {
+    //   selectedP.totalHT = selectedP.qte * selectedP.prixUnitaire;}
+    //
+    // this.selectedProducts = selectedP;
+    //
+    // console.log('Produit sélectionné:', this.selectedProducts);
 
 
     // this.selectedProduct = event.data;
     // console.log('Produit sélectionné:', this.selectedProduct);
   }
+
+  // creerDevis(devis:any){
+  //   // Récupérer le client sélectionné
+  //   const clientId = this.selectedClient;
+  //   // recuperer le produit selection ou liste de product selectionné
+  //   const selectedProducts = this.selectedProducts.map(product => ({
+  //     productId: product.productId,
+  //     qte: product.qte // Quantité saisie pour chaque produit
+  //   }));
+  //   // Calculer le total pour chaque produit
+  //   // const total = selectedProducts.reduce((acc, product) => {
+  //   //   const productDetails = this.products.find(p => p.productId === product.productId);
+  //   //   if(product.qte && productDetails.prixUnitaire){
+  //   //     return acc + (product.qte * productDetails.prixUnitaire);
+  //   //   }
+  //   //
+  //   // }, 0);
+  //
+  //   // creer le devis
+  //   const newDevis = {
+  //     clientId: clientId,
+  //     products: selectedProducts,
+  //     // totalHt: total,
+  //     reduction: devis.reduction || false, // Par exemple, si reduction est optionnelle
+  //     tva: devis.tva || 0, // Calculer la TVA si nécessaire
+  //     totalTtc: totalHT + (totalHT * devis.tva / 100),
+  //     date: new Date(), // Ajouter la date actuelle
+  //     cassier: devis.cassier // Nom du cassier
+  //   };
+  //
+  //   // Envoyer le devis via le service
+  //   this.proformasService.creerDevis(newDevis).subscribe({
+  //     next: (response) => {
+  //       console.log('Devis créé avec succès', response);
+  //       // Gérer le succès (ex: afficher un message à l'utilisateur)
+  //     },
+  //     error: (error) => {
+  //       console.error('Erreur lors de la création du devis', error);
+  //       // Gérer l'erreur (ex: afficher un message d'erreur)
+  //     }
+  //   });
+  //   // this.proformasService.creerDevis(devis).subscribe({
+  //   //
+  //   // })
+  // }
 
   grades = [
     { titre: "Administrateur", value: 50 },

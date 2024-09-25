@@ -72,12 +72,11 @@
           </ng-container>
         </td>
 <!--        <td style="width: 15%" class="single-line-cell"><input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(product, $event)" min="1"/></td>-->
-        <td style="width: 15%" class="single-line-cell">
+        <td style="width: 15%" class="single-line-cell">{{devis.products.qte}}
 <!--          <input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(devis, $event)" min="1"/>-->
-          <input type="number" [(ngModel)]="devis.products.qte" (ngModelChange)="onQuantityChange(devis, $event)" min="1"/>
         </td>
         <td style="width: 15%" class="single-line-cell">{{ devis.products.totalHt }}</td>
-        <td style="width: 15%" class="single-line-cell"><input type="string"/></td>
+        <td style="width: 15%" class="single-line-cell">{{ devis.products.reduction }}</td>
         <td style="width: 15%" class="single-line-cell">{{ devis.tva }}</td>
         <td style="width: 15%" class="single-line-cell">{{ devis.totalTtc }}</td>
         <td style="width: 15%" class="single-line-cell"> Date</td>
