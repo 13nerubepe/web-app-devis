@@ -1,5 +1,5 @@
 <div class="alignerdeuxdiv">
-
+  <!--    FORMULAIRE POUR CLIENT-->
   <div>
       <p>Liste des client</p>
     <p-autoComplete
@@ -11,6 +11,9 @@
       field="nom"
     [minLength]="1"
     />
+
+
+
       <form [formGroup]="formClient" >
         <p-card header="Formulaire Client">
 
@@ -67,39 +70,12 @@
         </p-card>
       </form>
 
-<!--    <form *ngIf="selectedClient">-->
-<!--      <div>-->
-<!--        <label>Nom:</label>-->
-<!--        <input type="text" [(ngModel)]="selectedClient.nom" name="nom" readonly />-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <label>Email:</label>-->
-<!--        <input type="email" [(ngModel)]="selectedClient.email" name="email" readonly />-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <label>Téléphone:</label>-->
-<!--        <input type="tel" [(ngModel)]="selectedClient.phone" name="phone" readonly />-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <label>Adresse:</label>-->
-<!--        <input type="text" [(ngModel)]="selectedClient.address" name="address" readonly />-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <label>Ville:</label>-->
-<!--        <input type="text" [(ngModel)]="selectedClient.ville" name="ville" readonly />-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <label>Grade:</label>-->
-<!--        <input type="text" [(ngModel)]="selectedClient.grade" name="grade" readonly />-->
-<!--      </div>-->
-<!--    </form>-->
-
 <!--      <div>-->
 <!--        <p-dropdown [options]="getClient()" optionLabel="nom"></p-dropdown>-->
 <!--      </div>-->
     </div>
 
-
+  <!--    FORMULAIRE POUR PRODUIT-->
   <span><div class="bordureProduct">
       <p>Liste des Produits</p>
       <p-table  [value]="products"
@@ -126,7 +102,8 @@
             <td style="width: 15%" class="single-line-cell">
               <input type="number" min="1" [(ngModel)]="products.qte" (ngModelChange)="onQuantityChange(products.qte)" />
             </td>
-            <td style="width: 15%" class="single-line-cell">{{ products.qte * products.prixUnitaire | currency:'XAF' }}</td>
+<!--            <td style="width: 15%" class="single-line-cell">{{ products.qte * products.prixUnitaire | currency:'XAF' }}</td>-->
+             <td style="width: 15%" class="single-line-cell">{{calculTotalHtEachProduct(products) | currency: 'XAF'}}</td>
           </tr>
 
         </ng-template>
@@ -147,7 +124,7 @@
   <p-button class="button"  (click)="openDialog()"  label="Create" icon="pi pi-check"></p-button>
 </div>
 
-<!-- Affichage des produits sélectionnés -->
+<!-- AFFICHAGE DES PRODUITS SELECTIONNEES -->
 <div *ngIf="selectedProducts.length > 0">
   <h6>Produits sélectionnés</h6>
   <p-table [value]="selectedProducts" [paginator]="true" [rows]="10">
@@ -177,7 +154,7 @@
         <td>{{ devis.categories }}</td>
         <td>{{devis.qte}}</td>
         <td>{{ devis.prixUnitaire | currency:'XOF' }}</td>
-        <td>{{ devis.totalHT | currency:'XOF' }}</td>
+        <td>{{ calculTotalHtEachProduct(products) | currency: 'XAF' }}</td>
 <!--        <td>-->
 <!--          <button pButton type="button" icon="pi pi-times" (click)="removeProduct(product.productId)"></button>-->
 <!--        </td>-->

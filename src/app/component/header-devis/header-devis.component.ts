@@ -165,6 +165,16 @@ export class HeaderDevisComponent implements OnInit{
     return this.products;
   }
 
+  calculTotalHtEachProduct(products:Product): any{
+    if(products.qte &&products.prixUnitaire){
+      const totalHt = products.qte * products.prixUnitaire;
+      return totalHt;
+    }
+  }
+  getTotalHt(product: Product): number {
+    return this.calculTotalHtEachProduct(product);
+  }
+
   // Optionnel: Gestion de la sélection de ligne entière (si vous voulez)
   onRowSelect(event: any) {
     // Vérification que la quantité est bien saisie et calcul du total
@@ -180,7 +190,7 @@ export class HeaderDevisComponent implements OnInit{
       this.selectedProducts.push(selectedP);
     }
 
-    console.log('Produits sélectionnés:', this.selectedProducts);
+    console.log('Produits sélectionnés ici:', this.selectedProducts);
 
 
     // if (selectedP.qte && selectedP.prixUnitaire) {
