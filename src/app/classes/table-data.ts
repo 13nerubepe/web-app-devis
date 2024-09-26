@@ -54,9 +54,9 @@ export interface Devis {
   productId:string;
   totalHt: number;
   reduction:string;
-  tva: number;
+  totalTva:number;
+  // tva: number;
   // totalpar objet productotal
-  totalTtc: number;
   date:string;
   cassier: string;
   client?: Client; // Ajouter pour l'objet client associé

@@ -58,8 +58,8 @@ export class HeaderDevisComponent implements OnInit{
   grade: any = {};
   clients:Client[]=[];
   products:Product[]=[];
-  selectedProducts: Product[] = [];
   filteredClients: Client[] =[];
+  selectedProducts: Product[] = [];
   selectedClient!:Client; // VARIABLE QUI PERMET DE STOCKER LA VALEUR client SELECTIONée par lutilisateur
   DevisDialog: boolean = false;
   formClient:FormGroup;
@@ -87,6 +87,36 @@ export class HeaderDevisComponent implements OnInit{
     this.getClient();
   }
 
+  getClient(){
+    this.proformasService.getValuesClient().subscribe({
+      next:(value)=>{
+        this.clients=value}
+    });
+    return this.clients;
+  }
+  getProduct(){
+    this.proformasService.getValuesProduct().subscribe({
+      next:(value)=>{
+        this.products= value;
+        console.log('La liste des clients:', this.products)
+      }
+    });
+    return this.products;
+  }
+
+  filterClient(event: AutoCompleteCompleteEvent) {
+    const query = event.query.toLowerCase(); // Convertir la saisie en minuscules pour un filtrage insensible à la casse
+    this.filteredClients = this.clients.filter(client =>
+      client.nom.toLowerCase().startsWith(query) // Filtrer par correspondance sur le début du nom du client
+    );
+  }
+
+  // Fonction pour gérer la sélection du client
+  onClientSelect(event: AutoCompleteSelectEvent) {
+    this.selectedClient = event.value as Client; // Assurez-vous que c'est un Client
+    // console.log('CLIENT SÉLECTIONNÉ', this.selectedClient); // Affichage dans la console
+    this.afficheClientSelectionnéForm();
+  }
   afficheClientSelectionnéForm(): void {
     if (this.selectedClient) {
       this.formClient.patchValue({
@@ -101,26 +131,24 @@ export class HeaderDevisComponent implements OnInit{
     }
   }
 
+  // si client nexiste pas, creer un client
+  addClient() {
+    if (this.formClient.valid) {
+      // Récupérer les valeurs du formulaire
+      const valueClient = this.formClient.value;
+      console.log('Valeurs du formulaire:', valueClient); // Affiche les valeurs du formulaire
 
+      this.DevisDialog = false; // Ferme le dialogue après la soumission
+    } else {
+      console.log('Formulaire invalide');
+    }
+  }
   dummyAsyncValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return of(null); // ou retourner un Observable d'erreur si nécessaire
     };
   }
 
-  filterClient(event: AutoCompleteCompleteEvent) {
-    const query = event.query.toLowerCase(); // Convertir la saisie en minuscules pour un filtrage insensible à la casse
-    this.filteredClients = this.clients.filter(client =>
-      client.nom.toLowerCase().startsWith(query) // Filtrer par correspondance sur le début du nom du client
-    );
-  }
-
-  // Fonction pour gérer la sélection du client
-  onClientSelect(event: AutoCompleteSelectEvent) {
-    this.selectedClient = event.value as Client; // Assurez-vous que c'est un Client
-    console.log('CLIENT SÉLECTIONNÉ', this.selectedClient); // Affichage dans la console
-    this.afficheClientSelectionnéForm();
-  }
 
   // Fonction qui se déclenche à chaque changement de quantité
   onQuantityChange(product: Product) {
@@ -134,48 +162,7 @@ export class HeaderDevisComponent implements OnInit{
   openDialog() {
     this.DevisDialog = true;
   }
-  addClient() {
-    if (this.formClient.valid) {
-      // Récupérer les valeurs du formulaire
-      const valueClient = this.formClient.value;
-      console.log('Valeurs du formulaire:', valueClient); // Affiche les valeurs du formulaire
-
-      this.DevisDialog = false; // Ferme le dialogue après la soumission
-    } else {
-      console.log('Formulaire invalide');
-    }
-  }
-
-  getClient(){
-    this.proformasService.getValuesClient().subscribe({
-      next:(value)=>{
-        this.clients=value;
-        console.log('La liste des clients:', this.clients)
-      }
-    });
-    return this.clients;
-  }
-  getProduct(){
-    this.proformasService.getValuesProduct().subscribe({
-      next:(value)=>{
-        this.products= value;
-        console.log('La liste des clients:', this.products)
-      }
-    });
-    return this.products;
-  }
-
-  calculTotalHtEachProduct(products:Product): any{
-    if(products.qte &&products.prixUnitaire){
-      const totalHt = products.qte * products.prixUnitaire;
-      return totalHt;
-    }
-  }
-  getTotalHt(product: Product): number {
-    return this.calculTotalHtEachProduct(product);
-  }
-
-  // Optionnel: Gestion de la sélection de ligne entière (si vous voulez)
+  // Optionnel: Gestion de la sélection de ligne entière (si vous voulez) ou plusieurs
   onRowSelect(event: any) {
     // Vérification que la quantité est bien saisie et calcul du total
     // Récupérer le produit sélectionné
@@ -191,64 +178,60 @@ export class HeaderDevisComponent implements OnInit{
     }
 
     console.log('Produits sélectionnés ici:', this.selectedProducts);
-
-
-    // if (selectedP.qte && selectedP.prixUnitaire) {
-    //   selectedP.totalHT = selectedP.qte * selectedP.prixUnitaire;}
-    //
-    // this.selectedProducts = selectedP;
-    //
-    // console.log('Produit sélectionné:', this.selectedProducts);
-
-
-    // this.selectedProduct = event.data;
-    // console.log('Produit sélectionné:', this.selectedProduct);
   }
 
-  // creerDevis(devis:any){
-  //   // Récupérer le client sélectionné
-  //   const clientId = this.selectedClient;
-  //   // recuperer le produit selection ou liste de product selectionné
-  //   const selectedProducts = this.selectedProducts.map(product => ({
-  //     productId: product.productId,
-  //     qte: product.qte // Quantité saisie pour chaque produit
-  //   }));
-  //   // Calculer le total pour chaque produit
-  //   // const total = selectedProducts.reduce((acc, product) => {
-  //   //   const productDetails = this.products.find(p => p.productId === product.productId);
-  //   //   if(product.qte && productDetails.prixUnitaire){
-  //   //     return acc + (product.qte * productDetails.prixUnitaire);
-  //   //   }
-  //   //
-  //   // }, 0);
-  //
-  //   // creer le devis
-  //   const newDevis = {
-  //     clientId: clientId,
-  //     products: selectedProducts,
-  //     // totalHt: total,
-  //     reduction: devis.reduction || false, // Par exemple, si reduction est optionnelle
-  //     tva: devis.tva || 0, // Calculer la TVA si nécessaire
-  //     totalTtc: totalHT + (totalHT * devis.tva / 100),
-  //     date: new Date(), // Ajouter la date actuelle
-  //     cassier: devis.cassier // Nom du cassier
-  //   };
-  //
-  //   // Envoyer le devis via le service
-  //   this.proformasService.creerDevis(newDevis).subscribe({
-  //     next: (response) => {
-  //       console.log('Devis créé avec succès', response);
-  //       // Gérer le succès (ex: afficher un message à l'utilisateur)
-  //     },
-  //     error: (error) => {
-  //       console.error('Erreur lors de la création du devis', error);
-  //       // Gérer l'erreur (ex: afficher un message d'erreur)
-  //     }
-  //   });
-  //   // this.proformasService.creerDevis(devis).subscribe({
-  //   //
-  //   // })
-  // }
+// CALCULE LA TOTAL DE CHAQUE PRODUIT
+  calculTotalHtEachProduct(products:Product): any{
+    if(products.qte &&products.prixUnitaire){
+      const totalHt = products.qte * products.prixUnitaire;
+      return totalHt;
+    }
+  }
+
+  creerDevis(){
+    // Vérifier que des produits et un client ont été sélectionnés
+    if (this.selectedProducts.length === 0) {
+      console.error("Aucun produit sélectionné.");
+      return;
+    }
+
+    if (!this.selectedClient) {
+      console.error("Aucun client sélectionné.");
+      return;
+    }
+    // this.calculTotalHtEachProduct(this.products);
+
+    // Calculer le total HT de tous les produits sélectionnés
+      const totalTHt = this.selectedProducts.reduce((acc, product) => {
+        const qte = product.qte ?? 0;
+        const prixUnitaire =product.prixUnitaire ?? 0;
+        return acc + (qte * prixUnitaire);
+      }, 0);
+
+    // Préparer les IDs des produits pour le devis
+    const productIds = this.selectedProducts.map(product => product.productId);
+
+    // Construire l'objet devis
+    const devis = {
+      clientId: this.selectedClient.clientId,
+      productIds: productIds,
+      totalTHt: totalTHt,
+      reduction: false, // Tu peux changer cette valeur selon ton besoin
+      totalTva: totalTHt * 0.19, // Calcul de la TVA (19%)
+      date: new Date(),
+      cassier: "Cassier par défaut" // Tu peux récupérer cette valeur dynamiquement
+    };
+  console.log("objet devis cree:", devis)
+    // Envoyer le devis au backend via le service
+    this.proformasService.creerDevis(devis).subscribe({
+      next: response => {
+        console.log("Devis créé avec succès :", response);
+      },
+      error: error => {
+        console.error("Erreur lors de la création du devis :", error);
+      }
+    });
+  }
 
   grades = [
     { titre: "Administrateur", value: 50 },

@@ -79,14 +79,13 @@
   <span><div class="bordureProduct">
       <p>Liste des Produits</p>
       <p-table  [value]="products"
-                selectionMode="multiple"
                 [tableStyle]="{'min-width': '50rem', 'height': '10rem'}"
                 [(selection)]="selectedProducts"
                 (onRowSelect)="onRowSelect($event)"
                 dataKey="productId">
         <ng-template pTemplate="header">
           <tr>
-            <th style="width: 2rem"><p-tableHeaderCheckbox /></th>
+            <th style="width: 2rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
             <th style="font-size: 12px">Nom</th>
             <th style="font-size: 12px">Quatité</th>
             <th style="font-size: 12px">Total</th>
@@ -120,7 +119,7 @@
 
 <div class="field">
   <!--        <p-button  label="add" icon="pi pi-check" [disabled]="formClient.invalid"></p-button>-->
-
+<!--  BUTTON DE CREATION-->
   <p-button class="button"  (click)="openDialog()"  label="Create" icon="pi pi-check"></p-button>
 </div>
 
@@ -138,16 +137,6 @@
         <th>Actions</th>
       </tr>
     </ng-template>
-<!--    <ng-template pTemplate="body" let-devis>-->
-<!--      <tr>-->
-<!--        <td style="width: 15%" class="single-line-cell">-->
-<!--          <input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(devis, $event)" min="1"/>-->
-<!--        </td>-->
-<!--        <td>{{ devis.topSelling.totalHT }}</td>-->
-<!--        &lt;!&ndash; autres colonnes &ndash;&gt;-->
-<!--      </tr>-->
-<!--    </ng-template>-->
-<!--    <ng-template pTemplate="body"  *ngFor="let product of (proformasService.Products$ | async)">-->
     <ng-template pTemplate="body" let-devis >
       <tr>
         <td>{{ devis.productName }}</td>
@@ -167,10 +156,10 @@
           [style]="{ width: '30rem' }">
   <div class="justified">
       <p-button class="border" [label]="'AddClient' " severity="secondary" (click)="addClient()"/>
-      <p-button [label]="'saveDevis' " severity="secondary"/>
+      <p-button [label]="'saveDevis' " severity="secondary" (click)="creerDevis()"/>
   </div>
 </p-dialog>
-<!--CREER UN DEVIS-->
+CREER UN DEVIS
 <!--<p-dialog [header]="'createDevis' " [modal]="true" [(visible)]="DevisDialog"-->
 <!--          [style]="{ width: '30rem' }">-->
 <!--  <span class="p-text-secondary block mb-5">{{ 'createDevis' }}.</span>-->

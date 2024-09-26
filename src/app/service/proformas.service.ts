@@ -69,8 +69,8 @@ export class ProformasService{
 
     this.produitSource.next(currentProducts);
   }
-  creerDevis(devis:Devis):Observable<Devis>{
-    return this._http.post<Devis>(this.baseUrl + `devis/createDevis`, devis);
+  creerDevis(devis:any):Observable<any>{
+    return this._http.post<any>(this.baseUrl + `devis/createDevis`, devis);
 
   }
 
