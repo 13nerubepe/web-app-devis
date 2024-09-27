@@ -1,4 +1,5 @@
-<main *ngIf="!loading" class="card p-5">
+<!--<main *ngIf="!loading" class="card p-5">-->
+  <main class="card p-5">
   <div class="row mb-3">
     <div class="col-7 col-md-8">
       <h1><i class="bi bi-person-lock"></i> Utilisateurs</h1>
@@ -40,14 +41,14 @@
               <td>{{ u?.phone }}</td>
               <td>{{ u?.grade }}</td>
               <!-- <td>{{ u?.password }}</td> -->
-<!--              <td class="text-end">-->
-<!--                <button class="btn btn-sm btn-secondary me-1" (click)="showModal(true, u)">-->
-<!--                  <i class="bi bi-pen"></i>-->
-<!--                </button>-->
+              <td class="text-end">
+                <button class="btn btn-sm btn-secondary me-1" (click)="showModal(true, u)">
+                  <i class="bi bi-pen"></i>
+                </button>
 <!--                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(u)">-->
 <!--                  <i class="bi bi-trash"></i>-->
 <!--                </button>-->
-<!--              </td>-->
+              </td>
             </tr>
             <tr *ngIf="!users.length">
               <td></td>

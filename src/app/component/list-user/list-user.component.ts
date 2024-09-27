@@ -78,6 +78,18 @@ export class ListUserComponent implements OnInit{
     })
   }
 
+  showModal(show = true, data: any | null = null) {
+    this.user = data;
+    this.mpForm.patchValue(this.user);
+
+    this.openModal();
+    this.isModalOpen = show;
+  }
+
+  openModal() {
+    const modalRef = this.modalService.open(this.ngModal);
+  }
+
   ngAfterViewInit(): void {
     if (!(this.users.length > 0)) {
       this.loadData();
@@ -135,13 +147,7 @@ export class ListUserComponent implements OnInit{
   //     });
   // }
 
-  // showModal(show = true, data: any | null = null) {
-  //   this.user = data;
-  //   this.mpForm.patchValue(this.user);
-  //
-  //   this.openModal();
-  //   this.isModalOpen = show;
-  // }
+
 
   // handleSupprime(data: any) {
   //   Swal.fire({
@@ -175,9 +181,7 @@ export class ListUserComponent implements OnInit{
   //   }).then();
   // }
 
-  // openModal() {
-  //   const modalRef = this.modalService.open(this.ngModal);
-  // }
+
   //
   // closeModal() {
   //   this.mpForm.reset();

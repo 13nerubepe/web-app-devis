@@ -5,6 +5,7 @@ import { combineLatest, map } from 'rxjs';
 import { DataRestService } from 'src/app/service/data-rest.service';
 import Swal from 'sweetalert2';
 import { Client } from "../../classes/table-data";
+import { ProformasService } from "../../service/proformas.service";
 
 @Component({
   selector: 'app-client',
@@ -39,6 +40,7 @@ export class ClientComponent {
   ];
 
   constructor(
+    private  proformaService:ProformasService,
     private dataRestService: DataRestService,
     private modalService: NgbModal
   ) {
@@ -46,11 +48,19 @@ export class ClientComponent {
   }
 
   ngOnInit(): void {
-    this.user = this.dataRestService.getOneLocalData("user");
+    // this.user = this.dataRestService.getOneLocalData("user");
+    this.getClients();
   }
 
   ngAfterViewInit(): void {
     this.loadData();
+  }
+  getClients(){
+    this.proformaService.getValuesClient().subscribe({
+      next:(value)=>{
+        this.user=value;
+      }
+    })
   }
 
   loadData() {
