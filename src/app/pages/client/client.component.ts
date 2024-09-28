@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, map } from 'rxjs';
@@ -13,7 +13,7 @@ import { ProformasService } from "../../service/proformas.service";
   styleUrls: ['./client.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ClientComponent {
+export class ClientComponent implements OnInit {
   [x: string]: any;
   clients: Client[] = [];
   allClients: Client[] = [];
@@ -58,7 +58,7 @@ export class ClientComponent {
   getClients(){
     this.proformaService.getValuesClient().subscribe({
       next:(value)=>{
-        this.user=value;
+        this.allClients=value;
       }
     })
   }

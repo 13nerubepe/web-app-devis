@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppDataStoreService } from 'src/app/service/app-data-store.service';
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   mpForm!: FormGroup;
   loading = false;
   submitted = false;
@@ -66,7 +66,7 @@ export class LoginComponent {
 
   onSubmit() {
     event?.preventDefault();
-    // Vérifications     
+    // Vérifications
     if (!this.mpForm.valid) {
       Swal.fire('Renseigner tous les champs', '', 'warning').then();
       return;

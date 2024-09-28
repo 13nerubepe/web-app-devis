@@ -16,7 +16,7 @@
     <div class="col-md-12">
       <div class="table-pane table-responsive">
         <p-table
-          [value]="allUsers"
+          [value]="users"
           datakey="clientId" class="table table-striped table-hover">
 
           <ng-template pTemplate="header" class="bg-dark text-light">
@@ -26,23 +26,26 @@
               <th>Email</th>
               <th>Numero de telephone</th>
               <th>Adresse</th>
+              <th>Ville</th>
               <th>Fonction</th>
               <!-- <th>Password</th> -->
               <th class="text-center">Options</th>
             </tr>
           </ng-template>
 
-          <ng-template pTemplate="body">
-            <tr *ngFor="let u of users; let i = index">
+          <ng-template pTemplate="body" let-users let-i=rowIndex >
+<!--            <tr *ngFor="let u of users; let i = index">-->
+            <tr >
               <td>{{ i + 1 }}</td>
-              <td>{{ u?.nom }}</td>
-              <td>{{ u?.email }}</td>
-              <td>{{ u?.address }}</td>
-              <td>{{ u?.phone }}</td>
-              <td>{{ u?.grade }}</td>
+              <td>{{ users.nom }}</td>
+              <td>{{ users.email }}</td>
+              <td>{{ users.phone }}</td>
+              <td>{{ users.address }}</td>
+              <td>{{ users.ville }}</td>
+              <td>{{ users.grade }}</td>
               <!-- <td>{{ u?.password }}</td> -->
               <td class="text-end">
-                <button class="btn btn-sm btn-secondary me-1" (click)="showModal(true, u)">
+                <button class="btn btn-sm btn-secondary me-1" (click)="showModal(true, users)">
                   <i class="bi bi-pen"></i>
                 </button>
 <!--                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(u)">-->
