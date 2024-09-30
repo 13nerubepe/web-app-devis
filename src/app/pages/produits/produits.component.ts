@@ -106,55 +106,59 @@ export class ProduitsComponent implements OnInit{
     this.devisDialog = true;
   }
   private hideDialog() {
-    this. devisDialog =false
+    this.devisDialog =false
   }
 
   createProduct(): void {
-    if (this.productForm.invalid) {
-      // Afficher un message d'erreur si le formulaire est invalide
-      this.messagService.add({ severity: 'error', detail: 'Erreur lors de la création du produit. Veuillez vérifier les champs du formulaire.' });
-      return; // Sortir de la fonction si le formulaire est invalide
-      console.log("productFORM:", this.productForm.value);
-    }
+    // if (this.productForm.invalid) {
+    //   // Afficher un message d'erreur si le formulaire est invalide
+    //   this.messagService.add({ severity: 'error', detail: 'Erreur lors de la création du produit. Veuillez vérifier les champs du formulaire.' });
+    //   return; // Sortir de la fonction si le formulaire est invalide
+    //   console.log("productFORM:", this.productForm.value);
+    // }
 
     // Récupérer les données du formulaire
     // const createProductDto: CreateProductDto = this.productForm.value;
-    const formValues = this.productForm.value;
-
-    const selectedCategory: string = formValues.categories;  // C'est maintenant un string et non un tableau
-
-    if (selectedCategory === 'electronique') {
-      console.log('Catégorie électronique sélectionnée');}
+    const valueProduct= this.productForm.value;
+    this.proformasService.createProduct(valueProduct).subscribe({
+      next:(response)=>{
+        console.log('response product:', response);
+    }
+    });
+    // const selectedCategory: string = formValues.categories;  // C'est maintenant un string et non un tableau
+    //
+    // if (selectedCategory === 'electronique') {
+    //   console.log('Catégorie électronique sélectionnée');}
 
     // Assurez-vous que les valeurs ne sont pas null ou undefined
-    const createProductDto: CreateProductDto = {
-      productName: formValues.productName || '',
-      image: formValues.image || '',
-      libele: formValues.libele || '',
-      description: formValues.description || '',
-      categories: formValues.categories || '',
-      prixUnitaire: formValues.prixUnitaire ?? 0, // Utiliser 0 comme valeur par défaut
-      qteenstock: formValues.qteenstock ?? 0, // Utiliser 0 comme valeur par défaut
-      unite: formValues.unite || '', // Utiliser 0 comme valeur par défaut
-    };
+    // const createProductDto: CreateProductDto = {
+    //   productName: formValues.productName || '',
+    //   image: formValues.image || '',
+    //   libele: formValues.libele || '',
+    //   description: formValues.description || '',
+    //   categories: formValues.categories || '',
+    //   prixUnitaire: formValues.prixUnitaire ?? 0, // Utiliser 0 comme valeur par défaut
+    //   qteenstock: formValues.qteenstock ?? 0, // Utiliser 0 comme valeur par défaut
+    //   unite: formValues.unite || '', // Utiliser 0 comme valeur par défaut
+    // };
 
     // Appeler le service pour créer le produit
-    this.proformasService.createProduct(createProductDto).subscribe({
-      next: (value) => {
-        console.log(createProductDto);
-        console.log('Le produit a été créé avec succès', value);
-        this.productForm.reset(); // Réinitialiser le formulaire après la création
-      },
-      error: (err) => {
-        console.error('Erreur lors de la création du produit', err);
-        this.messagService.add({ severity: 'error', detail: 'Erreur lors de la création du produit' });
-      },
-      complete: () => {
-        // Afficher un message de succès et effectuer d'autres actions si nécessaire
-        this.messagService.add({ severity: 'success', detail: 'Produit créé avec succès' });
-        this.hideDialog(); // Masquer le dialogue ou effectuer d'autres actions après la création
-      }
-    });
+    // this.proformasService.createProduct(createProductDto).subscribe({
+    //   next: (value) => {
+    //     console.log(createProductDto);
+    //     console.log('Le produit a été créé avec succès', value);
+    //     this.productForm.reset(); // Réinitialiser le formulaire après la création
+    //   },
+    //   error: (err) => {
+    //     console.error('Erreur lors de la création du produit', err);
+    //     this.messagService.add({ severity: 'error', detail: 'Erreur lors de la création du produit' });
+    //   },
+    //   complete: () => {
+    //     // Afficher un message de succès et effectuer d'autres actions si nécessaire
+    //     this.messagService.add({ severity: 'success', detail: 'Produit créé avec succès' });
+    //     this.hideDialog(); // Masquer le dialogue ou effectuer d'autres actions après la création
+    //   }
+    // });
   }
 
 //   createProduct (): void{

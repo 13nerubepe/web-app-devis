@@ -73,6 +73,9 @@ export class ProformasService{
     return this._http.post<any>(this.baseUrl + `devis/createDevis`, devis);
 
   }
+  createClient(newClient: Client):Observable<any>{
+    return this._http.post<any>(this.baseUrl +  `client/createClient`, newClient)
+  }
 
   getValuesDevis():Observable<Devis[]> {
     return this._http.get<Devis[]>(this.baseUrl + `devis/listeDevis`);

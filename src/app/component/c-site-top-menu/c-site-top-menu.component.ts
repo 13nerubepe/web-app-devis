@@ -1,9 +1,12 @@
 import { Component, Input, booleanAttribute } from '@angular/core';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'c-site-top-menu',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './c-site-top-menu.component.html',
   styleUrl: './c-site-top-menu.component.scss'
 })

@@ -1,4 +1,5 @@
-<main  class="card p-5">
+<script src="produits.component.ts"></script>
+<main class="card p-5">
   <div class="row mb-5">
     <div class="col-md-4">
       <h3>Liste des produits</h3>
@@ -28,9 +29,8 @@
         </ng-select>
       </div>
       <div>
-
-
       </div>
+<!--      DEVIS -->
       <p-dialog [header]="'createFolderFormHeader'" [modal]="true" [(visible)]="devisDialog"
                 [style]="{ width: '30rem' }">
         <span class="p-text-secondary block mb-5">Veuillez entrer les détails du produit.</span>

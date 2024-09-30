@@ -36,6 +36,7 @@ export interface Client {
   address: string;
   ville: string;
   grade: string;
+  password:string;
 }
 export interface CreateClient {
   image:string;

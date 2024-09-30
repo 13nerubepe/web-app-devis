@@ -21,6 +21,13 @@ export class ListUserComponent implements OnInit{
 
 
   allUsers: Client[] = [];
+  clientDialog: boolean=false;
+  grades = [
+    { label: "Administrateur", value: 50 },
+    { label: "Chef de point de vente", value: 35 },
+    { label: "Caissier(e)", value: 30 },
+    { label: "Client", value: 0 },
+  ]
 
 
   usersPv: any[] = [];
@@ -30,18 +37,13 @@ export class ListUserComponent implements OnInit{
   saving: boolean = false;
   user: any = {};
   pv: any = {};
-  grade: any = {};
+  // grade: any = {};
   sModelName = 'user';
   @ViewChild('ngModal', { static: false })
   ngModal!: ElementRef;
   mpForm!: FormGroup;
 
-  grades = [
-    { titre: "Administrateur", value: 50 },
-    { titre: "Chef de point de vente", value: 35 },
-    { titre: "Caissier(e)", value: 30 },
-    { titre: "Client", value: 0 },
-  ]
+
 
   constructor(
     private proformasService: ProformasService,
@@ -53,41 +55,56 @@ export class ListUserComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.appDataStoreService.selectedPointVente.subscribe((pointVente: any) => {
-      if (pointVente) {
-        this.pv = pointVente;
-        this.loadData();
-      }
-    });
+    // this.appDataStoreService.selectedPointVente.subscribe((pointVente: any) => {
+    //   if (pointVente) {
+    //     this.pv = pointVente;
+    //     this.loadData();
+    //   }
+    // });
 
     this.mpForm = new FormGroup({
       email: new FormControl(''),
       password: new FormControl(''),
-      fullName: new FormControl('', Validators.required),
-      grade: new FormControl(this.isClient ? '0' : ''),
-      telephone: new FormControl('', Validators.required),
+      nom: new FormControl('', Validators.required),
+      // grade: new FormControl(this.isClient ? '0' : ''),
+      grade: new FormControl(null),
+      phone: new FormControl('', Validators.required),
       ville: new FormControl('', Validators.required),
-      adresse: new FormControl('', Validators.required),
+      address: new FormControl('', Validators.required),
     });
     this.user = this.dataRestService.getOneLocalData("user");
   }
 
-  getClient(){
-    this.proformasService.getValuesClient().subscribe({
-      next:(value)=>{this.allUsers=value}
-    })
-  }
 
   showModal(show = true, data: any | null = null) {
-    this.user = data;
-    this.mpForm.patchValue(this.user);
-
-    this.openModal();
-    this.isModalOpen = show;
+    // this.user = data;
+    // this.mpForm.patchValue(this.user);
+    //
+    // this.openModal();
+    // this.isModalOpen = show;
   }
 
   openModal() {
-    const modalRef = this.modalService.open(this.ngModal);
+   this.clientDialog =true;
+  }
+
+  addClient() {
+    if (this.mpForm.valid) {
+      // Récupérer les valeurs du formulaire
+      const valueClient = this.mpForm.value;
+      console.log('Valeurs du formulaire:', valueClient); // Affiche les valeurs du formulaire
+      this.proformasService.createClient(valueClient).subscribe({
+        next: (response) => {
+          console.log('Response:', response); // Affiche les valeurs du formulaire
+          this.clientDialog = false;
+        }
+      });
+
+      // this.DevisDialog = false; // Ferme le dialogue après la soumission
+    }
+    // else {
+    //   console.log('Formulaire invalide');
+    // }
   }
 
   ngAfterViewInit(): void {
@@ -209,4 +226,7 @@ export class ListUserComponent implements OnInit{
   //   this.loadData();
   //   this.closeModal();
   // }
+
+
+
 }

@@ -132,17 +132,17 @@ export class HeaderDevisComponent implements OnInit{
   }
 
   // si client nexiste pas, creer un client
-  addClient() {
-    if (this.formClient.valid) {
-      // Récupérer les valeurs du formulaire
-      const valueClient = this.formClient.value;
-      console.log('Valeurs du formulaire:', valueClient); // Affiche les valeurs du formulaire
-
-      this.DevisDialog = false; // Ferme le dialogue après la soumission
-    } else {
-      console.log('Formulaire invalide');
-    }
-  }
+  // addClient() {
+  //   if (this.formClient.valid) {
+  //     // Récupérer les valeurs du formulaire
+  //     const valueClient = this.formClient.value;
+  //     console.log('Valeurs du formulaire:', valueClient); // Affiche les valeurs du formulaire
+  //
+  //     this.DevisDialog = false; // Ferme le dialogue après la soumission
+  //   } else {
+  //     console.log('Formulaire invalide');
+  //   }
+  // }
   dummyAsyncValidator(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       return of(null); // ou retourner un Observable d'erreur si nécessaire
