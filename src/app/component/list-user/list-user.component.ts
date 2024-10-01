@@ -5,7 +5,7 @@ import { combineLatest, map } from 'rxjs';
 import { AppDataStoreService } from 'src/app/service/app-data-store.service';
 import { DataRestService } from 'src/app/service/data-rest.service';
 import Swal from 'sweetalert2';
-import { Client } from "../../classes/table-data";
+import { Client, Product } from "../../classes/table-data";
 import { ProformasService } from "../../service/proformas.service";
 
 @Component({
@@ -20,7 +20,8 @@ export class ListUserComponent implements OnInit{
   [x: string]: any;
 
 
-  allUsers: Client[] = [];
+  // allUsers: Client[] = [];
+  selectedClientR!: Client;
   clientDialog: boolean=false;
   grades = [
     { label: "Administrateur", value: 50 },
@@ -77,11 +78,11 @@ export class ListUserComponent implements OnInit{
 
 
   showModal(show = true, data: any | null = null) {
-    // this.user = data;
-    // this.mpForm.patchValue(this.user);
-    //
-    // this.openModal();
-    // this.isModalOpen = show;
+    this.user = data;
+    this.mpForm.patchValue(this.user);
+
+    this.openModal();
+    this.isModalOpen = show;
   }
 
   openModal() {
@@ -99,12 +100,26 @@ export class ListUserComponent implements OnInit{
           this.clientDialog = false;
         }
       });
-
-      // this.DevisDialog = false; // Ferme le dialogue après la soumission
     }
-    // else {
-    //   console.log('Formulaire invalide');
-    // }
+  }
+
+  renameClient(){
+
+    const valeurRenameClient = this.mpForm.value;
+    console.log('valeurRenameClient',valeurRenameClient)
+    // Préparez les données avec l'ID du client sélectionné
+    const clientToRename = {
+      clientId: this.selectedClientR.clientId,  // On utilise l'ID du client sélectionné
+      ...valeurRenameClient                     // On fusionne les autres champs du formulaire
+    };
+    this.proformasService.renameClient(valeurRenameClient).subscribe({
+        next: (response) => {
+          console.log('remane client:', response);
+        },
+      error: (error) => {
+        console.error('Erreur lors du renommage du client:', error);
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -114,20 +129,20 @@ export class ListUserComponent implements OnInit{
   }
 
   loadData() {
-    this.loading = true;
-    combineLatest(
-      this.dataRestService.getAll('pointvente', false, this.sModelName),
-      this.dataRestService.getAll('pointVente,user', false, 'user-point-vente'),
-    ).pipe(map(([users, usersPv]: any[]) => {
-      this.allUsers = users;
-      this.usersPv = usersPv;
-      // this.changeUser();
-    },
-      (err: any) => {
-        const message = "Une erreur s'est produite. \n" + (err.message || '');
-        Swal.fire(message, '', 'error').then();
-      }
-    )).subscribe(() => { }, (err) => { });
+    // this.loading = true;
+    // combineLatest(
+    //   this.dataRestService.getAll('pointvente', false, this.sModelName),
+    //   this.dataRestService.getAll('pointVente,user', false, 'user-point-vente'),
+    // ).pipe(map(([users, usersPv]: any[]) => {
+    //   this.allUsers = users;
+    //   this.usersPv = usersPv;
+    //   // this.changeUser();
+    // },
+    //   (err: any) => {
+    //     const message = "Une erreur s'est produite. \n" + (err.message || '');
+    //     Swal.fire(message, '', 'error').then();
+    //   }
+    // )).subscribe(() => { }, (err) => { });
   }
 
   // async onFormSubmit() {
@@ -166,7 +181,7 @@ export class ListUserComponent implements OnInit{
 
 
 
-  // handleSupprime(data: any) {
+  handleSupprime(data: any) {
   //   Swal.fire({
   //     title: 'Êtes vous sûr de vouloir vraiment supprimer?',
   //     input: 'text',
@@ -196,7 +211,7 @@ export class ListUserComponent implements OnInit{
   //         });
   //     },
   //   }).then();
-  // }
+  }
 
 
   //
@@ -222,10 +237,9 @@ export class ListUserComponent implements OnInit{
   //   this.loading = false;
   // }
 
-  // reloadData() {
-  //   this.loadData();
-  //   this.closeModal();
-  // }
+  reloadData() {
+    // this.loadData();
+  }
 
 
 

@@ -5,10 +5,11 @@
       <h1><i class="bi bi-person-lock"></i> Utilisateurs</h1>
     </div>
     <div class="col text-end">
-<!--      <button class="btn btn-success" (click)="showModal(true)">-->
-<!--        <i class="bi bi-save pe-2 me-2 border-end"></i>-->
-<!--        Ajouter-->
-<!--      </button>-->
+<!--      <button class="btn btn-success"  severity="primary" (click)="showModal(true)">-->
+      <button class="btn btn-success"  (click)="openModal()">
+        <i class="bi bi-save pe-2 me-2 border-end"></i>
+        Ajouter
+      </button>
     </div>
   </div>
 
@@ -17,6 +18,7 @@
       <div class="table-pane table-responsive">
         <p-table
           [value]="users"
+          selectionMode="single"
           datakey="clientId" class="table table-striped table-hover">
 
           <ng-template pTemplate="header" class="bg-dark text-light">
@@ -34,7 +36,6 @@
           </ng-template>
 
           <ng-template pTemplate="body" let-users let-i=rowIndex >
-<!--            <tr *ngFor="let u of users; let i = index">-->
             <tr >
               <td>{{ i + 1 }}</td>
               <td>{{ users.nom }}</td>
@@ -45,50 +46,52 @@
               <td>{{ users.grade }}</td>
               <!-- <td>{{ u?.password }}</td> -->
               <td class="text-end">
-                <button class="btn btn-sm btn-secondary me-1" (click)="showModal(true, users)">
+                <button class="btn btn-sm btn-secondary me-1" (click)="openModal()">
                   <i class="bi bi-pen"></i>
                 </button>
-<!--                <button class="btn btn-sm btn-danger me-1" (click)="handleSupprime(u)">-->
-<!--                  <i class="bi bi-trash"></i>-->
-<!--                </button>-->
+                <button class="btn btn-sm btn-danger me-1">
+                  <i class="bi bi-trash"></i>
+                </button>
               </td>
             </tr>
-            <tr *ngIf="!users.length">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>Aucun Utilisateur enregistré</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <!-- <td></td> -->
-            </tr>
+<!--            <tr *ngIf="!users.length">-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td>Aucun Utilisateur enregistré</td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              <td></td>-->
+<!--              &lt;!&ndash; <td></td> &ndash;&gt;-->
+<!--            </tr>-->
           </ng-template>
-          <tfoot class="bg-dark text-light">
-            <tr>
-              <th>TOTAL</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th>{{ users.length }}</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <!-- <th></th> -->
-            </tr>
-          </tfoot>
+<!--          <tfoot class="bg-dark text-light">-->
+<!--            <tr>-->
+<!--              <th>TOTAL</th>-->
+<!--              <th></th>-->
+<!--              <th></th>-->
+<!--              <th></th>-->
+<!--              <th>{{ users.length }}</th>-->
+<!--              <th></th>-->
+<!--              <th></th>-->
+<!--              <th></th>-->
+<!--              &lt;!&ndash; <th></th> &ndash;&gt;-->
+<!--            </tr>-->
+<!--          </tfoot>-->
         </p-table>
       </div>
     </div>
   </div>
 
-<!--  <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">-->
-<!--    <app-add-user [isClient]="isClient" (continueAction)="reloadData()"></app-add-user>-->
-<!--  </ng-template>-->
+  <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">
+    <app-add-user [isClient]="isClient" (continueAction)="reloadData()"></app-add-user>
+  </ng-template>
 
 </main>
-<p-button class="border" [label]="'Add' " severity="secondary" (click)="openModal()"/>
+<!--<p-button class="border" [label]="'Add' " severity="secondary" (click)="openModal()"/>-->
+
+<!--CREATE CLIENT-->
 <p-dialog [header]="'createCustomer'" [modal]="true" [(visible)]="clientDialog"
           [style]="{ width: '30rem' }">
   <span class="p-text-secondary block mb-5">Veuillez entrer les informations pour la creation du client.</span>
@@ -126,6 +129,52 @@
     </div>
 
     <p-button [label]="'saveButton'" type="submit" [disabled]="!mpForm.valid" (click)="addClient()"/>
+  </form>
+
+  <div class="flex justify-content-end gap-2">
+    <p-button [label]="'cancelButton'" severity="secondary" (click)="clientDialog=false"/>
+  </div>
+</p-dialog>
+
+
+<!--RENAME CLIENT-->
+<p-dialog [header]="'RenameCustomer'" [modal]="true" [(visible)]="clientDialog"
+          [style]="{ width: '30rem' }">
+  <span class="p-text-secondary block mb-5">Veuillez entrer les informations pour renommer un client.</span>
+
+  <form  [formGroup]="mpForm">
+    <div class="flex align-items-center mb-3">
+      <label for="nameRename" class="font-semibold w-8rem">Nom du Client</label>
+      <input pInputText id="nameRename" formControlName="nom" class="flex-auto" autocomplete="off"/>
+    </div>
+
+    <div class="flex align-items-center mb-3">
+      <label for="emailRename" class="font-semibold w-8rem">Email</label>
+      <input pInputText id="emailRename" formControlName="email" class="flex-auto" autocomplete="off"/>
+    </div>
+
+    <div class="flex align-items-center mb-3">
+      <label for="phoneRename" class="font-semibold w-8rem">Numero de Telephone</label>
+      <input pInputText id="phoneRename" formControlName="phone" class="flex-auto" autocomplete="off"/>
+    </div>
+
+    <div class="flex align-items-center mb-3">
+      <label for="adresseRename" class="font-semibold w-8rem">Adresse</label>
+      <input pInputText id="adresseRename" formControlName="address" class="flex-auto" autocomplete="off"/>
+    </div>
+
+    <div class="flex align-items-center mb-3">
+      <label for="villeRename" class="font-semibold w-8rem">Ville</label>
+      <input pInputText id="villeRename" formControlName="ville" class="flex-auto" autocomplete="off"/>
+    </div>
+
+    <div class="flex align-items-center mb-3">
+      <label for="gradeRename" class="font-semibold w-8rem">Fonction</label>
+      <p-dropdown id="gradeRename" formControlName="grade" [options]="grades"></p-dropdown>
+      <!--      <input pInputText   class="flex-auto" autocomplete="off"/>-->
+    </div>
+
+    <p-button [label]="'saveButton'" type="submit" [disabled]="!mpForm.valid" (click)="renameClient()"/>
   </form>
 
   <div class="flex justify-content-end gap-2">

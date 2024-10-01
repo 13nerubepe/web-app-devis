@@ -76,6 +76,9 @@ export class ProformasService{
   createClient(newClient: Client):Observable<any>{
     return this._http.post<any>(this.baseUrl +  `client/createClient`, newClient)
   }
+  renameClient(newClient:any):Observable<any>{
+    return this._http.post<any>(this.baseUrl + ``,newClient)
+  }
 
   getValuesDevis():Observable<Devis[]> {
     return this._http.get<Devis[]>(this.baseUrl + `devis/listeDevis`);

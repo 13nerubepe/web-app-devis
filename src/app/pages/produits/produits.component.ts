@@ -1,8 +1,9 @@
-import { CreateProductDto, Product } from "../../classes/table-data";
+import { Client, CreateProductDto, Product } from "../../classes/table-data";
 import { ProformasService } from "../../service/proformas.service";
 import {  MessagService } from "../../service/messag.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Component, OnInit } from "@angular/core";
+import { AutoCompleteCompleteEvent } from "primeng/autocomplete";
 
 @Component({
   selector: 'app-produits',
@@ -12,6 +13,8 @@ import { Component, OnInit } from "@angular/core";
 export class ProduitsComponent implements OnInit{
   devisDialog: boolean =false;
   products: Product[] = [];
+  selectedCategorie!:Product
+  filteredCategories:Product[]=[];
   userProductSelected = new Array<Product>()
   categories=[
     { label: 'Électronique', value: 'electronique' },
@@ -32,7 +35,7 @@ export class ProduitsComponent implements OnInit{
   ) { }
 
   //
-  // _produits: any[] = [];
+  _produits: any[] = [];
   // categories: any[] = [];
   // pv: any = {};
   // isModalOpen: boolean = false;
@@ -45,7 +48,7 @@ export class ProduitsComponent implements OnInit{
   //   categorie: {},
   // };
   // // producttopSelling!   : Product[];
-  // categorie_id: any;
+  categorie_id: any;
   // sModelName = 'produit';
   // @ViewChild('ngModal', { static: false })
   // ngModal!: ElementRef;
@@ -101,6 +104,12 @@ export class ProduitsComponent implements OnInit{
         this.products = value
       }
     })
+  }
+
+  filterCategorie(event:AutoCompleteCompleteEvent){
+    const query = event.query.toLowerCase();
+    this.filteredCategories =this.products.filter(categorie=>
+      categorie.categories.toLowerCase().startsWith(query));
   }
   openDialog(){
     this.devisDialog = true;
@@ -188,14 +197,14 @@ export class ProduitsComponent implements OnInit{
 //       }
 //     })
 // };
-  handleFiltreCategorie(value: Product) {
-    //   this.categorie_id = parseInt(value);
-    //   const produits = this._produits;
-    //   this.products = this._produits;
-    //   if (this.categorie_id) {
-    //     this.products =
-    //       produits.filter((e) => e?.categorie.id === this.categorie_id) || null;
-    //   }
+  handleFiltreCategorie(value: any) {
+      // this.categorie_id = parseInt(value);
+      // const produits = this._produits;
+      // this.products = this._produits;
+      // if (this.categorie_id) {
+      //   this.products =
+      //     produits.filter((e) => e?.categorie.id === this.categorie_id) || null;
+      // }
   }
   // // selectionner les products
   // validationProduct(devis: Product[]) {

@@ -16,17 +16,27 @@
       </a>
 <!--      boite souvrer-->
 <!--      <button class="btn btn-success" (click)="showModal(true)">Ajouter un produit</button>-->
+      <button class="btn btn-success" (click)="openDialog()">Ajouter un produit</button>
     </div>
   </div>
   <div class="row">
     <div class="col-md-4">
       <h5>Filtrer par catégorie</h5>
       <div class="form-group mb-1 mb-md-0">
-        <ng-select id="participation-specialite" class="" (change)="handleFiltreCategorie($event)">
-<!--        <ng-select id="participation-specialite" class="" >-->
-          <ng-option value="">Toutes les categories</ng-option>
-<!--          <ng-option [value]="c.id" *ngFor="let c of categories">{{ c?.nom }}</ng-option>-->
-        </ng-select>
+        <p-autoComplete
+          [style]="{ width: '100%', height: 'calc(5vh - 5px)' }"
+          [(ngModel)]="selectedCategorie"
+          [dropdown]="true"
+          [suggestions]="filteredCategories"
+          (completeMethod)="filterCategorie($event)"
+          field="categories"
+          [minLength]="1"
+        />
+<!--        <ng-select id="participation-specialite" class="" (change)="handleFiltreCategorie($event)">-->
+<!--&lt;!&ndash;        <ng-select id="participation-specialite" class="" >&ndash;&gt;-->
+<!--          <ng-option value="">Toutes les categories</ng-option>-->
+<!--&lt;!&ndash;          <ng-option [value]="c.id" *ngFor="let c of categories">{{ c?.nom }}</ng-option>&ndash;&gt;-->
+<!--        </ng-select>-->
       </div>
       <div>
       </div>
@@ -92,7 +102,8 @@
           <p-button [label]="'cancelButton'" severity="secondary" (click)="devisDialog = false"/>
         </div>
       </p-dialog>
-    </div><span><p-button  class="field" (click)="openDialog()">Create</p-button></span>
+    </div>
+<!--    <span><p-button  class="field" (click)="openDialog()">Create</p-button></span>-->
   </div>
 
   <div class="flex">
