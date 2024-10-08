@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Routes, RouterModule } from "@angular/router";
 import { NgApexchartsModule } from "ng-apexcharts";
 import { DashboardComponent } from "./dashboard.component";
-import { TopSellingModule } from "../component/top-selling/top-selling.module";
 
 const routes: Routes = [
   {

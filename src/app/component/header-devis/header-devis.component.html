@@ -11,64 +11,72 @@
       field="nom"
     [minLength]="1"
     />
+    <p-autoComplete
+      [(ngModel)]="selectedProducts"
+      [dropdown]="true"
+      [suggestions]="filteredProducts"
+      (completeMethod)="filterProduct($event)"
+      (onSelect)="onProductSelect($event)"
+      field="productName"
+      [minLength]="1"
+    />
 
 
+<!--      <form [formGroup]="formClient" >-->
+<!--        <p-card header="Formulaire Client">-->
 
-      <form [formGroup]="formClient" >
-        <p-card header="Formulaire Client">
+<!--          <div class="p-fluid">-->
+<!--            <div class="fi">-->
+<!--              <label for="nom">Nom Complet:</label>-->
+<!--              <input class="p-border" id="nom" formControlName="nom" required pInputText />-->
+<!--              <div class="error-container" color="error">-->
+<!--                <span *ngIf="formClient.controls['nom'].touched && formClient.controls['nom'].errors?.['required']">Merci de compléter ce champ</span>-->
+<!--              </div>-->
+<!--            </div>-->
 
-          <div class="p-fluid">
-            <div class="fi">
-              <label for="nom">Nom Complet:</label>
-              <input class="p-border" id="nom" formControlName="nom" required pInputText />
-              <div class="error-container" color="error">
-                <span *ngIf="formClient.controls['nom'].touched && formClient.controls['nom'].errors?.['required']">Merci de compléter ce champ</span>
-              </div>
-            </div>
+<!--            <div class="fi">-->
+<!--              <label for="email">Email</label>-->
+<!--              <input id="email" formControlName="email" type="email" pInputText />-->
+<!--              <div class="error-container" color="error">-->
+<!--                <span *ngIf="formClient.controls['email'].touched && formClient.controls['nom'].errors?.['required']">Merci de Completer ce champs</span>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="fi">
-              <label for="email">Email</label>
-              <input id="email" formControlName="email" type="email" pInputText />
-              <div class="error-container" color="error">
-                <span *ngIf="formClient.controls['email'].touched && formClient.controls['nom'].errors?.['required']">Merci de Completer ce champs</span>
-              </div>
-            </div>
+<!--            <div class="fi">-->
+<!--              <label for="phone">Téléphone</label>-->
+<!--              <input id="phone" formControlName="phone" type="tel" pInputText />-->
+<!--              <div class="error-container" color="error">-->
+<!--                <span *ngIf="formClient.controls['phone'].touched && formClient.controls['phone'].errors?.['required']">Merci de Completer ce champs</span>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="fi">
-              <label for="phone">Téléphone</label>
-              <input id="phone" formControlName="phone" type="tel" pInputText />
-              <div class="error-container" color="error">
-                <span *ngIf="formClient.controls['phone'].touched && formClient.controls['phone'].errors?.['required']">Merci de Completer ce champs</span>
-              </div>
-            </div>
+<!--            <div class="fi">-->
+<!--              <label for="address">Address</label>-->
+<!--              <input id="address" formControlName="address" pInputText />-->
+<!--              <div class="error-container" color="error">-->
+<!--                <span *ngIf="formClient.controls['address'].touched && formClient.controls['address'].errors?.['required']">Merci de Completer ce champs</span>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="fi">
-              <label for="address">Address</label>
-              <input id="address" formControlName="address" pInputText />
-              <div class="error-container" color="error">
-                <span *ngIf="formClient.controls['address'].touched && formClient.controls['address'].errors?.['required']">Merci de Completer ce champs</span>
-              </div>
-            </div>
+<!--            <div class="fi">-->
+<!--              <label for="ville">Ville</label>-->
+<!--              <input id="ville" formControlName="ville" pInputText />-->
+<!--              <div class="error-container" color="error">-->
+<!--                <span *ngIf="formClient.controls['ville'].touched && formClient.controls['ville'].errors?.['required']">Merci de Completer ce champs</span>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="fi">
-              <label for="ville">Ville</label>
-              <input id="ville" formControlName="ville" pInputText />
-              <div class="error-container" color="error">
-                <span *ngIf="formClient.controls['ville'].touched && formClient.controls['ville'].errors?.['required']">Merci de Completer ce champs</span>
-              </div>
-            </div>
+<!--            <div class="fi">-->
+<!--              <label for="grade">Grade</label>-->
+<!--              <input id="grade" formControlName="grade" pInputText />-->
+<!--              <div class="error-container" color="error">-->
+<!--                <span *ngIf="formClient.controls['grade'].touched && formClient.controls['grade'].errors?.['required']">Merci de Completer ce champs</span>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="fi">
-              <label for="grade">Grade</label>
-              <input id="grade" formControlName="grade" pInputText />
-              <div class="error-container" color="error">
-                <span *ngIf="formClient.controls['grade'].touched && formClient.controls['grade'].errors?.['required']">Merci de Completer ce champs</span>
-              </div>
-            </div>
-
-          </div>
-        </p-card>
-      </form>
+<!--          </div>-->
+<!--        </p-card>-->
+<!--      </form>-->
 
 <!--      <div>-->
 <!--        <p-dropdown [options]="getClient()" optionLabel="nom"></p-dropdown>-->
@@ -76,9 +84,12 @@
     </div>
 
   <!--    FORMULAIRE POUR PRODUIT-->
-  <span><div class="bordureProduct">
-      <p>Liste des Produits</p>
-      <p-table  [value]="products"
+  @if(!ajoutProducts.length) {
+    <div></div>
+  } @else {
+    <span><div class="bordureProduct">
+      <p>Liste des Produits</p><span><div> </div></span>
+      <p-table  [value]="ajoutProducts"
                 [tableStyle]="{'min-width': '50rem', 'height': '10rem'}"
                 [(selection)]="selectedProducts"
                 (onRowSelect)="onRowSelect($event)"
@@ -97,23 +108,25 @@
             <td>
               <p-tableCheckbox [value]="products" />
             </td>
-            <td style="width: 15%" class="single-line-cell">{{ products.productName }}</td>
+            <td style="width: 15%" class="single-line-cell">{{ products.productName }}({{products.prixUnitaire}})</td>
             <td style="width: 15%" class="single-line-cell">
               <input type="number" min="1" [(ngModel)]="products.qte" (ngModelChange)="onQuantityChange(products.qte)" />
             </td>
-<!--            <td style="width: 15%" class="single-line-cell">{{ products.qte * products.prixUnitaire | currency:'XAF' }}</td>-->
+            <!--            <td style="width: 15%" class="single-line-cell">{{ products.qte * products.prixUnitaire | currency:'XAF' }}</td>-->
              <td style="width: 15%" class="single-line-cell">{{calculTotalHtEachProduct(products) | currency: 'XAF'}}</td>
           </tr>
 
         </ng-template>
       </p-table>
 
-<!--      <select id="categories" formControlName="categories">-->
-<!--        <option *ngFor="let product of products" [value]="product.productId">-->
-<!--          {{ product.productName }}-->
-<!--        </option>-->
-<!--      </select>-->
+      <!--      <select id="categories" formControlName="categories">-->
+      <!--        <option *ngFor="let product of products" [value]="product.productId">-->
+      <!--          {{ product.productName }}-->
+      <!--        </option>-->
+      <!--      </select>-->
     </div></span>
+
+  }
 
 </div>
 

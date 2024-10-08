@@ -58,8 +58,11 @@ export class HeaderDevisComponent implements OnInit{
   grade: any = {};
   clients:Client[]=[];
   products:Product[]=[];
+  ajoutProducts:Product[]=[];
   filteredClients: Client[] =[];
+  filteredProducts: Product[] =[];
   selectedProducts: Product[] = [];
+  selectedProduct!:Product;
   selectedClient!:Client; // VARIABLE QUI PERMET DE STOCKER LA VALEUR client SELECTIONée par lutilisateur
   DevisDialog: boolean = false;
   formClient:FormGroup;
@@ -110,10 +113,22 @@ export class HeaderDevisComponent implements OnInit{
       client.nom.toLowerCase().startsWith(query) // Filtrer par correspondance sur le début du nom du client
     );
   }
+  filterProduct(event: AutoCompleteCompleteEvent) {
+    const query = event.query.toLowerCase(); // Convertir la saisie en minuscules pour un filtrage insensible à la casse
+    this.filteredProducts = this.products.filter(product =>
+      product.productName!.toLowerCase().startsWith(query) // Filtrer par correspondance sur le début du nom du client
+    );
+  }
 
   // Fonction pour gérer la sélection du client
   onClientSelect(event: AutoCompleteSelectEvent) {
     this.selectedClient = event.value as Client; // Assurez-vous que c'est un Client
+    // console.log('CLIENT SÉLECTIONNÉ', this.selectedClient); // Affichage dans la console
+    this.afficheClientSelectionnéForm();
+  }
+  onProductSelect(event: AutoCompleteSelectEvent) {
+    this.selectedProduct = event.value as Product; // Assurez-vous que c'est un Product
+    this.ajoutProducts.push(event.value)
     // console.log('CLIENT SÉLECTIONNÉ', this.selectedClient); // Affichage dans la console
     this.afficheClientSelectionnéForm();
   }
