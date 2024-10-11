@@ -7,7 +7,7 @@ import {
   Client,
   ValeursRequest
 } from "../../classes/table-data";
-import { NgFor, NgIf } from "@angular/common";
+import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import { ProformasService } from "../../service/proformas.service";
 import { Button } from "primeng/button";
 import { PrimeTemplate } from "primeng/api";
@@ -17,10 +17,13 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SelectButtonModule } from "primeng/selectbutton";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
+import { PaginatorService } from "../../service/paginator.service";
+import { BehaviorSubject, iif, Observable } from "rxjs";
+import { state } from "@angular/animations";
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [NgFor, Button, PrimeTemplate, TableModule, InputNumberModule, SelectButtonModule, DropdownModule, FormsModule, MultiSelectModule, ReactiveFormsModule, NgIf],
+  imports: [NgFor, Button, PrimeTemplate, TableModule, InputNumberModule, SelectButtonModule, DropdownModule, FormsModule, MultiSelectModule, ReactiveFormsModule, NgIf, AsyncPipe],
   templateUrl: 'table.component.html'
 })
 
@@ -30,6 +33,12 @@ export class TableComponent implements OnInit{
     nom:['']
   })
 
+
+  // usersState$: Observable<{ appState: string, appData?: ApiResponse<Page>, error?: HttpErrorResponse }>;
+  // responseSubject = new BehaviorSubject<ApiResponse<Page>>(null);
+  private currentPageSubject = new BehaviorSubject<number>(0);
+  currentPage$ = this.currentPageSubject.asObservable();
+
   // faut initialiser pour que la liste de client ne soit pas vide
   client: Client[]=[];
   products: Product[]=[];
@@ -37,16 +46,17 @@ export class TableComponent implements OnInit{
   combinedData: any[]=[];
   // devis = combineLatest([ this.proformasService.getCombinedData(this.request), this.search.controls.nom.valueChanges])
   trow: TableRows[];
-  request: ValeursRequest ={
-    first:0 ,
-    rows:5,
-    sortField:'',
-    sortOrder:1 }
+  // Variables pour la pagination
+  currentPage: number = 0;  // Page courante
+  pageSize: number = 5;    // Nombre d'éléments par page
+  totalItems: number = 0;   // Nombre total d'éléments
+  pagedData: any[] = [];    // Données paginées pour l'affichage
 
 
 
   constructor(
     private fb: FormBuilder,
+    private paginatorService: PaginatorService,
     private proformasService: ProformasService,
     //     this.items = [];
     //   for (let i = 0; i < 10000; i++) {
@@ -58,25 +68,54 @@ export class TableComponent implements OnInit{
   }
 
    ngOnInit() {
-    this.getLoadDevis()
+     this.getLoadDevis()
+      // this.getProducts(this.currentPage, this.pageSize);
 
    }
 
+  // getProducts(page: number, size: number) {
+  //   const url = 'http://localhost:8080/api/products';  // Remplacez par l'URL de votre backend
+  //   this.paginationService.getPaginatedData<{ items: Product[], totalItems: number }>(url, page, size)
+  //     .subscribe(data => {
+  //       this.products = data.items;
+  //       this.totalItems = data.totalItems;
+  //     });
+  // }
 
   // ---------------------------------------------------------------------FONCTIONS-----------------------------------------------------------------------
 
-  getLoadDevis(): void{
-    console.log(this.request);
+  getLoadDevis(pageNumber?: number): void{
+    console.log();
      this.proformasService.getCombinedData().subscribe({
        next:(value)=>{
          this.combinedData= value;
-         console.log('recuperation reussi',value)
+
+         this.totalItems = value.length;  // Obtenir le nombre total d'éléments
+         this.paginate();  // Appeler la fonction de pagination
+         console.log('Récupération réussie', value);
        },
        error: (err) => {
          console.error('Erreur lors de la récupération des devis', err);
        }
      })
   }
+
+  paginate(): void {
+    const start = this.currentPage * this.pageSize;
+    const end = start + this.pageSize;
+    this.pagedData = this.combinedData.slice(start, end);
+
+  }
+
+  onPageChange(event: any): void {
+    this.currentPage = event.page;  // Mettre à jour la page courante
+    this.paginate();  // Paginer à nouveau les données
+  }
+  // loperateur ternaire (direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
+  goToNextOrPreviousPage(direction:string):void{
+    this.getLoadDevis(direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
+  }
+
 
   // ----------------------------------FONCTION---------------------------------------------
 
@@ -132,5 +171,5 @@ export class TableComponent implements OnInit{
   // }
 
 
-
+  protected readonly state = state;
 }

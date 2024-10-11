@@ -38,6 +38,37 @@ export interface Client {
   grade: string;
   password:string;
 }
+
+export interface Page {
+  content: Devis[],
+  pageable: {
+    sort: {
+      empty: boolean,
+      sorted: boolean,
+      unsorted: boolean
+    },
+    offset: number,
+    pageSize: number,
+    pageNumber: number,
+    unpaged: boolean,
+    paged: boolean
+  },
+  last: boolean,
+  totalPages: number,
+  totalElements: number,
+  size: number,
+  number: number,
+  sort: {
+    empty: boolean,
+    sorted: boolean,
+    unsorted: boolean
+  },
+  numberOfElements: number,
+  first: boolean,
+  empty: boolean
+}
+
+
 export interface CreateClient {
   image:string;
   nom:string;

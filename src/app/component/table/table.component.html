@@ -6,26 +6,26 @@
 <!--</div>-->
 <div>Devis</div>
 <div class="table-responsive">
+<!--  @GetMapping("/products")-->
+<!--  public ResponseEntity<Page<Product>> getProducts(Pageable pageable) {-->
+<!--  Page<Product> products = productService.getAllProducts(pageable);-->
+<!--  return ResponseEntity.ok(products);-->
+<!--  }-->
 <!--  [value]="getProduct()"-->
+<!--  <p-table [value]="products" [paginator]="true" [rows]="pageSize" [totalRecords]="totalItems"-->
+<!--           (onPage)="onPageChange($event)">-->
   <p-table
-  [value]="combinedData"
+    [value]="combinedData"
+    [paginator]="true"
+    [rows]="2"
     dataKey="devisId"
-  [customSort]="true"
-  (onSort)="load($event)"
-  [paginator]="true"
-  [rows]="request.rows"
-  [first]="request.first"
-  [lazy]="true"
-  (onLazyLoad)="load($event)"
-  [totalRecords]="100"
-
     styleClass="p-datatable-sm p-datatable-striped"
     [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header" >
       <tr>
         <th><i class="pi pi-file"></i></th>
         <th pSortableColumn="client.nom" style="font-size: 12px">Client<p-sortIcon field="client.nom"></p-sortIcon></th>
-        <th pSortableColumn="topSelling.uname" style="font-size: 12px">Produits<p-sortIcon field="topSelling.uname"></p-sortIcon></th>
+        <th pSortableColumn="topSelling.uname" style="font-size: 12px">Produits<p-sortIcon field="products.uname"></p-sortIcon></th>
         <th pSortableColumn="nom" style="font-size: 12px">Qté</th>
         <th style="font-size: 12px">Total HT</th>
         <th style="font-size: 12px">Reduction</th>
@@ -82,6 +82,26 @@
       </tr>
     </ng-template>
   </p-table>
+<!--  <nav *ngIf="state.appData.data.page.content.length > 0" aria-label="Page navigation example">-->
+<!--    <ul class="pagination justify-content-end">-->
+<!--      <li class="page-item pointer" [ngClass]="0 == (currentPage$ | async) ? ' disabled' : ''">-->
+<!--        <a (click)="goToNextOrPreviousPage('backward')" class="page-link" aria-label="Previous">-->
+<!--          <span aria-hidden="true">&laquo; Previous</span>-->
+<!--        </a>-->
+<!--      </li>-->
+<!--      <li *ngFor="let pageNumber of [].constructor(state.appData.data.page.totalPages); let i = index;"-->
+<!--          class="page-item pointer" [ngClass]="i == (currentPage$ | async) ? ' active' : ''">-->
+<!--        <a (click)="getLoadDevis( i)" class="page-link">-->
+<!--          {{ i + 1 }}-->
+<!--        </a>-->
+<!--      </li>-->
+<!--      <li class="page-item pointer" [ngClass]="(state.appData.data.page.totalPages - 1) == (currentPage$ | async) ? ' disabled' : ''">-->
+<!--        <a (click)="goToNextOrPreviousPage('forward')" class="page-link" aria-label="Next">-->
+<!--          <span aria-hidden="true">Next &raquo;</span>-->
+<!--        </a>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </nav>-->
 
 </div>
 
