@@ -39,33 +39,21 @@ export interface Client {
   password:string;
 }
 
-export interface Page {
-  content: Devis[],
-  pageable: {
-    sort: {
-      empty: boolean,
-      sorted: boolean,
-      unsorted: boolean
-    },
-    offset: number,
-    pageSize: number,
-    pageNumber: number,
-    unpaged: boolean,
-    paged: boolean
-  },
-  last: boolean,
-  totalPages: number,
-  totalElements: number,
-  size: number,
-  number: number,
-  sort: {
-    empty: boolean,
-    sorted: boolean,
-    unsorted: boolean
-  },
-  numberOfElements: number,
-  first: boolean,
-  empty: boolean
+export interface ApiResponse<T> {
+  timeStamp: string;
+  statusCode: number;
+  status: string;  // Par exemple, "success" ou "error"
+  message?: string; // Un message optionnel, utile pour décrire une erreur
+  donnee: T; // Les données réelles retournées par l'API (ici, PageDto)
+}
+
+export interface PageDto {
+  content: Devis[];
+  totalPages: number;
+  totalElements: number;
+  pageNumber: number;
+  last: boolean;
+  first: boolean;
 }
 
 
@@ -94,13 +82,7 @@ export interface Devis {
   client?: Client; // Ajouter pour l'objet client associé
   products?: Product[]; // Ajouter pour l'objet produit associé
 }
-export interface ValeursRequest {
-  first: number,
-  rows:number,
-  sortField: string | string[],
-  sortOrder: number
 
-}
 export interface TableRows {
   fname: string,
   lname: string,

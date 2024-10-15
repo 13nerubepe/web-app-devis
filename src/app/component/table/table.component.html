@@ -16,8 +16,6 @@
 <!--           (onPage)="onPageChange($event)">-->
   <p-table
     [value]="combinedData"
-    [paginator]="true"
-    [rows]="2"
     dataKey="devisId"
     styleClass="p-datatable-sm p-datatable-striped"
     [tableStyle]="{ 'min-width': '50rem' }">
@@ -81,27 +79,34 @@
         </td>
       </tr>
     </ng-template>
-  </p-table>
-<!--  <nav *ngIf="state.appData.data.page.content.length > 0" aria-label="Page navigation example">-->
-<!--    <ul class="pagination justify-content-end">-->
-<!--      <li class="page-item pointer" [ngClass]="0 == (currentPage$ | async) ? ' disabled' : ''">-->
-<!--        <a (click)="goToNextOrPreviousPage('backward')" class="page-link" aria-label="Previous">-->
-<!--          <span aria-hidden="true">&laquo; Previous</span>-->
-<!--        </a>-->
-<!--      </li>-->
-<!--      <li *ngFor="let pageNumber of [].constructor(state.appData.data.page.totalPages); let i = index;"-->
-<!--          class="page-item pointer" [ngClass]="i == (currentPage$ | async) ? ' active' : ''">-->
-<!--        <a (click)="getLoadDevis( i)" class="page-link">-->
-<!--          {{ i + 1 }}-->
-<!--        </a>-->
-<!--      </li>-->
-<!--      <li class="page-item pointer" [ngClass]="(state.appData.data.page.totalPages - 1) == (currentPage$ | async) ? ' disabled' : ''">-->
-<!--        <a (click)="goToNextOrPreviousPage('forward')" class="page-link" aria-label="Next">-->
-<!--          <span aria-hidden="true">Next &raquo;</span>-->
-<!--        </a>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--  </nav>-->
+    <!-- Pagination -->
+    <ng-template pTemplate="footer" class="d-flex justify-content-center">
+      <div >
+        <ul class="pagination justify-content-end">
+          <li class="page-item pointer" [class.disabled]="0 === (currentPage$ | async)">
+            <a (click)="goToNextOrPreviousPage('backward')" class="page-link" aria-label="Previous">
+              <span aria-hidden="true">&laquo; Previous</span>
+            </a>
+          </li>
 
+          <li *ngFor="let pageNumber of [].constructor(Math.floor(totalItems / pageSize)); let i = index;"
+              class="page-item pointer" [class.active]="i === currentPage">
+            <a (click)="getLoadDevis(i)" class="page-link">
+              {{ i + 1 }}
+            </a>
+          </li>
+
+          <li class="page-item pointer" [class.disabled]="(currentPage + 1) * pageSize >= totalItems">
+            <a (click)="goToNextOrPreviousPage('forward')" class="page-link" aria-label="Next">
+              <span aria-hidden="true">Next &raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+
+    </ng-template>
+
+  </p-table>
 </div>
 

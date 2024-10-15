@@ -1,6 +1,14 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { Client, CreateClient, CreateProductDto, Devis, Product, ValeursRequest } from "../classes/table-data";
+import {
+  ApiResponse,
+  Client,
+  CreateClient,
+  CreateProductDto,
+  Devis,
+  PageDto,
+  Product
+} from "../classes/table-data";
 import { BehaviorSubject, catchError, combineLatest, forkJoin, map, Observable, throwError } from "rxjs";
 import { environment } from "../../environments/environment";
 
@@ -19,6 +27,7 @@ export class ProformasService{
   Quantite$ =this.quantiteSource.asObservable();
   Products$ = this.produitSource.asObservable();
   client$ = this.clientSource.asObservable();
+
   devis: Product[]=[];
   clients: Client[]=[];
 
@@ -80,9 +89,22 @@ export class ProformasService{
     return this._http.post<any>(this.baseUrl + ``,newClient)
   }
 
-  getValuesDevis():Observable<Devis[]> {
-    return this._http.get<Devis[]>(this.baseUrl + `devis/listeDevis`);
+  // getValuesDevis():Observable<ApiResponse<Page[]>> {
+  //   return this._http.get<ApiResponse<Page[]>>(this.baseUrl + `devis/listeDevis`);
+  // }
+  getValuesDevis(page: number, size: number):Observable<PageDto> {
+    return this._http.get<PageDto>(this.baseUrl + `devis/pagination?page=${page}&size=${size}`);
   }
+  // getValuesDevis(page: number, size: number): Observable<ApiResponse<PageDto>> {
+  //   const url = `${this.baseUrl}/devis/pagination?page=${page}&size=${size}`;
+  //   return this._http.get<ApiResponse<PageDto>>(url).pipe(
+  //     catchError((error) => {
+  //       console.error('Erreur lors de la récupération des devis:', error);
+  //       return throwError(() => new Error('Erreur lors de la récupération des devis'));
+  //     })
+  //   );
+  // }
+
   // recupere LES CLIENTS
   getValuesClient():Observable<Client[]> {
     return this._http.get<Client[]>(this.baseUrl + `client/listeClient`);

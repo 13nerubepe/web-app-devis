@@ -4,8 +4,7 @@ import {
   TableRows,
   Employee,
   Devis,
-  Client,
-  ValeursRequest
+  Client, ApiResponse, PageDto
 } from "../../classes/table-data";
 import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import { ProformasService } from "../../service/proformas.service";
@@ -18,8 +17,9 @@ import { SelectButtonModule } from "primeng/selectbutton";
 import { DropdownModule } from "primeng/dropdown";
 import { MultiSelectModule } from "primeng/multiselect";
 import { PaginatorService } from "../../service/paginator.service";
-import { BehaviorSubject, iif, Observable } from "rxjs";
+import { BehaviorSubject, iif, Observable, of } from "rxjs";
 import { state } from "@angular/animations";
+import { HttpErrorResponse } from "@angular/common/http";
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -43,14 +43,16 @@ export class TableComponent implements OnInit{
   client: Client[]=[];
   products: Product[]=[];
    devis: Devis[] = [];
-  combinedData: any[]=[];
+  combinedData: Devis[]=[];
+  // initialiser ca dans le constructeur ou ailleurs
+  devisState$: Observable<{ appState: string, appData?: ApiResponse<PageDto>, error?: HttpErrorResponse }>= of({ appState: 'INITIAL' });
   // devis = combineLatest([ this.proformasService.getCombinedData(this.request), this.search.controls.nom.valueChanges])
   trow: TableRows[];
   // Variables pour la pagination
+  totalPages!:number;
   currentPage: number = 0;  // Page courante
   pageSize: number = 5;    // Nombre d'éléments par page
   totalItems: number = 0;   // Nombre total d'éléments
-  pagedData: any[] = [];    // Données paginées pour l'affichage
 
 
 
@@ -83,34 +85,68 @@ export class TableComponent implements OnInit{
   // }
 
   // ---------------------------------------------------------------------FONCTIONS-----------------------------------------------------------------------
+  // getLoadDevis(pageNumber?: number): void {
+  //   console.log('Début de la récupération des devis');
+  //
+  //   this.proformasService.getValuesDevis(pageNumber ?? 0, 10).subscribe({
+  //     next: (value) => {
+  //       console.log('value', value);
+  //
+  //       // Suppression de "value.data" car les données sont directement dans "value"
+  //       if (value && value.content) {
+  //         this.combinedData = value.content; // Récupérer les devis
+  //         this.totalItems = value.totalElements; // Total des éléments
+  //         this.totalPages = value.totalPages; // Total des pages
+  //
+  //         console.log('Récupération réussie', value.content);
+  //       } else {
+  //         console.error('Données inattendues reçues :', value);
+  //         this.combinedData = []; // Initialise comme tableau vide si pas de données
+  //         this.totalItems = 0; // Mettre à jour le nombre total d'éléments à 0
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Erreur lors de la récupération des devis', err);
+  //     }
+  //   });
+  // }
+  getLoadDevis(pageNumber: number = 0): void {
+    console.log('Début de la récupération des devis');
 
-  getLoadDevis(pageNumber?: number): void{
-    console.log();
-     this.proformasService.getCombinedData().subscribe({
-       next:(value)=>{
-         this.combinedData= value;
-
-         this.totalItems = value.length;  // Obtenir le nombre total d'éléments
-         this.paginate();  // Appeler la fonction de pagination
-         console.log('Récupération réussie', value);
-       },
-       error: (err) => {
-         console.error('Erreur lors de la récupération des devis', err);
-       }
-     })
+    this.proformasService.getValuesDevis(pageNumber, 10).subscribe({
+      next: (value) => {
+        console.log('value', value);
+        if (value && Array.isArray(value.content)) {
+          const pageData = value;
+          this.combinedData = pageData.content; // Récupérer les devis
+          this.totalItems = pageData.totalElements; // Total des éléments
+          this.totalPages = pageData.totalPages; // Total des pages
+          console.log('Récupération réussie', pageData.content);
+        } else {
+          console.error('Données inattendues reçues :', value);
+          this.combinedData = []; // Initialise comme tableau vide si pas de données
+          this.totalItems = 0; // Mettre à jour le nombre total d'éléments à 0
+        }
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des devis', err);
+      }
+    });
   }
 
-  paginate(): void {
-    const start = this.currentPage * this.pageSize;
-    const end = start + this.pageSize;
-    this.pagedData = this.combinedData.slice(start, end);
-
-  }
-
-  onPageChange(event: any): void {
-    this.currentPage = event.page;  // Mettre à jour la page courante
-    this.paginate();  // Paginer à nouveau les données
-  }
+  // paginate(): void {
+  //   // Définir la taille de la page
+  //   const pageSize = 10; // par exemple, 10 éléments par page
+  //   const start = this.currentPage * this.pageSize;
+  //   const end = start + this.pageSize;
+  //   this.pagedData = this.combinedData.slice(start, end);
+  //
+  // }
+  //
+  // onPageChange(event: any): void {
+  //   this.currentPage = event.page;  // Mettre à jour la page courante
+  //   this.paginate();  // Paginer à nouveau les données
+  // }
   // loperateur ternaire (direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
   goToNextOrPreviousPage(direction:string):void{
     this.getLoadDevis(direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
@@ -172,4 +208,5 @@ export class TableComponent implements OnInit{
 
 
   protected readonly state = state;
+  protected readonly Math = Math;
 }
