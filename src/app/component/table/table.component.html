@@ -16,6 +16,10 @@
 <!--           (onPage)="onPageChange($event)">-->
   <p-table
     [value]="combinedData"
+    [rows]="pageSize"
+    [totalRecords]="totalElements"
+    [first]="pageNumber*pageSize"
+    paginator="true"
     dataKey="devisId"
     styleClass="p-datatable-sm p-datatable-striped"
     [tableStyle]="{ 'min-width': '50rem' }">
@@ -61,7 +65,8 @@
           </ng-container>
         </td>
 <!--        <td style="width: 15%" class="single-line-cell"><input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(product, $event)" min="1"/></td>-->
-        <td style="width: 15%" class="single-line-cell">{{devis.products.qte}}
+        <td style="width: 15%" class="single-line-cell">
+          {{devis.products.qte}}
 <!--          <input type="number" [(ngModel)]="devis.topSelling.qte" (ngModelChange)="onQuantityChange(devis, $event)" min="1"/>-->
         </td>
         <td style="width: 15%" class="single-line-cell">{{ devis.products.totalHt }}</td>
@@ -73,39 +78,45 @@
         <td style="width: 15%" class="single-line-cell">{{ devis.cassier }}</td>
         <td style="width: 25%">
         </td>
-        <td style="width: 5%">
-          <p-button size="small" icon="pi pi-ellipsis-v" [rounded]="true"
-                    [text]="true" [plain]="true"></p-button>
+        <td class="text-end">
+          <button class="btn btn-sm btn-secondary me-1" >
+            <i class="bi bi-pen"></i>
+          </button>
+          <button class="btn btn-sm btn-danger me-1">
+            <i class="bi bi-trash"></i>
+          </button>
         </td>
       </tr>
     </ng-template>
-    <!-- Pagination -->
-    <ng-template pTemplate="footer" class="d-flex justify-content-center">
-      <div >
-        <ul class="pagination justify-content-end">
-          <li class="page-item pointer" [class.disabled]="0 === (currentPage$ | async)">
-            <a (click)="goToNextOrPreviousPage('backward')" class="page-link" aria-label="Previous">
-              <span aria-hidden="true">&laquo; Previous</span>
-            </a>
-          </li>
+<!--    &lt;!&ndash; Pagination &ndash;&gt;-->
+<!--    <ng-template pTemplate="footer" >-->
+<!--      <div class="pagination-lg" >-->
+<!--        <ul class="pagination">-->
+<!--          <li class="page-item pointer" [class.disabled]="pageNumber === 0 || (pageNumber - 1) * pageSize >= totalElements">-->
+<!--            <a (click)="goToNextOrPreviousPage('backward')" class="page-link" aria-label="Previous"-->
+<!--               [attr.aria-disabled]="pageNumber === 0 ? 'true' : 'false'">-->
+<!--              <span aria-hidden="true">&laquo; Previous</span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--          &lt;!&ndash; Boutons de numéros de pages &ndash;&gt;-->
+<!--          <li *ngFor="let _ of getTotalPages(); let i = index;"-->
+<!--              class="ui-paginator-page ui-paginator-element ui-state-default ui-corner-all"-->
+<!--              [class.ui-state-active]="i === pageNumber">-->
+<!--            <a (click)="getLoadDevis(i)" class="ui-paginator-link">-->
+<!--              {{ i + 1 }}-->
+<!--            </a>-->
+<!--          </li>-->
 
-          <li *ngFor="let pageNumber of [].constructor(Math.floor(totalItems / pageSize)); let i = index;"
-              class="page-item pointer" [class.active]="i === currentPage">
-            <a (click)="getLoadDevis(i)" class="page-link">
-              {{ i + 1 }}
-            </a>
-          </li>
+<!--          <li class="page-item pointer" [class.disabled]="(pageNumber + 1) * pageSize >= totalElements">-->
+<!--            <a (click)="goToNextOrPreviousPage('forward')" class="page-link" aria-label="Next">-->
+<!--              <span aria-hidden="true">Next &raquo;</span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
 
-          <li class="page-item pointer" [class.disabled]="(currentPage + 1) * pageSize >= totalItems">
-            <a (click)="goToNextOrPreviousPage('forward')" class="page-link" aria-label="Next">
-              <span aria-hidden="true">Next &raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+<!--    </ng-template>-->
 
-
-    </ng-template>
 
   </p-table>
 </div>

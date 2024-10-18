@@ -4,7 +4,6 @@ export interface Product {
   productName?: string,
   libele?: string,
   unite?: string,
-  gmail?: string,
   description?: string,
   prixUnitaire?: number,
   qteenstock?: number,
@@ -44,6 +43,7 @@ export interface ApiResponse<T> {
   statusCode: number;
   status: string;  // Par exemple, "success" ou "error"
   message?: string; // Un message optionnel, utile pour décrire une erreur
+  // TYPE GENERIQUE
   donnee: T; // Les données réelles retournées par l'API (ici, PageDto)
 }
 

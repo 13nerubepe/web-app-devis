@@ -20,10 +20,11 @@ import { PaginatorService } from "../../service/paginator.service";
 import { BehaviorSubject, iif, Observable, of } from "rxjs";
 import { state } from "@angular/animations";
 import { HttpErrorResponse } from "@angular/common/http";
+import { PaginatorModule } from "primeng/paginator";
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [NgFor, Button, PrimeTemplate, TableModule, InputNumberModule, SelectButtonModule, DropdownModule, FormsModule, MultiSelectModule, ReactiveFormsModule, NgIf, AsyncPipe],
+  imports: [NgFor, Button, PrimeTemplate, TableModule, InputNumberModule, SelectButtonModule, DropdownModule, FormsModule, MultiSelectModule, ReactiveFormsModule, NgIf, AsyncPipe, PaginatorModule],
   templateUrl: 'table.component.html'
 })
 
@@ -49,10 +50,10 @@ export class TableComponent implements OnInit{
   // devis = combineLatest([ this.proformasService.getCombinedData(this.request), this.search.controls.nom.valueChanges])
   trow: TableRows[];
   // Variables pour la pagination
-  totalPages!:number;
-  currentPage: number = 0;  // Page courante
-  pageSize: number = 5;    // Nombre d'éléments par page
-  totalItems: number = 0;   // Nombre total d'éléments
+   totalPages!:number; //Le nombre total de pages disponibles
+   pageNumber:number=0;// currentPage: number = 0;  //Le numéro de la page actuellement affichée (commence à 0)
+   pageSize: number = 5;    // Nombre d'éléments par page
+   totalElements:number=0; // totalItems: number = 0;   // Nombre total d'éléments
 
 
 
@@ -119,13 +120,13 @@ export class TableComponent implements OnInit{
         if (value && Array.isArray(value.content)) {
           const pageData = value;
           this.combinedData = pageData.content; // Récupérer les devis
-          this.totalItems = pageData.totalElements; // Total des éléments
+          this.totalElements = pageData.totalElements; // Total des éléments
           this.totalPages = pageData.totalPages; // Total des pages
           console.log('Récupération réussie', pageData.content);
         } else {
           console.error('Données inattendues reçues :', value);
           this.combinedData = []; // Initialise comme tableau vide si pas de données
-          this.totalItems = 0; // Mettre à jour le nombre total d'éléments à 0
+          this.totalElements = 0; // Mettre à jour le nombre total d'éléments à 0
         }
       },
       error: (err) => {
@@ -133,6 +134,7 @@ export class TableComponent implements OnInit{
       }
     });
   }
+
 
   // paginate(): void {
   //   // Définir la taille de la page
@@ -142,15 +144,32 @@ export class TableComponent implements OnInit{
   //   this.pagedData = this.combinedData.slice(start, end);
   //
   // }
-  //
-  // onPageChange(event: any): void {
-  //   this.currentPage = event.page;  // Mettre à jour la page courante
-  //   this.paginate();  // Paginer à nouveau les données
-  // }
   // loperateur ternaire (direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
+  onQuantityChangeDevis(devis: Devis) {
+    if (devis.products && devis.products.length > 0) {
+      devis.products.forEach(product => {
+        if (product.qte && product.prixUnitaire) {
+          const total = product.qte * product.prixUnitaire;
+          console.log('Total HT pour ce produit:', total);
+          console.log('Quantité modifiée:', product.qte);
+        }
+      });
+    }
+  }
+
   goToNextOrPreviousPage(direction:string):void{
     this.getLoadDevis(direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
   }
+  // Calculer le nombre total de pages
+  getTotalPages(): number[] {
+    const totalPages = Math.floor(this.totalElements / this.pageSize);
+    return Array(totalPages).fill(0).map((x, i) => i); // Crée un tableau avec les index des pages
+  }
+
+  // onPageChange(event: any) {
+  //   const newPageIndex = event.page;
+  //   this.getLoadDevis(newPageIndex); // Appel de votre fonction pour charger les devis
+  // }
 
 
   // ----------------------------------FONCTION---------------------------------------------

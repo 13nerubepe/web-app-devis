@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, map } from 'rxjs';
 import { AppDataStoreService } from 'src/app/service/app-data-store.service';
@@ -21,8 +21,11 @@ export class ListUserComponent implements OnInit{
 
 
   // allUsers: Client[] = [];
+  userSelectedClient:Client[]=[];
   selectedClientR!: Client;
   clientDialog: boolean=false;
+  clientRenameDialog: boolean=false; // Contrôle de l'affichage du p-dialog
+  renameForm: FormGroup;  // Formulaire de renommage
   grades = [
     { label: "Administrateur", value: 50 },
     { label: "Chef de point de vente", value: 35 },
@@ -48,11 +51,21 @@ export class ListUserComponent implements OnInit{
 
   constructor(
     private proformasService: ProformasService,
+    private fb:FormBuilder,
     private dataRestService: DataRestService,
     private modalService: NgbModal,
     private appDataStoreService: AppDataStoreService,
   ) {
     this.pv = this.dataRestService.getOneLocalData("pv");
+    // Initialiser le formulaire de renommage
+    this.renameForm = this.fb.group({
+      nom: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      address: ['', Validators.required],
+      ville: ['', Validators.required],
+      grade: ['', Validators.required]
+    });
   }
 
   ngOnInit(): void {
@@ -77,17 +90,33 @@ export class ListUserComponent implements OnInit{
   }
 
 
-  showModal(show = true, data: any | null = null) {
-    this.user = data;
-    this.mpForm.patchValue(this.user);
-
-    this.openModal();
-    this.isModalOpen = show;
-  }
+  // showModal(show = true, data: any | null = null) {
+  //   this.user = data;
+  //   this.mpForm.patchValue(this.user);
+  //
+  //   this.openModal();
+  //   this.isModalOpen = show;
+  // }
 
   openModal() {
    this.clientDialog =true;
   }
+
+  // Ouvrir le modal et pré-remplir le formulaire avec les données du client sélectionné
+  openRenameModal(client:Client) {
+    // this.selectedClientR = client;// Stocker le client sélectionné
+    this.clientRenameDialog =true;
+    console.log(this.selectedClientR);
+    this.renameForm.patchValue({
+      nom: client.nom,
+      email: client.email,
+      phone: client.phone,
+      address: client.address,
+      ville: client.ville,
+      grade: client.grade }); // Pré-remplir le formulaire avec les données du client
+
+  }
+
 
   addClient() {
     if (this.mpForm.valid) {
@@ -96,7 +125,7 @@ export class ListUserComponent implements OnInit{
       console.log('Valeurs du formulaire:', valueClient); // Affiche les valeurs du formulaire
       this.proformasService.createClient(valueClient).subscribe({
         next: (response) => {
-          console.log('Response:', response); // Affiche les valeurs du formulaire
+          console.log('Response DE LA VALEUR DU CLIENT:', response); // Affiche les valeurs du formulaire
           this.clientDialog = false;
         }
       });
@@ -104,15 +133,24 @@ export class ListUserComponent implements OnInit{
   }
 
   renameClient(){
+    // Récupérer les données du formulaire de renommage
+    // const valeurRenameClient = this.renameForm.value;
+    // console.log('valeurRenameClient',valeurRenameClient)
+    // Préparer les données avec l'ID du client sélectionné
+    // const clientToRename = {
+    //
+    //   clientId: this.selectedClientR.clientId,  // Utiliser l'ID du client sélectionné
+    //
+    //
+    //   ...valeurRenameClient                    // Fusionner les autres champs du formulaire
+    //
+    // };
+    // console.log('selectedClientR:', this.selectedClientR);
+    // console.log('clientToRename:', clientToRename)
 
-    const valeurRenameClient = this.mpForm.value;
-    console.log('valeurRenameClient',valeurRenameClient)
-    // Préparez les données avec l'ID du client sélectionné
-    const clientToRename = {
-      clientId: this.selectedClientR.clientId,  // On utilise l'ID du client sélectionné
-      ...valeurRenameClient                     // On fusionne les autres champs du formulaire
-    };
-    this.proformasService.renameClient(valeurRenameClient).subscribe({
+    this.proformasService.renameClient({
+      clientId: this.selectedClientR.clientId,
+    }).subscribe({
         next: (response) => {
           console.log('remane client:', response);
         },
@@ -121,6 +159,18 @@ export class ListUserComponent implements OnInit{
       }
     });
   }
+   deleteClient(clientId: string){
+    this.proformasService.deleteClient(clientId).subscribe({
+      next: (response) => {
+        console.log('delete client:', response);
+        // Mettre à jour le tableau users en supprimant le client localement
+        this.users = this.users.filter(user => user.clientId !== clientId);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la suppression du client:', error);
+      }
+    })
+   }
 
   ngAfterViewInit(): void {
     if (!(this.users.length > 0)) {

@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {
-  ApiResponse,
   Client,
   CreateClient,
   CreateProductDto,
@@ -50,14 +49,9 @@ export class ProformasService{
       this.quantiteSource.next(currentDevis);
     }
   }
-  updatequantite(productId:any, qte:number): Observable<Product>{
-    return this._http.put<Product>(`${this.baseUrl}'devis/${productId}`,{qte}).pipe(catchError(this.handleError))
-  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     return throwError('Something bad happened; please try again later.');
-  }
-  addClient(addClient: CreateClient): Observable<Client>{
-    return this._http.post<Client>(this.baseUrl + 'client/createClient', addClient);
   }
 
   setProduct(varProduct: Product|Product[]) {
@@ -86,7 +80,10 @@ export class ProformasService{
     return this._http.post<any>(this.baseUrl +  `client/createClient`, newClient)
   }
   renameClient(newClient:any):Observable<any>{
-    return this._http.post<any>(this.baseUrl + ``,newClient)
+    return this._http.post<any>(this.baseUrl + `client/updateClient`,newClient)
+  }
+  deleteClient(clientId: string):Observable<any>{
+    return this._http.delete(this.baseUrl+ `client/deleteClient/${clientId}`)
   }
 
   // getValuesDevis():Observable<ApiResponse<Page[]>> {
@@ -95,15 +92,6 @@ export class ProformasService{
   getValuesDevis(page: number, size: number):Observable<PageDto> {
     return this._http.get<PageDto>(this.baseUrl + `devis/pagination?page=${page}&size=${size}`);
   }
-  // getValuesDevis(page: number, size: number): Observable<ApiResponse<PageDto>> {
-  //   const url = `${this.baseUrl}/devis/pagination?page=${page}&size=${size}`;
-  //   return this._http.get<ApiResponse<PageDto>>(url).pipe(
-  //     catchError((error) => {
-  //       console.error('Erreur lors de la récupération des devis:', error);
-  //       return throwError(() => new Error('Erreur lors de la récupération des devis'));
-  //     })
-  //   );
-  // }
 
   // recupere LES CLIENTS
   getValuesClient():Observable<Client[]> {
