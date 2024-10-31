@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { combineLatest, map } from 'rxjs';
+import { combineLatest, map, tap } from "rxjs";
 import { AppDataStoreService } from 'src/app/service/app-data-store.service';
 import { DataRestService } from 'src/app/service/data-rest.service';
 import Swal from 'sweetalert2';
@@ -21,6 +21,11 @@ export class ListUserComponent implements OnInit{
 
 
   // allUsers: Client[] = [];
+
+  pageNumber:number=0;// currentPage: number = 0;  //Le numéro de la page actuellement affichée (commence à 0)
+  pageSize: number = 5;    // Nombre d'éléments par page
+  totalElements:number=0; // totalItems: number = 0;   // Nombre total d'éléments
+
   userSelectedClient:Client[]=[];
   selectedClientR!: Client;
   clientDialog: boolean=false;

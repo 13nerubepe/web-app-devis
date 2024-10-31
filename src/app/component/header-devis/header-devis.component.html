@@ -92,7 +92,7 @@
       <p-table  [value]="ajoutProducts"
                 [tableStyle]="{'min-width': '50rem', 'height': '10rem'}"
                 [(selection)]="selectedProducts"
-                (onRowSelect)="onRowSelect($event)"
+
                 dataKey="productId">
         <ng-template pTemplate="header">
           <tr>
@@ -110,7 +110,7 @@
             </td>
             <td style="width: 15%" class="single-line-cell">{{ products.productName }}({{products.prixUnitaire}})</td>
             <td style="width: 15%" class="single-line-cell">
-              <input type="number" min="1" [(ngModel)]="products.qte" (ngModelChange)="onQuantityChange(products.qte)" />
+              <input type="number" min="1" [(ngModel)]="products.qte"  />
             </td>
             <!--            <td style="width: 15%" class="single-line-cell">{{ products.qte * products.prixUnitaire | currency:'XAF' }}</td>-->
              <td style="width: 15%" class="single-line-cell">{{calculTotalHtEachProduct(products) | currency: 'XAF'}}</td>
@@ -131,38 +131,36 @@
 </div>
 
 <div class="field">
-  <!--        <p-button  label="add" icon="pi pi-check" [disabled]="formClient.invalid"></p-button>-->
-<!--  BUTTON DE CREATION-->
   <p-button class="button"  (click)="openDialog()"  label="Create" icon="pi pi-check"></p-button>
 </div>
 
 <!-- AFFICHAGE DES PRODUITS SELECTIONNEES -->
-<div *ngIf="selectedProducts.length > 0">
-  <h6>Produits sélectionnés</h6>
-  <p-table [value]="selectedProducts" [paginator]="true" [rows]="10">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Nom du produit</th>
-        <th>Catégories</th>
-        <th>Quantité</th>
-        <th>Prix Unitaire</th>
-        <th>Total HT</th>
-        <th>Actions</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-devis >
-      <tr>
-        <td>{{ devis.productName }}</td>
-        <td>{{ devis.categories }}</td>
-        <td>{{devis.qte}}</td>
-        <td>{{ devis.prixUnitaire | currency:'XOF' }}</td>
-        <td>{{ calculTotalHtEachProduct(devis) | currency: 'XAF' }}</td>
-<!--        <td>-->
-<!--          <button pButton type="button" icon="pi pi-times" (click)="removeProduct(product.productId)"></button>-->
-<!--        </td>-->
-      </tr>
-    </ng-template>
-  </p-table></div>
+<!--<div *ngIf="selectedProducts.length > 0">-->
+<!--  <h6>Produits sélectionnés</h6>-->
+<!--  <p-table [value]="selectedProducts" [paginator]="true" [rows]="10">-->
+<!--    <ng-template pTemplate="header">-->
+<!--      <tr>-->
+<!--        <th>Nom du produit</th>-->
+<!--        <th>Catégories</th>-->
+<!--        <th>Quantité</th>-->
+<!--        <th>Prix Unitaire</th>-->
+<!--        <th>Total HT</th>-->
+<!--        <th>Actions</th>-->
+<!--      </tr>-->
+<!--    </ng-template>-->
+<!--    <ng-template pTemplate="body" let-devis >-->
+<!--      <tr>-->
+<!--        <td>{{ devis.productName }}</td>-->
+<!--        <td>{{ devis.categories }}</td>-->
+<!--        <td>{{devis.qte}}</td>-->
+<!--        <td>{{ devis.prixUnitaire | currency:'XOF' }}</td>-->
+<!--        <td>{{ calculTotalHtEachProduct(devis) | currency: 'XAF' }}</td>-->
+<!--&lt;!&ndash;        <td>&ndash;&gt;-->
+<!--&lt;!&ndash;          <button pButton type="button" icon="pi pi-times" (click)="removeProduct(product.productId)"></button>&ndash;&gt;-->
+<!--&lt;!&ndash;        </td>&ndash;&gt;-->
+<!--      </tr>-->
+<!--    </ng-template>-->
+<!--  </p-table></div>-->
 
 <!--CREER UN DEVIS OU ADDClient-->
 <p-dialog [header]="'createDevis' " [modal]="true" [(visible)]="DevisDialog"

@@ -59,6 +59,7 @@ export class ClientComponent implements OnInit {
     this.proformaService.getValuesClient().subscribe({
       next:(value)=>{
         this.allClients=value;
+        console.log("valaue clients:", value);
       }
     })
   }

@@ -19,6 +19,10 @@
         <p-table
           [value]="users"
           [(selection)]="userSelectedClient"
+          [rows]="pageSize"
+          [totalRecords]="totalElements"
+          [first]="pageNumber*pageSize"
+          paginator="true"
           selectionMode="multiple"
           dataKey="clientId"
           class="table table-striped table-hover">
@@ -89,8 +93,14 @@
 <!--  <ng-template #ngModal class="modal show" tabindex="-1" role="dialog" data-backdrop="static" *ngIf="true">-->
 <!--    <app-add-user [isClient]="isClient" (continueAction)="reloadData()"></app-add-user>-->
 <!--  </ng-template>-->
-  <p-button icon="pi pi-user" [rounded]="true" [text]="true" [raised]="true"  />
-
+<!--  <p-button icon="pi pi-user" [rounded]="true" [text]="true" [raised]="true"  />-->
+  <div class="mx-auto flex-row justify-content-center">
+    <button class="w-10 btn btn-sm btn-danger me-1 rounded-circle fadeoutdown animation-duration-500 animation-iteration-infinite">
+      <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 14-4-4m4 4 4-4"/>
+      </svg>
+    </button>
+  </div>
 </main>
 
 <!--CREATE CLIENT-->
@@ -142,48 +152,48 @@
 
 
 <!--RENAME CLIENT-->
-<p-dialog [header]="'RenameCustomer'" [modal]="true" [(visible)]="clientRenameDialog"
-          [style]="{ width: '30rem' }">
-  <span class="p-text-secondary block mb-5">Veuillez entrer les informations pour renommer un client.</span>
+<!--<p-dialog [header]="'RenameCustomer'" [modal]="true" [(visible)]="clientRenameDialog"-->
+<!--          [style]="{ width: '30rem' }">-->
+<!--  <span class="p-text-secondary block mb-5">Veuillez entrer les informations pour renommer un client.</span>-->
 
-  <form  [formGroup]="renameForm">
-    <div class="flex align-items-center mb-3">
-      <label for="nameRename" class="font-semibold w-8rem">Nom du Client</label>
-      <input pInputText id="nameRename" formControlName="nom" class="flex-auto" autocomplete="off" value="selectedClientR.nom"/>
-    </div>
+<!--  <form  [formGroup]="renameForm">-->
+<!--    <div class="flex align-items-center mb-3">-->
+<!--      <label for="nameRename" class="font-semibold w-8rem">Nom du Client</label>-->
+<!--      <input pInputText id="nameRename" formControlName="nom" class="flex-auto" autocomplete="off" value="selectedClientR.nom"/>-->
+<!--    </div>-->
 
-    <div class="flex align-items-center mb-3">
-      <label for="emailRename" class="font-semibold w-8rem">Email</label>
-      <input pInputText id="emailRename" formControlName="email" class="flex-auto" autocomplete="off"/>
-    </div>
+<!--    <div class="flex align-items-center mb-3">-->
+<!--      <label for="emailRename" class="font-semibold w-8rem">Email</label>-->
+<!--      <input pInputText id="emailRename" formControlName="email" class="flex-auto" autocomplete="off"/>-->
+<!--    </div>-->
 
-    <div class="flex align-items-center mb-3">
-      <label for="phoneRename" class="font-semibold w-8rem">Numero de Telephone</label>
-      <input pInputText id="phoneRename" formControlName="phone" class="flex-auto" autocomplete="off"/>
-    </div>
+<!--    <div class="flex align-items-center mb-3">-->
+<!--      <label for="phoneRename" class="font-semibold w-8rem">Numero de Telephone</label>-->
+<!--      <input pInputText id="phoneRename" formControlName="phone" class="flex-auto" autocomplete="off"/>-->
+<!--    </div>-->
 
-    <div class="flex align-items-center mb-3">
-      <label for="adresseRename" class="font-semibold w-8rem">Adresse</label>
-      <input pInputText id="adresseRename" formControlName="address" class="flex-auto" autocomplete="off"/>
-    </div>
+<!--    <div class="flex align-items-center mb-3">-->
+<!--      <label for="adresseRename" class="font-semibold w-8rem">Adresse</label>-->
+<!--      <input pInputText id="adresseRename" formControlName="address" class="flex-auto" autocomplete="off"/>-->
+<!--    </div>-->
 
-    <div class="flex align-items-center mb-3">
-      <label for="villeRename" class="font-semibold w-8rem">Ville</label>
-      <input pInputText id="villeRename" formControlName="ville" class="flex-auto" autocomplete="off"/>
-    </div>
+<!--    <div class="flex align-items-center mb-3">-->
+<!--      <label for="villeRename" class="font-semibold w-8rem">Ville</label>-->
+<!--      <input pInputText id="villeRename" formControlName="ville" class="flex-auto" autocomplete="off"/>-->
+<!--    </div>-->
 
-    <div class="flex align-items-center mb-3">
-      <label for="gradeRename" class="font-semibold w-8rem">Fonction</label>
-      <p-dropdown id="gradeRename" formControlName="grade" [options]="grades"></p-dropdown>
-      <!--      <input pInputText   class="flex-auto" autocomplete="off"/>-->
-    </div>
+<!--    <div class="flex align-items-center mb-3">-->
+<!--      <label for="gradeRename" class="font-semibold w-8rem">Fonction</label>-->
+<!--      <p-dropdown id="gradeRename" formControlName="grade" [options]="grades"></p-dropdown>-->
+<!--      &lt;!&ndash;      <input pInputText   class="flex-auto" autocomplete="off"/>&ndash;&gt;-->
+<!--    </div>-->
 
-    <p-button [label]="'renameButton'" type="submit" (click)="renameClient()"/>
-  </form>
+<!--    <p-button [label]="'renameButton'" type="submit" (click)="renameClient()"/>-->
+<!--  </form>-->
 
-  <div class="flex justify-content-end gap-2">
-    <p-button [label]="'cancelButton'" severity="secondary" (click)="clientRenameDialog=false"/>
-  </div>
-</p-dialog>
+<!--  <div class="flex justify-content-end gap-2">-->
+<!--    <p-button [label]="'cancelButton'" severity="secondary" (click)="clientRenameDialog=false"/>-->
+<!--  </div>-->
+<!--</p-dialog>-->
 
 <!--<app-spinner *ngIf="loading" [loading]="loading"></app-spinner>-->

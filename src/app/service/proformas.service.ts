@@ -20,9 +20,11 @@ export class ProformasService{
 
 
   formValues: BehaviorSubject<Devis | null> = new BehaviorSubject<Devis | null>(null);
+  private quantiteStocké= new BehaviorSubject<Product| null>(null);
   private clientSource = new BehaviorSubject<Client | null>(null);//Permet de stocker et de diffuser la dernière valeur observée aux nouveaux abonnés.
   private produitSource = new BehaviorSubject<Product[]>([]);
   private quantiteSource = new BehaviorSubject<Devis[]>([]);
+  valeurQuantite$ =this.quantiteStocké.asObservable();
   Quantite$ =this.quantiteSource.asObservable();
   Products$ = this.produitSource.asObservable();
   client$ = this.clientSource.asObservable();
@@ -38,7 +40,10 @@ export class ProformasService{
   }
   // mettre a jour le client selectionné
   setClient(client: Client) {
-    this.clientSource.next(client); // Met à jour le client actuel
+    this.clientSource.next(client); // Met à jour
+  }
+  setValQuantite(qte: Product) {
+    this.quantiteStocké.next(qte); // Met à jour la qte actuel
   }
 
   setQuantite(updatedDevis: Devis) {

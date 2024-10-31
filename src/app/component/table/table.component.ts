@@ -43,7 +43,7 @@ export class TableComponent implements OnInit{
   // faut initialiser pour que la liste de client ne soit pas vide
   client: Client[]=[];
   products: Product[]=[];
-   devis: Devis[] = [];
+  devis: Devis[] = [];
   combinedData: Devis[]=[];
   // initialiser ca dans le constructeur ou ailleurs
   devisState$: Observable<{ appState: string, appData?: ApiResponse<PageDto>, error?: HttpErrorResponse }>= of({ appState: 'INITIAL' });

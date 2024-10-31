@@ -106,13 +106,17 @@
 <!--    <span><p-button  class="field" (click)="openDialog()">Create</p-button></span>-->
   </div>
 
-  <div class="flex">
+  <div class="row">
     <div class="card">
-        <p-scrollPanel [style]="{ width: '100%', height: 'calc(100vh - 100px)' }">
+        <p-scrollPanel [style]="{ width: '100%', height: 'calc(50vh - 50px)' }">
           <p-table
             [value]="products"
             selectionMode="multiple"
             [(selection)]="userProductSelected"
+            [rows]="pageSize"
+            [totalRecords]="totalElements"
+            [first]="pageNumber*pageSize"
+            paginator="true"
             dataKey="productId"
             styleClass="p-datatable-sm p-datatable-striped"
             [tableStyle]="{ 'min-width': '50rem' }">

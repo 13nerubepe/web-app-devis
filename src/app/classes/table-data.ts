@@ -8,7 +8,6 @@ export interface Product {
   prixUnitaire?: number,
   qteenstock?: number,
   categories: string,
-  qte?: number,
   tva?: number,
   totalTva?: number,
   totalHT?: number
@@ -66,6 +65,26 @@ export interface CreateClient {
   ville: string;
   grade: string;
 }
+export interface Objet {
+  totalHt: number;
+  reduction:string;
+  qte?: number,
+  date:string;
+  cassier: string;
+  client?: Client; // Ajouter pour l'objet client associé
+  products?: Product[];
+  image?: string,
+  productName?: string,
+  libele?: string,
+  unite?: string,
+  description?: string,
+  prixUnitaire?: number,
+  qteenstock?: number,
+  categories: string,
+  tva?: number,
+  totalTva?: number,
+  totalHT?: number
+}
 
 
 export interface Devis {
@@ -75,6 +94,7 @@ export interface Devis {
   totalHt: number;
   reduction:string;
   totalTva:number;
+  qte?: number,
   // tva: number;
   // totalpar objet productotal
   date:string;

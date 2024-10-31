@@ -15,6 +15,11 @@ export class ProduitsComponent implements OnInit{
   products: Product[] = [];
   selectedCategorie!:Product
   filteredCategories:Product[]=[];
+
+  pageNumber:number=0;// currentPage: number = 0;  //Le numéro de la page actuellement affichée (commence à 0)
+  pageSize: number = 5;    // Nombre d'éléments par page
+  totalElements:number=0; // totalItems: number = 0;   // Nombre total d'éléments
+
   userProductSelected = new Array<Product>()
   categories=[
     { label: 'Électronique', value: 'electronique' },

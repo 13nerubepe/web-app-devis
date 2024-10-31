@@ -10,7 +10,7 @@ import {
   Validators
 } from "@angular/forms";
 import { ProformasService } from "../../service/proformas.service";
-import { Client, Devis, Product } from "../../classes/table-data";
+import { Client, Devis, Objet, Product } from "../../classes/table-data";
 import { Button } from "primeng/button";
 import { PrimeTemplate } from "primeng/api";
 import { ScrollPanelModule } from "primeng/scrollpanel";
@@ -58,10 +58,12 @@ export class HeaderDevisComponent implements OnInit{
   grade: any = {};
   clients:Client[]=[];
   products:Product[]=[];
+  geneDevis:Objet[]=[];
+
   ajoutProducts:Product[]=[];
   filteredClients: Client[] =[];
   filteredProducts: Product[] =[];
-  selectedProducts: Product[] = [];
+  selectedProducts: Array<Product> = new Array<Product>();
   selectedProduct!:Product;
   selectedClient!:Client; // VARIABLE QUI PERMET DE STOCKER LA VALEUR client SELECTIONée par lutilisateur
   DevisDialog: boolean = false;
@@ -84,6 +86,7 @@ export class HeaderDevisComponent implements OnInit{
 
   ngOnInit(): void {
     this.proformasService.Products$.subscribe(products => {
+    console.log("this.selectedProducts", products);
       this.selectedProducts = products;
     });
     this.getProduct();
@@ -166,11 +169,21 @@ export class HeaderDevisComponent implements OnInit{
 
 
   // Fonction qui se déclenche à chaque changement de quantité
-  onQuantityChange(product: Product) {
-    if (product.qte && product.prixUnitaire) {
-      const total = product.qte * product.prixUnitaire;
-      console.log('Total HT pour ce produit:', total);
-      console.log('Quantité modifiée:', product.qte);
+  // onQuantityChange(product: Product) {
+  //   if (product.qte && product.prixUnitaire) {
+  //     const total = product.qte * product.prixUnitaire;
+  //     console.log('Total HT pour ce produit:', total);
+  //     console.log('Quantité modifiée:', product.qte);
+  //   }
+  // }
+
+  // CALCULE LA TOTAL DE CHAQUE PRODUIT
+  calculTotalHtEachProduct(calTotal: Objet): any{
+
+    if(calTotal.qte &&calTotal.prixUnitaire){
+      const totalHt = calTotal.qte * calTotal.prixUnitaire;
+      console.log("totalHt", totalHt);
+      return totalHt;
     }
   }
 
@@ -178,30 +191,24 @@ export class HeaderDevisComponent implements OnInit{
     this.DevisDialog = true;
   }
   // Optionnel: Gestion de la sélection de ligne entière (si vous voulez) ou plusieurs
-  onRowSelect(event: any) {
-    // Vérification que la quantité est bien saisie et calcul du total
-    // Récupérer le produit sélectionné
-    const selectedP = event.data;
-    // Vérification que la quantité et le prix unitaire sont bien saisis, puis calcul du total
-    this.onQuantityChange(selectedP); // Calculer le total dès la sélection
+  // onRowSelect(event: any) {
+  //   // Vérification que la quantité est bien saisie et calcul du total
+  //   // Récupérer le produit sélectionné
+  //   const selectedP = event.data;
+  //   // Vérification que la quantité et le prix unitaire sont bien saisis, puis calcul du total
+  //   this.onQuantityChange(selectedP); // Calculer le total dès la sélection
+  //
+  //   // Vérifier si le produit est déjà dans la liste des produits sélectionnés
+  //   const existingProduct = this.selectedProducts.find(p => p.productId === selectedP.productId);
+  //   // Si le produit n'est pas déjà sélectionné, on l'ajoute à la liste
+  //   if (!existingProduct) {
+  //     this.selectedProducts.push(selectedP);
+  //   }
+  //
+  //   console.log('Produits sélectionnés ici:', this.selectedProducts);
+  // }
 
-    // Vérifier si le produit est déjà dans la liste des produits sélectionnés
-    const existingProduct = this.selectedProducts.find(p => p.productId === selectedP.productId);
-    // Si le produit n'est pas déjà sélectionné, on l'ajoute à la liste
-    if (!existingProduct) {
-      this.selectedProducts.push(selectedP);
-    }
 
-    console.log('Produits sélectionnés ici:', this.selectedProducts);
-  }
-
-// CALCULE LA TOTAL DE CHAQUE PRODUIT
-  calculTotalHtEachProduct(products:Product): any{
-    if(products.qte &&products.prixUnitaire){
-      const totalHt = products.qte * products.prixUnitaire;
-      return totalHt;
-    }
-  }
 
   creerDevis(){
     // Vérifier que des produits et un client ont été sélectionnés
@@ -215,16 +222,16 @@ export class HeaderDevisComponent implements OnInit{
       return;
     }
     // this.calculTotalHtEachProduct(this.products);
-
+    console.log("this.products", this.products);
     // Calculer le total HT de tous les produits sélectionnés
-      const totalTHt = this.selectedProducts.reduce((acc, product) => {
+      const totalTHt = this.geneDevis.reduce((acc, product) => {
         const qte = product.qte ?? 0;
         const prixUnitaire =product.prixUnitaire ?? 0;
         return acc + (qte * prixUnitaire);
       }, 0);
 
     // Préparer les IDs des produits pour le devis
-    const productIds = this.selectedProducts.map(product => product.productId);
+    const productIds = this.products.map(product => product.productId);
 
     // Construire l'objet devis
     const devis = {
