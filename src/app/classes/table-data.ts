@@ -72,7 +72,7 @@ export interface Objet {
   date:string;
   cassier: string;
   client?: Client; // Ajouter pour l'objet client associé
-  products?: Product[];
+  products: Product[];
   image?: string,
   productName?: string,
   libele?: string,

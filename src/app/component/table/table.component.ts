@@ -4,7 +4,7 @@ import {
   TableRows,
   Employee,
   Devis,
-  Client, ApiResponse, PageDto
+  Client, ApiResponse, PageDto, Objet
 } from "../../classes/table-data";
 import { AsyncPipe, NgFor, NgIf } from "@angular/common";
 import { ProformasService } from "../../service/proformas.service";
@@ -44,6 +44,7 @@ export class TableComponent implements OnInit{
   client: Client[]=[];
   products: Product[]=[];
   devis: Devis[] = [];
+  objet: Objet[]=[];
   combinedData: Devis[]=[];
   // initialiser ca dans le constructeur ou ailleurs
   devisState$: Observable<{ appState: string, appData?: ApiResponse<PageDto>, error?: HttpErrorResponse }>= of({ appState: 'INITIAL' });
@@ -66,7 +67,7 @@ export class TableComponent implements OnInit{
     //   this.items.push({ label: 'Item ' + i, value: 'Item ' + i });
     // }
   ) {
-    // this.producttopSelling = TopSelling;
+
     this.trow = Employee;
   }
 
@@ -75,15 +76,6 @@ export class TableComponent implements OnInit{
       // this.getProducts(this.currentPage, this.pageSize);
 
    }
-
-  // getProducts(page: number, size: number) {
-  //   const url = 'http://localhost:8080/api/products';  // Remplacez par l'URL de votre backend
-  //   this.paginationService.getPaginatedData<{ items: Product[], totalItems: number }>(url, page, size)
-  //     .subscribe(data => {
-  //       this.products = data.items;
-  //       this.totalItems = data.totalItems;
-  //     });
-  // }
 
   // ---------------------------------------------------------------------FONCTIONS-----------------------------------------------------------------------
   // getLoadDevis(pageNumber?: number): void {
@@ -136,35 +128,27 @@ export class TableComponent implements OnInit{
   }
 
 
-  // paginate(): void {
-  //   // Définir la taille de la page
-  //   const pageSize = 10; // par exemple, 10 éléments par page
-  //   const start = this.currentPage * this.pageSize;
-  //   const end = start + this.pageSize;
-  //   this.pagedData = this.combinedData.slice(start, end);
-  //
-  // }
   // loperateur ternaire (direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
-  onQuantityChangeDevis(devis: Devis) {
-    if (devis.products && devis.products.length > 0) {
-      devis.products.forEach(product => {
-        if (product.qte && product.prixUnitaire) {
-          const total = product.qte * product.prixUnitaire;
-          console.log('Total HT pour ce produit:', total);
-          console.log('Quantité modifiée:', product.qte);
-        }
-      });
-    }
-  }
+  // onQuantityChangeDevis(devis: Devis) {
+  //   if (objet.products && objet.products.length > 0) {
+  //     objet.products.forEach(objetPro => {
+  //       if (objetPro.qte && objetPro.prixUnitaire) {
+  //         const total = objet.qte * product.prixUnitaire;
+  //         console.log('Total HT pour ce produit:', total);
+  //         console.log('Quantité modifiée:', product.qte);
+  //       }
+  //     });
+  //   }
+  // }
 
-  goToNextOrPreviousPage(direction:string):void{
-    this.getLoadDevis(direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
-  }
-  // Calculer le nombre total de pages
-  getTotalPages(): number[] {
-    const totalPages = Math.floor(this.totalElements / this.pageSize);
-    return Array(totalPages).fill(0).map((x, i) => i); // Crée un tableau avec les index des pages
-  }
+  // goToNextOrPreviousPage(direction:string):void{
+  //   this.getLoadDevis(direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1)
+  // }
+  // // Calculer le nombre total de pages
+  // getTotalPages(): number[] {
+  //   const totalPages = Math.floor(this.totalElements / this.pageSize);
+  //   return Array(totalPages).fill(0).map((x, i) => i); // Crée un tableau avec les index des pages
+  // }
 
   // onPageChange(event: any) {
   //   const newPageIndex = event.page;
@@ -200,7 +184,7 @@ export class TableComponent implements OnInit{
      const selectedProduct = this.products.filter(product =>devis.productId.includes(product.productId!))
     if(selectedProduct.length>0){
       // COMME CA PASSE UN TABLEAU DE PRODUIT
-      this.proformasService.setProduct(selectedProduct)
+      // this.proformasService.setProduct(selectedProduct)
        // this.selectedProducts.push(selectedProduct);
        console.log('Produit sélectionné:', selectedProduct);
     }

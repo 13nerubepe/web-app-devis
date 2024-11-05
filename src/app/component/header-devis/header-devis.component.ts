@@ -63,7 +63,9 @@ export class HeaderDevisComponent implements OnInit{
   ajoutProducts:Product[]=[];
   filteredClients: Client[] =[];
   filteredProducts: Product[] =[];
-  selectedProducts: Array<Product> = new Array<Product>();
+  selectedProducts: Objet[]=[];
+  produitvenantselectionne!:Objet | null;
+  // selectedProducts: Array<Product> = new Array<Product>();
   selectedProduct!:Product;
   selectedClient!:Client; // VARIABLE QUI PERMET DE STOCKER LA VALEUR client SELECTIONée par lutilisateur
   DevisDialog: boolean = false;
@@ -86,8 +88,8 @@ export class HeaderDevisComponent implements OnInit{
 
   ngOnInit(): void {
     this.proformasService.Products$.subscribe(products => {
-    console.log("this.selectedProducts", products);
-      this.selectedProducts = products;
+    console.log("this.selectedProducts verifié", products);
+      this.produitvenantselectionne = products;
     });
     this.getProduct();
     this.getClient();
@@ -223,6 +225,7 @@ export class HeaderDevisComponent implements OnInit{
     }
     // this.calculTotalHtEachProduct(this.products);
     console.log("this.products", this.products);
+    console.log("produitselectionees", this.selectedProducts );
     // Calculer le total HT de tous les produits sélectionnés
       const totalTHt = this.geneDevis.reduce((acc, product) => {
         const qte = product.qte ?? 0;

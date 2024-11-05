@@ -4,12 +4,13 @@ import {
   Client,
   CreateClient,
   CreateProductDto,
-  Devis,
+  Devis, Objet,
   PageDto,
   Product
 } from "../classes/table-data";
 import { BehaviorSubject, catchError, combineLatest, forkJoin, map, Observable, throwError } from "rxjs";
 import { environment } from "../../environments/environment";
+import { indexOf } from "lodash";
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class ProformasService{
   formValues: BehaviorSubject<Devis | null> = new BehaviorSubject<Devis | null>(null);
   private quantiteStocké= new BehaviorSubject<Product| null>(null);
   private clientSource = new BehaviorSubject<Client | null>(null);//Permet de stocker et de diffuser la dernière valeur observée aux nouveaux abonnés.
-  private produitSource = new BehaviorSubject<Product[]>([]);
+  private produitSource = new BehaviorSubject<Objet | null>(null);
   private quantiteSource = new BehaviorSubject<Devis[]>([]);
   valeurQuantite$ =this.quantiteStocké.asObservable();
   Quantite$ =this.quantiteSource.asObservable();
@@ -32,20 +33,12 @@ export class ProformasService{
   devis: Product[]=[];
   clients: Client[]=[];
 
-  constructor(private _http: HttpClient,) {
+  constructor(private _http: HttpClient,) {}
 
-  }
-  serveDevisS(devis: Product[]){
-    this.devis = devis;
-  }
   // mettre a jour le client selectionné
   setClient(client: Client) {
     this.clientSource.next(client); // Met à jour
   }
-  setValQuantite(qte: Product) {
-    this.quantiteStocké.next(qte); // Met à jour la qte actuel
-  }
-
   setQuantite(updatedDevis: Devis) {
     let currentDevis = this.quantiteSource.getValue();
     const index = currentDevis.findIndex(d => d.devisId === updatedDevis.devisId);
@@ -55,27 +48,42 @@ export class ProformasService{
     }
   }
 
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    return throwError('Something bad happened; please try again later.');
-  }
+  // private handleError(error: HttpErrorResponse): Observable<never> {
+  //   return throwError('Something bad happened; please try again later.');
+  // }
 
-  setProduct(varProduct: Product|Product[]) {
+  setProduct(varProduct: Objet) {
     // Récupère la liste actuelle des produits sélectionnés
-    const currentProducts =this.produitSource.value;
+    this.produitSource.next(varProduct);
+    const currentProducts = this.produitSource.getValue();
     // Assure que varProduct est un tableau
     const productsToAdd = Array.isArray(varProduct) ? varProduct : [varProduct];
     // Crée un Set pour les IDs de produits existants afin d'éviter les doublons
-    const existingProductIds = new Set(currentProducts.map(p => p.productId));
-
+    const productsWithNoDoublon = [... new Set(currentProducts?.products)];
+    // const productsWithNoDoublon2 = currentProducts?.products.filter((pdt, index) => currentProducts?.products.indexOf(pdt) === index)
+    let objetFinal: Objet = {
+      totalHt: varProduct.totalHt,
+      reduction: varProduct.reduction,
+      qte: varProduct.qte,
+      date: varProduct.date,
+      cassier: varProduct.cassier,
+      client: varProduct.client,
+      products: productsWithNoDoublon,
+      image: varProduct.image,
+      productName: varProduct.productName,
+      libele: varProduct.libele,
+      unite: varProduct.unite,
+      description: varProduct.description,
+      prixUnitaire: varProduct.prixUnitaire,
+      qteenstock: varProduct.qteenstock,
+      categories: varProduct.categories,
+      tva: varProduct.tva,
+      totalTva: varProduct.tva,
+      totalHT: varProduct.totalHt
+    }
     // Ajoute uniquement les produits qui ne sont pas déjà dans la liste
-    productsToAdd.forEach(product => {
-      if (!existingProductIds.has(product.productId)) {
-        currentProducts.push(product);
-        existingProductIds.add(product.productId); // Met à jour le Set avec le nouvel ID
-      }
-    });
 
-    this.produitSource.next(currentProducts);
+    this.produitSource.next(objetFinal);
   }
   creerDevis(devis:any):Observable<any>{
     return this._http.post<any>(this.baseUrl + `devis/createDevis`, devis);
